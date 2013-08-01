@@ -53,4 +53,11 @@ describe User::Import do
     joe.contacts.pending.count.should == 0
   end
   
+  it "adds fields to the user" do
+    joe = users(:joe)
+    path = "#{Rails.root}/test/assets/4withheaders.csv"
+    importer = User::Import.from_file path, joe.id
+    joe.fields.count.should == 2
+  end
+  
 end

@@ -1,5 +1,7 @@
 Touchbase::Application.routes.draw do
   
+  resources :fields
+
   devise_for :users
   
   resources :contacts

@@ -2,6 +2,12 @@ class User
   module Import
     extend ActiveSupport::Concern
     
+    module ClassMethods
+      def aha
+        "YES!"
+      end
+    end
+    
     def self.from_file path, user_id, overwrite = false
       spreadsheet = open_spreadsheet path
       user = User.find user_id
@@ -45,8 +51,7 @@ class User
         
         field = {
           title: title,
-          permalink: title.parameterize,
-          type: "string"
+          permalink: title.parameterize
         }
         
         headers.push field
@@ -61,8 +66,7 @@ class User
         headers.delete_at 0
         default_name_field = {
           title: "Name",
-          permalink: "name",
-          type: "string"
+          permalink: "name"
         }
         
         {
