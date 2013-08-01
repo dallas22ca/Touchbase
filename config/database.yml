@@ -1,0 +1,15 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: touchbase_development
+  pool: 5
+  username: dallasread
+  password:
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: touchbase_test
+  pool: 5
+  username: dallasread
+  password:

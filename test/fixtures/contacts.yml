@@ -1,0 +1,8 @@
+valid:
+  user_id: 11111111
+  name: <%= Faker::Name.name %>
+
+basic:
+  name: <%= Faker::Name.name %>
+  data:
+    email: <%= Faker::Internet.email %>
