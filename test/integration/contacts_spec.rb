@@ -16,5 +16,4 @@ describe Contact do
     contact.ignore_pending_data
     contact.pending_data.should == {}
   end
-  
 end

@@ -10,6 +10,13 @@ class User < ActiveRecord::Base
     name = data.delete("name")
     contact = contacts.where(name: name).first
     
+    data.each do |k, v|
+      formatter = Formatter.detect(k.to_s, v)
+      data_type = formatter[:data_type]
+      content = formatter[:content]
+      data[k.to_s] = content
+    end
+    
     if contact
       if data == contact.data
         warnings.push "#{contact.name} is an identical duplicate."
