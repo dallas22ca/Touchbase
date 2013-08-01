@@ -1,6 +1,4 @@
 class User < ActiveRecord::Base
-  include Import
-  
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
      

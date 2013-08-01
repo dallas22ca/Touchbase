@@ -19,7 +19,7 @@ class Contact < ActiveRecord::Base
   def sync_fields
     data.each do |k, v|
       field = user.fields.where(name: k.to_s).first
-      data_type = Field::Formatter.detect(v)
+      data_type = Formatter.detect(v)
       
       if field
         if field.data_type == "string" && data_type != "string"
