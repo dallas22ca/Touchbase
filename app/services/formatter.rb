@@ -3,9 +3,13 @@ class Formatter
   def self.detect(field, content)
     # TODO: WHAT ABOUT A REGULAR DATE?
     data_type = "string"
-    
-    if content == true || content == false
+
+    if [true, "true", "t"].include? content
       data_type = "boolean"
+      content = true
+    elsif [false, "false", "f"].include? content
+      data_type = "boolean"
+      content = false
     elsif content.to_s.to_i.to_s == content.to_s
       data_type = "integer"
     else
