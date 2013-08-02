@@ -4,6 +4,7 @@ class ContactsController < ApplicationController
   # GET /contacts
   # GET /contacts.json
   def index
+    @fields = current_user.fields
     @contacts = current_user.contacts
     
     if @contacts.empty?

@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20130802111047) do
 
   create_table "fields", force: true do |t|
     t.integer  "user_id"
-    t.string   "name"
+    t.string   "title"
     t.string   "permalink"
     t.string   "data_type"
     t.datetime "created_at"

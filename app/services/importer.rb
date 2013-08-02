@@ -11,7 +11,7 @@ class Importer
       header_permalinks = structure[:headers].map { |h| h[:permalink] }
     
       (structure[:first_data_row]..spreadsheet.last_row).each do |i|
-        row = Hash[[header_permalinks, spreadsheet.row(i).map{ |c| c.strip }].transpose]
+        row = Hash[[header_permalinks, spreadsheet.row(i).map{ |c| c.strip if c }].transpose]
         contact = user.save_contact row, overwrite
         warnings.push contact[:warnings] if contact[:warnings].any?
       end

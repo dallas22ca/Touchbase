@@ -10,15 +10,13 @@ class Formatter
     elsif [false, "false", "f"].include? content
       data_type = "boolean"
       content = false
-    elsif content.to_s.to_i.to_s == content.to_s
+    elsif content.class == ActiveSupport::TimeWithZone || content.class == Time
+      data_type = "datetime"
+    elsif content.to_s.match /^-{0,1}\d+$/
       data_type = "integer"
     else
-      if content.class == ActiveSupport::TimeWithZone || content.class == Time
-        time_attempt = content
-      else
-        address_matcher = /(\d+)\s+([^\d]+)(.*)?(?:\w\w)\s+|(\w+)\s(\d+)$/
-        time_attempt = Chronic.parse(content) if !content.match(address_matcher)
-      end
+      address_matcher = /(\d+)\s+([^\d]+)(.*)?(?:\w\w)\s+|(\w+)\s(\d+)$/
+      time_attempt = Chronic.parse(content) if !content.to_s.match(address_matcher)
     
       if time_attempt
         data_type = "datetime"

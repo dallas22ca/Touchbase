@@ -12,8 +12,9 @@ describe Formatter do
   end
   
   it "detects integer fields" do
-    Formatter.detect("Name", 123123)[:data_type].should == "integer"
-    Formatter.detect("Email", 234324)[:data_type].should == "integer"
+    Formatter.detect("Count", 123123)[:data_type].should == "integer"
+    Formatter.detect("Number", "234324")[:data_type].should == "integer"
+    Formatter.detect("How Many?", "-34")[:data_type].should == "integer"
   end
   
   it "detects datetime fields" do

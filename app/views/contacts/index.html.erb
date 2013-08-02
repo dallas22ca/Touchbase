@@ -1,12 +1,16 @@
 <h1>Listing contacts</h1>
 
+<%= pluralize @contacts.pending.count, "Contact" %> Pending
+
 <table>
   <thead>
     <tr>
       <th>User</th>
       <th>Name</th>
       <th>Email</th>
-      <th>Details</th>
+      <% @fields.each do |field| %>
+        <th><%= field.title %></th>
+      <% end %>
       <th></th>
       <th></th>
       <th></th>
@@ -16,9 +20,10 @@
   <tbody>
     <% @contacts.each do |contact| %>
       <tr>
-        <td><%= contact.user %></td>
         <td><%= contact.name %></td>
-        <td><%= contact.data %></td>
+        <% @fields.each do |field| %>
+          <td><%= contact.data[field.permalink] %></td>
+        <% end %>
         <td><%= link_to 'Show', contact %></td>
         <td><%= link_to 'Edit', edit_contact_path(contact) %></td>
         <td><%= link_to 'Destroy', contact, method: :delete, data: { confirm: 'Are you sure?' } %></td>

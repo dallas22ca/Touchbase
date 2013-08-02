@@ -21,7 +21,7 @@ class Contact < ActiveRecord::Base
     prepared_data = {}
     
     data.each do |k, v|
-      field = user.fields.where(name: k.to_s).first
+      field = user.fields.where(title: k.to_s).first
       formatter = Formatter.detect(k.to_s, v)
       data_type = formatter[:data_type]
       content = formatter[:content]
@@ -31,7 +31,7 @@ class Contact < ActiveRecord::Base
           field.update_attributes data_type: data_type
         end
       else
-        field = user.fields.create(name: k.to_s, data_type: data_type)
+        field = user.fields.create(title: k.to_s, data_type: data_type)
       end
       
       prepared_data[k.to_s] = content
