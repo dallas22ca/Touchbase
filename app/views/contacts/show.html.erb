@@ -1,13 +1,8 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>User:</strong>
-  <%= @contact.user %>
-</p>
-
-<p>
   <strong>Name:</strong>
-  <%= @contact.name %>
+  <%= @contact.name %> <%= "(Pending)" if @contact.pending? %>
 </p>
 
 <p>

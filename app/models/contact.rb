@@ -6,21 +6,19 @@ class Contact < ActiveRecord::Base
   validates_presence_of :user_id
   validates_uniqueness_of :name, scope: :user_id
   
-  scope :pending, -> { where("pending_data != ''") }
+  scope :pending, -> { where("pending_data != ?", "") }
   
   before_validation :ensure_data_changed, unless: Proc.new { |c| c.data_changed? || c.new_record? }
   before_validation :move_data_to_pending, unless: Proc.new { |c| c.overwrite? || c.new_record? }
   before_validation :set_defaults
-  before_save :format_data
+  before_save :format_data, unless: Proc.new { |c| c.data.blank? }
   
   def ensure_data_changed
     self.errors.add :base, "An identical contact is already in your database."
   end
     
   def set_defaults
-    self.pending_data = {} if self.overwrite
-    self.data ||= {}
-    self.pending_data ||= {}
+    self.pending_data = "" if self.overwrite
     self.warnings ||= []
   end
   
@@ -114,5 +112,9 @@ class Contact < ActiveRecord::Base
   
   def overwrite?
     overwrite
+  end
+  
+  def pending?
+    self.pending_data != ""
   end
 end
