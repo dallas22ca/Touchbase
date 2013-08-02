@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
     if c
       c.update_attributes args
     else
-      c = contacts.create(name: name, data: args[:data])
+      c = contacts.create name: name, data: args[:data]
     end
 
     c

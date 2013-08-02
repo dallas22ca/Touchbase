@@ -1,5 +1,20 @@
-<h1>New contact</h1>
+<%= form_for Contact.new do |f| %>
+  
+  <%= label_tag :file, "You can either upload a file of your contacts (CSV, Microsoft Excel):" %><br>
+  <%= file_field_tag :file %>
 
-Upload
+  <hr />
 
-<%= render 'form' %>
+  <%= label_tag :blob, "Or you can manually upload:" %><br>
+  <%= text_area_tag :blob %>
+  
+  <hr />
+  
+  <%= check_box_tag :overwrite %>
+  <%= label_tag :overwrite, "Overwrite existing contacts." %>
+  
+  <hr />
+  
+  <%= submit_tag %>
+
+<% end %>

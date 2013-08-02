@@ -40,17 +40,15 @@ class ContactsController < ApplicationController
   # POST /contacts
   # POST /contacts.json
   def create
-    @contact = current_user.contacts.new(contact_params)
-    @contact.data ||= {}
-
+    if params[:blob].strip.blank?
+      # Importer.from_file path, current_user.id, params[:overwrite]
+    else
+      Importer.from_blob params[:blob].strip, current_user.id, params[:overwrite]
+    end
+    
     respond_to do |format|
-      if @contact.save
-        format.html { redirect_to @contact, notice: 'Contact was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @contact }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @contact.errors, status: :unprocessable_entity }
-      end
+      format.html { redirect_to contacts_path, notice: 'Contact was successfully created.' }
+      format.json { render action: 'show', status: :created, location: @contact }
     end
   end
 

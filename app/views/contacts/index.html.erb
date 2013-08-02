@@ -1,23 +1,29 @@
-<h1>Listing contacts</h1>
+<%= render "sidebar" %>
 
-<%= pluralize @contacts.count, "Contact" %><br>
-<%= pluralize @contacts.pending.count, "Contact" %> Pending<br>
-<%= link_to "Add Contact", new_contact_path %>
+<div id="yield">
 
-<table id="contacts">
-  <thead>
-    <tr>
-      <th class="name">Name</th>
-      <% @fields.each do |field| %>
-        <th><%= field.title %></th>
-      <% end %>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
+  <h1>Listing contacts</h1>
 
-  <tbody>
-    <%= render @contacts %>
-  </tbody>
-</table>
+  <%= pluralize @contacts.count, "Contact" %><br>
+  <%= pluralize @contacts.pending.count, "Contact" %> Pending<br>
+  <%= link_to "Add Contact", new_contact_path %>
+
+  <table id="contacts">
+    <thead>
+      <tr>
+        <th class="name">Name</th>
+        <% @fields.each do |field| %>
+          <th><%= field.title %></th>
+        <% end %>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= render @contacts %>
+    </tbody>
+  </table>
+  
+</div>

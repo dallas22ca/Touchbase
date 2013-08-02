@@ -25,7 +25,7 @@ describe Importer do
     joe = users(:joe)
     path = "#{Rails.root}/test/assets/2duplicates.csv"
     importer = Importer.from_file path, joe.id
-    importer[:warnings].to_s.should include "identical"
+    importer[:warnings].to_s.should include "pending"
     importer[:success].should == true
     joe.contacts.count.should == 1
     joe.contacts.first.name.should == "Dallas Read"

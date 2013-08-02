@@ -24,7 +24,7 @@ describe Contact do
     contact = contacts(:valid)
     contact.update_column :user_id, joe.id
     contact.update_attributes data: data, overwrite: true
-    contact.pending_data.should == {}
+    contact.pending_data.should == nil
     contact.data.should == data
   end
   
@@ -36,7 +36,7 @@ describe Contact do
     contact.update_attributes data: data
     contact.pending_data.should == data
     contact.ignore_pending_data
-    contact.pending_data.should == {}
+    contact.pending_data.should == nil
   end
   
   it "pending data can be written" do
@@ -48,6 +48,6 @@ describe Contact do
     contact.save
     contact.write_pending_data
     contact.data.should == pending_data
-    contact.pending_data.should == {}
+    contact.pending_data.should == nil
   end
 end

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Touchbase</title>
+  <%= stylesheet_link_tag    "public", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "public", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  
+  <div class="container">
+    <%= yield %>
+  </div>
+
+</body>
+</html>

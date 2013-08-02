@@ -1,4 +1,4 @@
-<h2>Sign up</h2>
+<h1>What has your business been missing?</h1>
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
@@ -8,9 +8,6 @@
 
   <div><%= f.label :password %><br />
   <%= f.password_field :password %></div>
-
-  <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
 
   <div><%= f.submit "Sign up" %></div>
 <% end %>
