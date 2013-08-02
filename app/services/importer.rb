@@ -1,19 +1,34 @@
 class Importer
   
+  def self.from_blob blob, user_id, overwrite = false
+    file = File.new("tmp/#{[user_id, "blob", Time.now.to_i].join}.csv", "w+")
+    File.open(file.path, "w") {|f| f.write(blob.strip) }
+    output = from_file file.path, user_id, overwrite
+    File.delete file.path
+    output
+  end
+  
   def self.from_file path, user_id, overwrite = false
-    spreadsheet = open_spreadsheet path
-    user = User.find user_id
     warnings = []
-    
+    user = User.find user_id
+    spreadsheet = open_spreadsheet path
     structure = structurize spreadsheet.row(1)
     
     if structure
-      header_permalinks = structure[:headers].map { |h| h[:permalink] }
+      permalinks = structure[:headers].map { |h| h[:permalink] }
+      
+      structure[:headers].each do |header|
+        if header[:permalink] != "name"
+          Field.create user_id: user_id, title: header[:title], permalink: header[:permalink]
+        end
+      end
     
       (structure[:first_data_row]..spreadsheet.last_row).each do |i|
-        row = Hash[[header_permalinks, spreadsheet.row(i).map{ |c| c.strip if c }].transpose]
-        contact = user.save_contact row, overwrite
-        warnings.push contact[:warnings] if contact[:warnings].any?
+        data = Hash[[permalinks, spreadsheet.row(i).map{ |c| c.to_s.strip }].transpose]
+        name = data.delete("name")
+        contact = user.save_contact name: name, data: data, overwrite: overwrite
+        warnings.push contact.errors.full_messages unless contact.errors.empty?
+        warnings.push contact.warnings unless contact.warnings.empty?
       end
       
       { 
@@ -33,7 +48,7 @@ class Importer
     headers = []
 
     columns.each do |title|
-      title = title.strip
+      title = title.to_s.strip
       title = "Email" if title.downcase == "email address"
       title = "Address" if title.downcase == "mailing address"
       

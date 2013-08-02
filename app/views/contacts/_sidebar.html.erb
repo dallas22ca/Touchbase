@@ -1,0 +1,21 @@
+<div id="sidebar">
+  <%= form_tag contacts_path(format: :js), method: :get, id: "contacts_search" do %>
+    <% text_field_tag :q, "", placeholder: "Search..." %>
+    
+    <div class="field inactive">
+      <%= check_box_tag "name", "name", false, { class: "filter_checkbox" } %>
+      <%= label_tag "name", "Name" %>
+  
+      <div class="details">
+        <%= text_field_tag "name", "", class: "search_field", data: { matcher: :like } %>
+      </div>
+    </div>
+    
+    <%= render @fields %>
+    
+    <%= submit_tag "Filter" %>
+  <% end %>
+  
+  <p><span id="contacts_search_count"></span> Results</p>
+</div>
+<%= link_to "Sign Out", destroy_user_session_path, method: :delete %>

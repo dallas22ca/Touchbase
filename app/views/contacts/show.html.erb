@@ -20,5 +20,10 @@
   <%= @contact.data %>
 </p>
 
+<p>
+  <strong>Pending:</strong>
+  <%= @contact.pending_data %>
+</p>
+
 <%= link_to 'Edit', edit_contact_path(@contact) %> |
 <%= link_to 'Back', contacts_path %>

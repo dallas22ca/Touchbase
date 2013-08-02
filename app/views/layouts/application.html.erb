@@ -8,9 +8,11 @@
 </head>
 <body>
 
-<%= yield %>
-
-<%= link_to "Sign Out", destroy_user_session_path, method: :delete %>
+  <%= render "sidebar" %>
+  
+  <div id="yield">
+    <%= yield %>
+  </div>
 
 </body>
 </html>

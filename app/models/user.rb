@@ -4,36 +4,17 @@ class User < ActiveRecord::Base
      
   has_many :contacts
   has_many :fields
-
-  def save_contact(data, overwrite = false)
-    warnings = []
-    name = data.delete("name")
-    contact = contacts.where(name: name).first
+  
+  def save_contact(args = {})
+    name = args.delete(:name)
+    c = contacts.where(name: name).first
     
-    data.each do |k, v|
-      formatter = Formatter.detect(k.to_s, v)
-      data_type = formatter[:data_type]
-      content = formatter[:content]
-      data[k.to_s] = content
-    end
-    
-    if contact
-      if data == contact.data
-        warnings.push "#{contact.name} is an identical duplicate."
-      else
-        if overwrite || contact.new_record?
-          contact.data = contact.data.merge(data)
-        else
-          warnings.push "#{contact.name} has pending data."
-          contact.pending_data = data
-        end
-      
-        contact.save!
-      end
+    if c
+      c.update_attributes args
     else
-      contact = contacts.create!(name: name, data: data)
+      c = contacts.create(name: name, data: args[:data])
     end
-    
-    { warnings: warnings, contact: contact }
+
+    c
   end
 end

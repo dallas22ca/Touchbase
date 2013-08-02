@@ -1,4 +1,4 @@
 json.array!(@contacts) do |contact|
-  json.extract! contact, :user_id, :name, :email, :details
+  json.extract! contact, :name, :data
   json.url contact_url(contact, format: :json)
 end

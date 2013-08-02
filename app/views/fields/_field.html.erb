@@ -1,0 +1,16 @@
+<div class="field inactive">
+  <%= check_box_tag field.permalink, field.permalink, false, { class: "filter_checkbox" } %>
+  <%= label_tag field.permalink, field.title %>
+  
+  <div class="details">
+    <% if field.data_type == "string" %>
+      <%= text_field_tag field.permalink, "", class: "search_field", data: { matcher: :like } %>
+    <% elsif field.data_type == "boolean" %>
+      <%= text_field_tag field.permalink, "boolean" %>
+    <% elsif field.data_type == "integer" %>
+      <%= text_field_tag field.permalink, "integer" %>
+    <% elsif field.data_type == "datetime" %>
+      <%= text_field_tag field.permalink, "datetime" %>
+    <% end %>
+  </div>
+</div>

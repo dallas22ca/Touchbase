@@ -15,6 +15,8 @@ describe Formatter do
     Formatter.detect("Count", 123123)[:data_type].should == "integer"
     Formatter.detect("Number", "234324")[:data_type].should == "integer"
     Formatter.detect("How Many?", "-34")[:data_type].should == "integer"
+    Formatter.detect("Amount", "-34.34")[:data_type].should == "integer"
+    Formatter.detect("Amount", "34.34")[:data_type].should == "integer"
   end
   
   it "detects datetime fields" do

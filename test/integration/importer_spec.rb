@@ -60,4 +60,15 @@ describe Importer do
     joe.fields.count.should == 2
   end
   
+  it "adds contacts via plain text" do
+    joe = users(:joe)
+    blob = "
+Name, Email, Address
+Dallas Read, dallasgood@gmail.com, 61 Westfield Crescent
+Melanie Read, melaniegood@gmail.com, 61 Westfield Crescent
+"
+    importer = Importer.from_blob blob, joe.id
+    joe.contacts.count.should == 2
+  end
+  
 end

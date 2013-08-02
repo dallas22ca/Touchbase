@@ -1,13 +1,13 @@
 <h1>Listing contacts</h1>
 
-<%= pluralize @contacts.pending.count, "Contact" %> Pending
+<%= pluralize @contacts.count, "Contact" %><br>
+<%= pluralize @contacts.pending.count, "Contact" %> Pending<br>
+<%= link_to "Add Contact", new_contact_path %>
 
-<table>
+<table id="contacts">
   <thead>
     <tr>
-      <th>User</th>
-      <th>Name</th>
-      <th>Email</th>
+      <th class="name">Name</th>
       <% @fields.each do |field| %>
         <th><%= field.title %></th>
       <% end %>
@@ -18,20 +18,6 @@
   </thead>
 
   <tbody>
-    <% @contacts.each do |contact| %>
-      <tr>
-        <td><%= contact.name %></td>
-        <% @fields.each do |field| %>
-          <td><%= contact.data[field.permalink] %></td>
-        <% end %>
-        <td><%= link_to 'Show', contact %></td>
-        <td><%= link_to 'Edit', edit_contact_path(contact) %></td>
-        <td><%= link_to 'Destroy', contact, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
+    <%= render @contacts %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Contact', new_contact_path %>

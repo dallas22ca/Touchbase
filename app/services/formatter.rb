@@ -12,7 +12,7 @@ class Formatter
       content = false
     elsif content.class == ActiveSupport::TimeWithZone || content.class == Time
       data_type = "datetime"
-    elsif content.to_s.match /^-{0,1}\d+$/
+    elsif content.to_s.match /^-{0,1}\d*\.{0,1}\d+$/
       data_type = "integer"
     else
       address_matcher = /(\d+)\s+([^\d]+)(.*)?(?:\w\w)\s+|(\w+)\s(\d+)$/

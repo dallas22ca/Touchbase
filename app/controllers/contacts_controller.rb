@@ -1,14 +1,25 @@
 class ContactsController < ApplicationController
+  before_action :set_fields
   before_action :set_contact, only: [:show, :edit, :update, :destroy]
 
   # GET /contacts
   # GET /contacts.json
   def index
-    @fields = current_user.fields
-    @contacts = current_user.contacts
+    if params[:search]
+      @contacts = current_user.contacts.filter params[:search].map { |k, v| v }
+    else
+      @contacts = current_user.contacts
+    end
     
-    if @contacts.empty?
-      redirect_to new_contact_path
+    respond_to do |format|
+      if @contacts.empty?
+        format.html { redirect_to new_contact_path }
+      else
+        format.html
+      end
+      
+      format.json
+      format.js
     end
   end
 
@@ -72,9 +83,13 @@ class ContactsController < ApplicationController
     def set_contact
       @contact = current_user.contacts.find(params[:id])
     end
+    
+    def set_fields
+      @fields = current_user.fields
+    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def contact_params
-      params.require(:contact).permit(:name, :data)
+      params.require(:contact).permit(:name, :overwrite, data: current_user.fields.pluck(:permalink))
     end
 end
