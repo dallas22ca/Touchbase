@@ -1,4 +1,4 @@
-class Import
+class Importer
   
   def self.from_file path, user_id, overwrite = false
     spreadsheet = open_spreadsheet path

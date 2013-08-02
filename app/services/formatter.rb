@@ -21,13 +21,8 @@ class Formatter
       end
     
       if time_attempt
-        if time_attempt.strftime("%H:%M:%S").include? "00:00"
-          data_type = "recurring_date"
-          content = time_attempt
-        elsif !time_attempt.nil?
-          data_type = "datetime"
-          content = time_attempt
-        end
+        data_type = "datetime"
+        content = time_attempt
       end
     end
     

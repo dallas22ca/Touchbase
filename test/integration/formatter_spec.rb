@@ -20,13 +20,10 @@ describe Formatter do
     Formatter.detect("Last Seen", "April 5, 1988 at 12:33pm")[:data_type].should == "datetime"
     Formatter.detect("Signed In", "12/23/11 12:33pm")[:data_type].should == "datetime"
     Formatter.detect("Signed In", "12/23/11 12:33:22pm")[:data_type].should == "datetime"
-  end
-  
-  it "detects recurring_date fields" do
-    Formatter.detect("First", "04/05/88")[:data_type].should == "recurring_date"
-    Formatter.detect("First", "04/05/1988")[:data_type].should == "recurring_date"
-    Formatter.detect("First", "April 5, 1988")[:data_type].should == "recurring_date"
-    Formatter.detect("First", "04-05-88")[:data_type].should == "recurring_date"
+    Formatter.detect("First", "04/05/88")[:data_type].should == "datetime"
+    Formatter.detect("Birthday", "04/05/1988")[:data_type].should == "datetime"
+    Formatter.detect("Anniversary", "April 5, 1988")[:data_type].should == "datetime"
+    Formatter.detect("Date", "04-05-88")[:data_type].should == "datetime"
   end
   
 end
