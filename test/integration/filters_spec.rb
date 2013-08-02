@@ -6,10 +6,10 @@ describe "Filters" do
   before :each do
     Contact.destroy_all
     joe = users(:joe)
-    don   = { "name" => "Don Draper",     "email" => "don@madmen.com",    "paid" => "true",    "number" => 54,   "birthday" => 5.minutes.ago }
+    don   = { "name" => "Don Draper",     "email" => "don@madmen.com",    "paid" => "true",    "number" => 54,   "birthday" => 1.minute.ago - 3.hours }
     betty = { "name" => "Betty Draper",   "email" => "betty@madmen.com",  "paid" => false,   "number" => 84,   "birthday" => "April 5, 1988" }
-    joan  = { "name" => "Joan Hollaway",  "email" => "joan@madmen.com",   "paid" => "t",    "number" => 14,   "birthday" => 5555.days.ago }
-    peggy = { "name" => "Peggy Olson",    "email" => "peggy@madmen.com",  "paid" => "f",   "number" => 34,   "birthday" => 365.days.ago }
+    joan  = { "name" => "Joan Hollaway",  "email" => "joan@madmen.com",   "paid" => "t",    "number" => 14,   "birthday" => 5.months.ago }
+    peggy = { "name" => "Peggy Olson",    "email" => "peggy@madmen.com",  "paid" => "f",   "number" => 34,   "birthday" => 365.days.ago - 3.hours }
     
     [don, betty, joan, peggy].each do |character|
       joe.save_contact character
@@ -50,6 +50,9 @@ describe "Filters" do
     
     Contact.filter([], "updated_at", "asc").first.name.should == "Don Draper"
     Contact.filter([], "updated_at", "desc").first.name.should == "Peggy Olson"
+    
+    Contact.filter([], "birthday", "asc").first.name.should == "Betty Draper"
+    Contact.filter([], "birthday", "desc").first.name.should == "Don Draper"
   end
   
   it "chains work" do

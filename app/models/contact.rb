@@ -17,6 +17,7 @@ class Contact < ActiveRecord::Base
   end
   
   def sync_fields
+    self.original_data = data
     prepared_data = {}
     
     data.each do |k, v|

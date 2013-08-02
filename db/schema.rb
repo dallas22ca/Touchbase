@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130801180131) do
+ActiveRecord::Schema.define(version: 20130802111047) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20130801180131) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.hstore   "pending_data"
+    t.hstore   "original_data"
   end
 
   add_index "contacts", ["data"], name: "contacts_data", using: :gin

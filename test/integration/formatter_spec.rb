@@ -5,6 +5,10 @@ describe Formatter do
   it "detects string fields" do
     Formatter.detect("Name", "Dallas Read")[:data_type].should == "string"
     Formatter.detect("Email", "dallasgood@gmail.com")[:data_type].should == "string"
+    Formatter.detect("Address", "2846 Andorra Circle")[:data_type].should == "string"
+    Formatter.detect("Address Line 2", "Suite 34534")[:data_type].should == "string"
+    Formatter.detect("Mailing Address", "3432 Yonge Street, Suite #3333")[:data_type].should == "string"
+    Formatter.detect("Mailing Address", "3432 Yonge Street Suite 333")[:data_type].should == "string"
   end
   
   it "detects integer fields" do

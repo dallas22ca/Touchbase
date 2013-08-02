@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
         warnings.push "#{contact.name} is an identical duplicate."
       else
         if overwrite || contact.new_record?
-          contact.data = data
+          contact.data = contact.data.merge(data)
         else
           warnings.push "#{contact.name} has pending data."
           contact.pending_data = data

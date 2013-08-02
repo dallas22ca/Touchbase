@@ -16,9 +16,10 @@ class Formatter
       if content.class == ActiveSupport::TimeWithZone || content.class == Time
         time_attempt = content
       else
-        time_attempt = Chronic.parse(content)
+        address_matcher = /(\d+)\s+([^\d]+)(.*)?(?:\w\w)\s+|(\w+)\s(\d+)$/
+        time_attempt = Chronic.parse(content) if !content.match(address_matcher)
       end
-      
+    
       if time_attempt
         if time_attempt.strftime("%H:%M:%S").include? "00:00"
           data_type = "recurring_date"
