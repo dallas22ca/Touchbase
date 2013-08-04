@@ -84,7 +84,7 @@ class Importer
   end
 
   def self.open_spreadsheet path
-    file = File.open path
+    file = File.open path    
     case File.extname(file)
     when ".csv" then Roo::Csv.new(file.path, nil, :ignore)
     when ".xls" then Roo::Excel.new(file.path, nil, :ignore)

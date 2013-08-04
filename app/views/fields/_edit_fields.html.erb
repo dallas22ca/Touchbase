@@ -1,0 +1,9 @@
+<tr>
+  <td><%= f.text_field :title, class: "title" %></td>
+  <td><%= f.text_field :permalink, class: "permalink" %></td>
+  <td><%= f.select :data_type, options_for_select([["Integer", "integer"], ["Boolean", "boolean"], ["String", "string"], ["Date", "datetime"]], f.object.try(:data_type)), {}, class: "data_type" %></td>
+  <td>
+		<%= f.hidden_field :_destroy %>
+  	<%= link_to "x", '#', class: "remove_fields", data: { confirm: "Are you sure you want to delete this field?" } %>
+  </td>
+</tr>

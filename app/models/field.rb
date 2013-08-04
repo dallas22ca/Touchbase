@@ -8,10 +8,10 @@ class Field < ActiveRecord::Base
   validates_uniqueness_of :permalink, scope: :user_id
   
   def set_permalink
-    self.permalink ||= self.title.parameterize
+    self.permalink = self.title.parameterize if self.permalink.blank?
   end
   
   def set_data_type
-    self.data_type ||= "string"
+    self.data_type = "string" if self.data_type.blank?
   end
 end

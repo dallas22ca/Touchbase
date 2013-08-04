@@ -1,10 +1,15 @@
 Touchbase::Application.routes.draw do
   
-  resources :fields
-
   devise_for :users
   
-  resources :contacts
+  authenticated :user do
+    get "/pending" => "contacts#pending", as: :pending
+    resources :contacts
+    resources :users
+    get "/fields" => "fields#index", as: :fields
+    patch "/fields" => "fields#update"
+    get "/" => "contacts#index"
+  end
   
   get "/:permalink" => "pages#show", as: :page
   
@@ -12,10 +17,6 @@ Touchbase::Application.routes.draw do
     devise_scope :user do
       root "devise/registrations#new"
     end
-  end
-  
-  authenticated :user do
-    get "/" => "contacts#index"
   end
   
   # The priority is based upon order of creation: first created -> highest priority.

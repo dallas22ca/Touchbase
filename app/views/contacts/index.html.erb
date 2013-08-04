@@ -8,12 +8,12 @@
   <%= pluralize @contacts.pending.count, "Contact" %> Pending<br>
   <%= link_to "Add Contact", new_contact_path %>
 
-  <table id="contacts">
+  <table id="contacts" data-order="name" data-direction="asc" data-data_type="string">
     <thead>
       <tr>
-        <th class="name">Name</th>
+        <th class="name" data-permalink="name" data-data_type="string">Name</th>
         <% @fields.each do |field| %>
-          <th><%= field.title %></th>
+          <th data-permalink="<%= field.permalink %>" data-data_type="<%= field.data_type %>"><%= field.title %></th>
         <% end %>
         <th></th>
         <th></th>

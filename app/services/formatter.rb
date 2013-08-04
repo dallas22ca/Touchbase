@@ -4,10 +4,10 @@ class Formatter
     # TODO: WHAT ABOUT A REGULAR DATE?
     data_type = "string"
 
-    if [true, "true", "t"].include? content
+    if ["true", "1", "t", "y", "yes"].include? content.to_s
       data_type = "boolean"
       content = true
-    elsif [false, "false", "f"].include? content
+    elsif ["false", "0", "f", "n", "no"].include? content.to_s
       data_type = "boolean"
       content = false
     elsif content.class == ActiveSupport::TimeWithZone || content.class == Time
