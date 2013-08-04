@@ -35,13 +35,15 @@ class Contact < ActiveRecord::Base
   def format_data
     if self.original_data.nil?
       self.original_data = self.data
-    else
+    elsif !self.data.nil?
       self.original_data = self.original_data.merge(self.data)
     end
     
     prepared_data = {}
+    d = self.data
+    d = {} if self.data.blank?
     
-    data.each do |k, v|
+    d.each do |k, v|
       formatter = Formatter.detect(k.to_s, v)
       data_type = formatter[:data_type]
       content = formatter[:content]
@@ -54,16 +56,21 @@ class Contact < ActiveRecord::Base
       prepared_data[k.to_s] = content
     end
     
-    self.data = prepared_data
+    self.data = prepared_data unless prepared_data == {}
   end
   
-  def self.filter(requirements = [], q = "", order = "name", direction = "asc")
+  def self.filter(requirements = [], q = "", order = "name", direction = "asc", data_type = "string")
     queries = []
     normal_fields = ["created_at", "updated_at", "name"]
 
     unless normal_fields.include? order
-      # cast(doc_data->'METADATA.FILEID' as int)
-      order = "data -> '#{order}'"
+      if data_type == "integer"
+        order = "cast(contacts.data -> '#{order}' as int)"
+      else
+        order = "contacts.data -> '#{order}'"
+      end
+    else
+      order = "contacts.#{order}"
     end
     
     unless q.blank?
@@ -104,9 +111,9 @@ class Contact < ActiveRecord::Base
     end
       
     if queries.any?
-      where(queries.join(" and ")).order("contacts.#{order} #{direction}")
+      where(queries.join(" and ")).order("#{order} #{direction}")
     else
-      order("contacts.#{order} #{direction}")
+      order("#{order} #{direction}")
     end
   end
   

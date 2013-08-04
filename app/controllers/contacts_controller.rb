@@ -5,11 +5,12 @@ class ContactsController < ApplicationController
   # GET /contacts
   # GET /contacts.json
   def index
-    if params[:search]
-      @contacts = current_user.contacts.filter params[:search].map { |k, v| v }
-    else
-      @contacts = current_user.contacts
-    end
+    search = []
+    search = params[:search].map { |k, v| v } if params[:search]
+    params[:order] ||= "name"
+    params[:direction] ||= "asc"
+    
+    @contacts = current_user.contacts.filter(search, params[:q], params[:order], params[:direction], params[:data_type])
     
     respond_to do |format|
       if @contacts.empty?
@@ -20,6 +21,17 @@ class ContactsController < ApplicationController
       
       format.json
       format.js
+    end
+  end
+  
+  # GET /pending
+  # GET /pending.json
+  def pending
+    @contacts = current_user.contacts.pending
+    
+    respond_to do |format|
+      format.html
+      format.json { render json: @contacts }
     end
   end
 
@@ -40,15 +52,16 @@ class ContactsController < ApplicationController
   # POST /contacts
   # POST /contacts.json
   def create
-    if params[:blob].strip.blank?
-      # Importer.from_file path, current_user.id, params[:overwrite]
-    else
-      Importer.from_blob params[:blob].strip, current_user.id, params[:overwrite]
-    end
+    @user = current_user
     
     respond_to do |format|
-      format.html { redirect_to contacts_path, notice: 'Contact was successfully created.' }
-      format.json { render action: 'show', status: :created, location: @contact }
+      if @user.update_attributes(user_params)
+        format.html { redirect_to fields_path, notice: 'Contact was successfully created.' }
+        format.json { render action: 'show', status: :created, location: @contact }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -57,7 +70,7 @@ class ContactsController < ApplicationController
   def update
     respond_to do |format|
       if @contact.update(contact_params)
-        format.html { redirect_to @contact, notice: 'Contact was successfully updated.' }
+        format.html { redirect_to contacts_path, notice: 'Contact was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -89,5 +102,9 @@ class ContactsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def contact_params
       params.require(:contact).permit(:name, :overwrite, data: current_user.fields.pluck(:permalink))
+    end
+    
+    def user_params
+      params.require(:user).permit(:file, :blob)
     end
 end

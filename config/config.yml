@@ -1,0 +1,17 @@
+development:
+  amazon_access_key_id: AKIAI3HSST3DECH2MAJQ
+  amazon_secret_access_key: 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
+  amazon_bucket: assets-dev.touchbasenow.com
+  secret: KekdndFL4kjKkfkldOeknkkncndRKrtnmVkdFDk
+
+test:
+  amazon_access_key_id: AKIAI3HSST3DECH2MAJQ
+  amazon_secret_access_key: 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
+  amazon_bucket: assets-test.touchbasenow.com
+  secret: KekdndFL4kjKkfkldOeknkkncndRKrtnmVkdFDk
+
+production:
+  amazon_access_key_id: AKIAI3HSST3DECH2MAJQ
+  amazon_secret_access_key: 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
+  amazon_bucket: assets.touchbasenow.com
+  secret: KekdndFL4kjKkfkldOeknkkncndRKrtnmVkdFDk

@@ -11,12 +11,12 @@
       </div>
     </div>
     
-    <%= render @fields %>
-    
-    <%= submit_tag "Filter" %>
+    <%= render @fields.order(:title) %>
   <% end %>
   
-  <p><span id="contacts_search_count"></span> Results</p>
+  <p><span id="contacts_search_count"><%= @contacts.count %></span> Results</p>
   
+  <%= link_to "Pending", pending_path %> | 
+  <%= link_to "Fields", fields_path %><br>
   <%= link_to "Sign Out", destroy_user_session_path, method: :delete %>
 </div>

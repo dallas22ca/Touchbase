@@ -5,7 +5,7 @@ describe User do
   
   it "can sign up when visiting the root path" do
     visit root_url
-    page.should have_content "Sign up"
+    page.should have_content "Email"
   end
   
   it "is asked to upload contacts if none exists" do
@@ -13,7 +13,7 @@ describe User do
     login_as joe
     joe.contacts.count.should == 0
     visit contacts_path
-    page.should have_content "Upload"
+    page.should have_content "upload"
   end
   
   it "sees his contacts if he has some" do
@@ -21,11 +21,11 @@ describe User do
     login_as joe
     
     2.times do
-      @c = contacts(:basic)
-      joe.contacts.push @c
+      @name = Faker::Name.name
+      joe.save_contact name: @name, email: Faker::Internet.email
     end
     
     visit contacts_path
-    page.should have_content @c.name
+    page.should have_content @name
   end
 end

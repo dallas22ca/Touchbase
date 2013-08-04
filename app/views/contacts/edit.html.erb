@@ -11,7 +11,7 @@
   <% @fields.each do |field| %>
     <div class="field">
       <%= label_tag field.title %>
-      <%= text_field_tag field.title, @contact.try(:data).try(field.permalink), name: "contact[data][#{field.permalink}]" %>
+      <%= text_field_tag field.title, @contact.d[field.permalink], name: "contact[data][#{field.permalink}]" %>
     </div>
   <% end %>
   
