@@ -80,7 +80,7 @@ class Importer
   end
   
   def delete_file
-    if @src == "blob" || !@declared_path.blank?
+    if @src == "blob" && @declared_path.blank?
       File.delete path
     end
   end
