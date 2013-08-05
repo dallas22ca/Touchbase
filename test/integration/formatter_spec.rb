@@ -1,6 +1,7 @@
 require_relative "../test_helper"
 
 describe Formatter do
+  fixtures :all
   
   it "detects string fields" do
     Formatter.detect("Name", "Dallas Read")[:data_type].should == "string"
@@ -42,12 +43,23 @@ describe Formatter do
       ["April 5, 1988",             "datetime"],
       ["04-05-88",                  "datetime"],
     ].each do |content|
-      Formatter.format("datetime", content).should == Chronic.parse(content)
+      Formatter.format("datetime", content).should == Chronic.parse(content).to_s
     end
     
     Formatter.format("integer", 34.34)
     Formatter.format("integer", 34)
     Formatter.format("integer", "-34.34")
     Formatter.format("integer", "-34")
+  end
+  
+  it "refreshes all contacts when updated" do
+    joe = users(:joe)
+    path = "#{Rails.root}/test/assets/4withheaders.csv"
+    importer = Importer.new(joe.id, "file", false, path).import
+    joe.contacts.count.should == 4
+    email_field = joe.fields.where(permalink: "email").first
+    email_field.update_attributes data_type: "boolean"
+    ImportWorker.drain
+    joe.contacts.first.data["email"].should == "false"
   end
 end

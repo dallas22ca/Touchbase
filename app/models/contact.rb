@@ -1,7 +1,7 @@
 class Contact < ActiveRecord::Base
   belongs_to :user, counter_cache: true
   
-  attr_accessor :overwrite, :warnings, :use_pending
+  attr_accessor :overwrite, :warnings, :use_pending, :ignore_formatting
   
   validates_presence_of :user_id
   validates_uniqueness_of :name, scope: :user_id
@@ -12,7 +12,7 @@ class Contact < ActiveRecord::Base
   before_validation :move_data_to_pending, unless: Proc.new { |c| c.overwrite? || c.new_record? }
   before_validation :set_defaults
   validate :not_duplicate_data
-  before_save :format_data
+  before_save :format_data, unless: Proc.new { |c| c.ignore_formatting }
     
   def set_defaults
     self.pending_data = nil if self.overwrite
@@ -38,12 +38,17 @@ class Contact < ActiveRecord::Base
   end
   
   def format_data
-    self.original_data = self.data
+    prepared_data = self.data
+    prepared_data = {} if d.blank?
     
-    prepared_data = {}
+    if self.original_data.nil?
+      self.original_data = prepared_data
+    else
+      self.original_data = self.original_data.merge(prepared_data)
+    end
     
-    user.fields do |field|
-      content = Formatter.format(field.data_type, self.original_data)
+    user.fields.each do |field|
+      content = Formatter.format(field.data_type, prepared_data[field.permalink])
       prepared_data[field.permalink] = content
     end
     
@@ -56,7 +61,7 @@ class Contact < ActiveRecord::Base
 
     unless normal_fields.include? order
       if data_type == "integer"
-        order = "cast(contacts.data -> '#{order}' as int)"
+        order = "cast(contacts.data -> '#{order}' as numeric)"
       else
         order = "contacts.data -> '#{order}'"
       end

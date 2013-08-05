@@ -41,11 +41,11 @@ class Formatter
         content = Chronic.parse(content)
       end
     elsif data_type == "integer"
-      content.to_s.gsub(/[^\d|-|\\.]/, "")
+      content = content.to_s.to_f.to_s.gsub(".0", "")
     else
       content = content.to_s
     end
     
-    content
+    content.to_s
   end
 end
