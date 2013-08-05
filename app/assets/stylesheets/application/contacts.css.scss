@@ -15,3 +15,12 @@
     }
   }
 }
+
+#import_progress_bar {
+  width: 100%;
+  
+  #import_progress {
+    height: 20px;
+    background: blue; 
+  }
+}

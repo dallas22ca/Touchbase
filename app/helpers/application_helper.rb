@@ -10,6 +10,7 @@ module ApplicationHelper
   
   def suggested_fields
     [
+      [ "Rating"                    ,  "rating"                   ,  "integer"     ],
       [ "Hobbies"                   ,  "hobbies"                  ,  "string"     ],
       [ "Favorite Magazine"         ,  "favorite-magazine"        ,  "string"     ],
       [ "Favourite Movie"           ,  "favourite-movie"          ,  "string"     ],

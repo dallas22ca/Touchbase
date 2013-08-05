@@ -24,9 +24,11 @@ class Importer
       end
     
       (structure[:first_data_row]..spreadsheet.last_row).each do |i|
+        progress = ((i * 100) / spreadsheet.count).round
         data = Hash[[permalinks, spreadsheet.row(i).map{ |c| c.to_s.strip }].transpose]
         name = data.delete("name")
         contact = user.save_contact name: name, data: data, overwrite: overwrite
+        user.update_column :import_progress, progress
         warnings.push contact.errors.full_messages unless contact.errors.empty?
         warnings.push contact.warnings unless contact.warnings.empty?
       end

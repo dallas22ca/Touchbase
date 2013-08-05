@@ -1,0 +1,13 @@
+$("#import_progress").animate({
+  width: "<%= @user.import_progress %>%"
+}, 5500)
+$("#import_progress").attr("data-progress", <%= @user.import_progress %>)
+$(".contacts_count, .pending_contacts_count").text("<%= pluralize @user.contacts_count, "Contact" %>")
+// $(".pending_count").text("<= pluralize @pending.count, "Contact" >")
+// $("<= j render @latest >").appendTo("#contacts")
+
+<% if @user.import_progress == 100 %>
+  window.location.href = "<%= root_path %>"
+<% else %>
+  Import.poll()
+<% end %>

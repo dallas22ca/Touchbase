@@ -49,3 +49,12 @@ $(document).on "submit", "#contacts_search", ->
   , (data) ->
     eval data
   false
+
+@Import =
+  poll: ->
+    ip = $("#import_progress")
+    if ip.data("progress") != 100
+      setTimeout ->
+        url = ip.data("url")
+        $.getScript url
+      , 5000

@@ -11,6 +11,7 @@ class ContactsController < ApplicationController
     params[:direction] ||= "asc"
     
     @contacts = current_user.contacts.filter(search, params[:q], params[:order], params[:direction], params[:data_type])
+    @pending = @contacts.pending
     
     respond_to do |format|
       if @contacts.empty?
