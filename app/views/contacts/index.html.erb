@@ -2,9 +2,8 @@
 
 <div id="contacts_wrapper">
   
-  <%= render "has_pending" if current_user.has_pending_import? %>
+  <%= render "has_pending" if current_user.has_pending_import? && current_user.import_progress != 100 %>
 
-  <span class="pending_count"><%= pluralize @pending.count, "Contact" %></span> Pending<br>
   <%= link_to "Add Contact", new_contact_path %>
 
   <table id="contacts" data-order="name" data-direction="asc" data-data_type="string">

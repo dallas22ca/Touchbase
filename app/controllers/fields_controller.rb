@@ -2,20 +2,16 @@ class FieldsController < ApplicationController
   before_action :set_fields 
   
   def index
-    if current_user.step == 1
-      redirect_to new_contact_path
-    else
-      if current_user.has_pending_import?
-        @headers = current_user.create_headers
+    if current_user.has_pending_import?
+      @headers = current_user.create_headers
+      
+      if !@headers
+        @no_header_included = true
         
-        unless @headers
-          if !current_user.blob.blank? && !current_user.blob.split("\n").first.include?("Name")
-            @no_header_for_blob = true
-            render "contacts/new"
-          else
-            redirect_to page_path("headers")
-          end
-        end
+        current_user.file.clear
+        current_user.save
+        
+        render "contacts/new"
       end
     end
   end

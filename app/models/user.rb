@@ -18,7 +18,8 @@ class User < ActiveRecord::Base
     file.instance.id
   end
 
-  validate :requires_import, unless: Proc.new { |u| u.new_record? && u.fields.empty? }
+  before_validation :set_step
+  validate :requires_import, unless: Proc.new { |u| u.new_record? || u.has_pending_import? }
   after_save :sidekiq_blob_import, if: Proc.new { |u| u.upload && !u.blob.blank? }
   after_save :sidekiq_file_import, if: Proc.new { |u| u.upload && u.file.exists? }
   
@@ -28,38 +29,47 @@ class User < ActiveRecord::Base
     end
   end
   
-  def step
+  def set_step
+    self.overwrite ||= false
     if !has_pending_import? && contacts.empty?
-      1
+      self.step = 1
     elsif fields.empty?
-      2
+      self.step = 2
     elsif true # NO FOLLOWUPS
-      3
+      self.step = 3
     else
-      4
+      self.step = 4
     end
   end
   
   def sidekiq_blob_import
-    self.update_column :import_progress, 0
-    ImportWorker.perform_async id, "blob", overwrite
+    if self.update_column :import_progress, 0
+      ImportWorker.perform_async id, "blob", overwrite
+    end
   end
   
   def sidekiq_file_import
-    self.update_column :import_progress, 0
-    ImportWorker.perform_async id, "file", overwrite
+    if self.update_column :import_progress, 0
+      ImportWorker.perform_async id, "file", overwrite
+    end
   end
   
   def import_blob(overwrite)
     i = Importer.new(id, "blob", overwrite)
+    self.update_column :import_progress, 0
+    
     if i.import
+      self.blob = nil
+      self.import_progress = 100
+      self.save
       i.delete_file
-      self.update_attributes blob: nil, import_progress: 100
     end
   end
   
   def import_file(overwrite)
-    i = Importer.new(id, "blob", overwrite)
+    i = Importer.new(id, "file", overwrite)
+    self.update_column :import_progress, 0
+    
     if i.import
       self.file.clear
       self.import_progress = 100
