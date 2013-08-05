@@ -18,7 +18,6 @@ class User < ActiveRecord::Base
     file.instance.id
   end
 
-  before_validation :set_step
   validate :requires_import, unless: Proc.new { |u| u.new_record? && u.fields.empty? }
   after_save :sidekiq_blob_import, if: Proc.new { |u| u.upload && !u.blob.blank? }
   after_save :sidekiq_file_import, if: Proc.new { |u| u.upload && u.file.exists? }
@@ -29,15 +28,15 @@ class User < ActiveRecord::Base
     end
   end
   
-  def set_step
+  def step
     if !has_pending_import? && contacts.empty?
-      self.step = 1
+      1
     elsif fields.empty?
-      self.step = 2
+      2
     elsif true # NO FOLLOWUPS
-      self.step = 3
+      3
     else
-      self.step = 4
+      4
     end
   end
   
@@ -52,13 +51,16 @@ class User < ActiveRecord::Base
   end
   
   def import_blob(overwrite)
-    if Importer.from_blob blob.strip, id, overwrite
+    i = Importer.new(id, "blob", overwrite)
+    if i.import
+      i.delete_file
       self.update_attributes blob: nil, import_progress: 100
     end
   end
   
   def import_file(overwrite)
-    if Importer.from_file file.path, id, overwrite
+    i = Importer.new(id, "blob", overwrite)
+    if i.import
       self.file.clear
       self.import_progress = 100
       self.save
@@ -80,5 +82,37 @@ class User < ActiveRecord::Base
   
   def has_pending_import?
     file.exists? || !blob.blank?
+  end
+  
+  def create_headers
+    headers = []
+    
+    if has_pending_import?
+      unless blob.blank?
+        i = Importer.new(id, "blob")
+        
+        if i.headers
+          i.headers.map { |h| headers.push h }
+          i.create_headers
+        end
+        
+        i.delete_file
+      end
+      
+      if file.exists?
+        i = Importer.new(id, "file")
+        
+        if i.headers
+          i.headers.map { |h| headers.push h } 
+          i.create_headers
+        end
+      end
+      
+      if headers.empty?
+        false
+      end
+    else
+      false
+    end
   end
 end

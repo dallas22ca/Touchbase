@@ -5,9 +5,17 @@ class FieldsController < ApplicationController
     if current_user.step == 1
       redirect_to new_contact_path
     else
-      if current_user.blob.blank?
+      if current_user.has_pending_import?
+        @headers = current_user.create_headers
         
-      else
+        unless @headers
+          if !current_user.blob.blank? && !current_user.blob.split("\n").first.include?("Name")
+            @no_header_for_blob = true
+            render "contacts/new"
+          else
+            redirect_to page_path("headers")
+          end
+        end
       end
     end
   end

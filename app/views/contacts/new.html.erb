@@ -17,6 +17,13 @@
     Name, Email, Hobbies<br>
     Dallas Read, dallas@touchbasenow.com, Futbol
   </p>
+  
+  <% if @no_header_for_blob %>
+    <div class="errors">
+      Please add a header row so we know how to save your data (eg. "Name, Email, Address").
+    </div>
+  <% end %>
+  
   <%= f.text_area :blob %>
   
   <hr />
