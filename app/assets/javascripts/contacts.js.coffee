@@ -54,7 +54,5 @@ $(document).on "submit", "#contacts_search", ->
   poll: ->
     ip = $("#import_progress")
     if ip.data("progress") != 100
-      setTimeout ->
-        url = ip.data("url")
-        $.getScript url
-      , 5000
+      url = ip.data("url")
+      $.getScript url

@@ -1,6 +1,6 @@
 class Importer
   
-  def initialize(user_id, src = "file", declared_path = "", overwrite = false)
+  def initialize(user_id, src = "file", overwrite = false, declared_path = "")
     @src = src
     @user_id = user_id
     @overwrite = overwrite
@@ -100,7 +100,8 @@ class Importer
       
       field = {
         title: title,
-        permalink: title.parameterize
+        permalink: title.parameterize,
+        data_type: "string"
       }
       
       headers.push field
