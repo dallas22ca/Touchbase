@@ -43,6 +43,8 @@ class ContactsController < ApplicationController
 
   # GET /contacts/new
   def new
+    @user = current_user
+    
     if current_user.has_pending_import?
       redirect_to fields_path
     end
@@ -57,13 +59,17 @@ class ContactsController < ApplicationController
   def create
     @user = current_user
     
+    if @user.update_attributes(user_params)
+      @user.create_headers
+    end
+    
     respond_to do |format|
-      if @user.update_attributes(user_params)
-        format.html { redirect_to fields_path, notice: 'Contact was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @contact }
-      else
+      if @user.errors.any?
         format.html { render action: 'new' }
         format.json { render json: @user.errors, status: :unprocessable_entity }
+      else
+        format.html { redirect_to fields_path, notice: 'Contact was successfully created.' }
+        format.json { render action: 'show', status: :created, location: @contact }
       end
     end
   end

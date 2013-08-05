@@ -11,7 +11,12 @@
   <% @fields.each do |field| %>
     <div class="field">
       <%= label_tag field.title %><br>
-      <%= text_field_tag field.title, @contact.d[field.permalink], name: "contact[data][#{field.permalink}]" %>
+      
+      <% if field.data_type == "boolean" %>
+        <%= select_tag field.title, options_for_select([["Yes", "true"], ["No", "false"]], @contact.d[field.permalink]), name: "contact[data][#{field.permalink}]" %>
+      <% else %>
+        <%= text_field_tag field.title, @contact.d[field.permalink], name: "contact[data][#{field.permalink}]" %>
+      <% end %>
     </div>
   <% end %>
   

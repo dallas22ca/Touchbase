@@ -3,6 +3,7 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
 require 'capybara/rspec'
+require 'sidekiq/testing'
 
 include Warden::Test::Helpers
 Warden.test_mode!

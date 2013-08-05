@@ -55,13 +55,14 @@ class Importer
     
     if headers
       create_headers
+      row_count = spreadsheet.count
     
       (2..spreadsheet.last_row).each do |i|
-        progress = ((i * 100) / spreadsheet.count).round
+        progress = (i * 100) / row_count
         data = Hash[[permalinks, spreadsheet.row(i).map{ |c| c.to_s.strip }].transpose]
         name = data.delete("name")
         contact = user.save_contact name: name, data: data, overwrite: @overwrite
-        user.update_column :import_progress, progress
+        user.update_column :import_progress, progress if progress % 1 == 0
         warnings.push contact.errors.full_messages unless contact.errors.empty?
         warnings.push contact.warnings unless contact.warnings.empty?
       end

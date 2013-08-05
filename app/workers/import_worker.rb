@@ -3,7 +3,7 @@ class ImportWorker
   
   sidekiq_options queue: "ImportWorker"
   
-  def perform id, src, overwrite
+  def perform id, src, overwrite = false
     if src == "blob"
       user = User.find(id)
       user.import_blob overwrite

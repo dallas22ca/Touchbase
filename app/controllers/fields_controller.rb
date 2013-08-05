@@ -2,18 +2,6 @@ class FieldsController < ApplicationController
   before_action :set_fields 
   
   def index
-    if current_user.has_pending_import?
-      @headers = current_user.create_headers
-      
-      if !@headers
-        @no_header_included = true
-        
-        current_user.file.clear
-        current_user.save
-        
-        render "contacts/new"
-      end
-    end
   end
   
   def update

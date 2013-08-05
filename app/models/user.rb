@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   end
 
   before_validation :set_step
-  validate :requires_import, unless: Proc.new { |u| u.new_record? || u.has_pending_import? }
+  # validate :requires_import, unless: Proc.new { |u| u.new_record? || u.has_pending_import? }
   after_save :sidekiq_blob_import, if: Proc.new { |u| u.upload && !u.blob.blank? }
   after_save :sidekiq_file_import, if: Proc.new { |u| u.upload && u.file.exists? }
   
@@ -119,7 +119,9 @@ class User < ActiveRecord::Base
       end
       
       if headers.empty?
-        false
+        self.file.clear
+        self.save
+        self.errors.add :base, "Please upload a file with a header so we know how to read your data!"
       end
     else
       false
