@@ -1,4 +1,4 @@
-<div class="notice">
+<div class="notice" id="importer">
   <div id="import_progress_bar">
     <div id="import_progress" data-progress="<%= current_user.import_progress %>" style="width: <%= current_user.import_progress == 100 ? 0 : current_user.import_progress %>%; " data-url="<%= user_path(current_user) %>"></div>
   </div>

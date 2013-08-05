@@ -1,13 +1,13 @@
 $("#import_progress").animate({
   width: "<%= @user.import_progress %>%"
 }, 5000)
-$("#import_progress").attr("data-progress", <%= @user.import_progress %>)
+$("#import_progress").attr("data-progress", <%= current_user.import_progress %>)
 $(".contacts_count").text("<%= pluralize @user.contacts_count, "Contact" %>")
 $(".contacts_search_count").text("<%= @user.contacts_count %>")
 // $(".pending_count").text("<= pluralize @pending.count, "Contact" >")
 // $("<= j render @latest >").appendTo("#contacts")
 
-<% if @user.import_progress == 100 %>
+<% if current_user.import_progress == 100 %>
   window.location.href = "<%= root_path %>"
 <% else %>
   setTimeout(function(){

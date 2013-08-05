@@ -21,7 +21,7 @@ describe User do
     joe.fields.create! title: "Email", permalink: "email", data_type: "string"
     login_as joe
     path = "#{Rails.root}/test/assets/4withheaders.csv"
-    importer = Importer.from_file path, joe.id
+    importer = Importer.new(joe.id, "file", false, path).import
     visit contacts_path
     page.should have_content @name
   end

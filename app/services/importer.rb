@@ -11,12 +11,12 @@ class Importer
   def path
     if @declared_path.blank?
       if @src == "blob"
-        file.path
+        @path ||= file.path
       else
-        user.file.path
+        @path ||= user.file.path
       end
     else
-      @declared_path
+      @path ||= @declared_path
     end
   end
   
@@ -25,7 +25,7 @@ class Importer
   end
   
   def write_blob
-    @write_blob ||= File.open(file.path, "w") { |f| f.write(user.blob.strip) }
+    @write_blob ||= File.open(file.path, "w") { |f| f.write(user.blob.to_s.strip) }
   end
   
   def user
@@ -42,6 +42,8 @@ class Importer
         Field.create user_id: @user_id, title: header[:title], permalink: header[:permalink]
       end
     end
+    
+    headers
   end
   
   def permalinks
@@ -81,7 +83,7 @@ class Importer
   
   def delete_file
     if @src == "blob" && @declared_path.blank?
-      File.delete path
+      File.delete(path) if File.exists?(path)
     end
   end
   
