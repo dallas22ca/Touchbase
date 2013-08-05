@@ -1,5 +1,5 @@
 class Contact < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :user, counter_cache: true
   
   attr_accessor :overwrite, :warnings
   
@@ -33,11 +33,7 @@ class Contact < ActiveRecord::Base
   end
   
   def format_data
-    if self.original_data.nil?
-      self.original_data = self.data
-    elsif !self.data.nil?
-      self.original_data = self.original_data.merge(self.data)
-    end
+    self.original_data = self.data
     
     prepared_data = {}
     d = self.data
@@ -48,10 +44,10 @@ class Contact < ActiveRecord::Base
       data_type = formatter[:data_type]
       content = formatter[:content]
       
-      if data_type != "string"
-        field = user.fields.where(permalink: k.to_s).first_or_create
-        field.update_attributes data_type: data_type
-      end
+      # if data_type != "string"
+      #   field = user.fields.where(permalink: k.to_s).first_or_create
+      #   field.update_attributes data_type: data_type
+      # end
       
       prepared_data[k.to_s] = content
     end

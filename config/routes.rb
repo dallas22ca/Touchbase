@@ -1,3 +1,5 @@
+require "sidekiq/web"
+
 Touchbase::Application.routes.draw do
   
   devise_for :users
@@ -8,6 +10,7 @@ Touchbase::Application.routes.draw do
     resources :users
     get "/fields" => "fields#index", as: :fields
     patch "/fields" => "fields#update"
+    mount Sidekiq::Web => "/sidekiq"
     get "/" => "contacts#index"
   end
   

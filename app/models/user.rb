@@ -18,18 +18,27 @@ class User < ActiveRecord::Base
     file.instance.id
   end
   
-  after_save :import_blob, if: :blob
-  after_save :import_file, if: Proc.new { |u| u.file.exists? }
+  after_save :sidekiq_blob_import, if: :blob
+  after_save :sidekiq_file_import, if: Proc.new { |u| u.file.exists? }
+  
+  def sidekiq_blob_import
+    ImportWorker.perform_async id, "blob"
+  end
+  
+  def sidekiq_file_import
+    ImportWorker.perform_async id, "file"
+  end
   
   def import_blob
     if Importer.from_blob blob.strip, id, overwrite
-      self.update_column :blob, nil
+      self.update_attributes blob: nil, import_progress: 100
     end
   end
   
   def import_file
     if Importer.from_file file.path, id, overwrite
       self.file.clear
+      self.import_progress = 100
       self.save
     end
   end

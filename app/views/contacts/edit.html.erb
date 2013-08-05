@@ -10,7 +10,7 @@
   
   <% @fields.each do |field| %>
     <div class="field">
-      <%= label_tag field.title %>
+      <%= label_tag field.title %><br>
       <%= text_field_tag field.title, @contact.d[field.permalink], name: "contact[data][#{field.permalink}]" %>
     </div>
   <% end %>
