@@ -29,4 +29,25 @@ describe Formatter do
     Formatter.detect("Date", "04-05-88")[:data_type].should == "datetime"
   end
   
+  it "formats content appropriately" do
+    Formatter.format("string", "This is formatted").should == "This is formatted"
+    Formatter.format("string", 1234).should == "1234"
+    
+    [
+      ["April 5, 1988 at 12:33pm",  "datetime"],
+      ["12/23/11 12:33pm",          "datetime"],
+      ["12/23/11 12:33:22pm",       "datetime"],
+      ["04/05/88",                  "datetime"],
+      ["04/05/1988",                "datetime"],
+      ["April 5, 1988",             "datetime"],
+      ["04-05-88",                  "datetime"],
+    ].each do |content|
+      Formatter.format("datetime", content).should == Chronic.parse(content)
+    end
+    
+    Formatter.format("integer", 34.34)
+    Formatter.format("integer", 34)
+    Formatter.format("integer", "-34.34")
+    Formatter.format("integer", "-34")
+  end
 end

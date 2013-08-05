@@ -1,15 +1,17 @@
 class Contact < ActiveRecord::Base
   belongs_to :user, counter_cache: true
   
-  attr_accessor :overwrite, :warnings
+  attr_accessor :overwrite, :warnings, :use_pending
   
   validates_presence_of :user_id
   validates_uniqueness_of :name, scope: :user_id
   
   scope :pending, -> { where("pending_data is not ?", nil) }
   
+  before_validation :write_pending, if: :use_pending
   before_validation :move_data_to_pending, unless: Proc.new { |c| c.overwrite? || c.new_record? }
   before_validation :set_defaults
+  validate :not_duplicate_data
   before_save :format_data
     
   def set_defaults
@@ -17,12 +19,15 @@ class Contact < ActiveRecord::Base
     self.warnings ||= []
   end
   
-  def ignore_pending_data
-    update_attributes pending_data: nil, overwrite: true
+  def write_pending
+    self.data = pending_data
+    self.overwrite = true
   end
   
-  def write_pending_data
-    update_attributes data: pending_data, pending_data: nil, overwrite: true
+  def not_duplicate_data
+    if !self.warnings.blank? && data == pending_data
+      self.errors.add :base, "#{name} is a duplicate. This data has been ignored."
+    end
   end
   
   def move_data_to_pending
@@ -36,20 +41,10 @@ class Contact < ActiveRecord::Base
     self.original_data = self.data
     
     prepared_data = {}
-    d = self.data
-    d = {} if self.data.blank?
     
-    d.each do |k, v|
-      formatter = Formatter.detect(k.to_s, v)
-      data_type = formatter[:data_type]
-      content = formatter[:content]
-      
-      # if data_type != "string"
-      #   field = user.fields.where(permalink: k.to_s).first_or_create
-      #   field.update_attributes data_type: data_type
-      # end
-      
-      prepared_data[k.to_s] = content
+    user.fields do |field|
+      content = Formatter.format(field.data_type, self.original_data)
+      prepared_data[field.permalink] = content
     end
     
     self.data = prepared_data unless prepared_data == {}

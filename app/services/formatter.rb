@@ -27,4 +27,25 @@ class Formatter
     { data_type: data_type, content: content }
   end
   
+  def self.format(data_type, content)
+    if data_type == "boolean"
+      if ["true", "1", "t", "y", "yes"].include? content.to_s
+        content = true
+      else
+        content = false
+      end
+    elsif data_type == "datetime"
+      if content.class == ActiveSupport::TimeWithZone || content.class == Time
+        content = content
+      else
+        content = Chronic.parse(content)
+      end
+    elsif data_type == "integer"
+      content.to_s.gsub(/[^\d|-|\\.]/, "")
+    else
+      content = content.to_s
+    end
+    
+    content
+  end
 end

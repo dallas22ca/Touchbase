@@ -1,10 +1,15 @@
+<% if @user && @user.errors.any? %>
+  <p class="errors">
+    <%= @user.errors.full_messages.map{|m|m}.join("<br>").html_safe %>
+  </p>
+<% end %>
+
+
 <h1>Fields</h1>
 
-<% suggested_fields.each do |title, permalink, data_type| %>
-  <% unless @fields.pluck(:permalink).include? permalink %>
-    <%= link_to title, "#", class: "add_suggested_field", data: { title: title, data_type: data_type, permalink: permalink } %>
-  <% end %>
-<% end %>
+<p class="info">
+  Before we can add your contacts, let us know what sort of info you want to collect.
+</p>
 
 <%= form_for current_user, url: fields_path do |f| %>
   <table id="fields">
@@ -29,6 +34,16 @@
     </tfoot>
   </table>
   
-  <%= f.submit "Save Fields" %>
+  <%= f.hidden_field :upload, value: true %>
+  
+  <%= f.submit "Save Fields and Continue to Upload File" %>
 
 <% end %>
+
+<ul>
+  <% suggested_fields.each do |title, permalink, data_type| %>
+    <% unless @fields.pluck(:permalink).include? permalink %>
+      <li><%= link_to title, "#", class: "add_suggested_field", data: { title: title, data_type: data_type, permalink: permalink } %></li>
+    <% end %>
+  <% end %>
+</ul>
