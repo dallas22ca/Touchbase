@@ -15,10 +15,10 @@
   <% end %>
   
   <p>
-    <span id="contacts_search_count"><%= current_user.contacts_count %></span> / <span class="contacts_count"><%= pluralize current_user.contacts_count, "Contact" %></span>
+    <span class="contacts_search_count"><%= current_user.contacts_count %></span> / <span class="contacts_count"><%= pluralize current_user.contacts_count, "Contact" %></span>
   </p>
   
-  <%= link_to "Pending", pending_path %> | 
+  <%= link_to "Pending (#{current_user.contacts.pending.count})", pending_path %> | 
   <%= link_to "Fields", fields_path %><br>
   <%= link_to "Sign Out", destroy_user_session_path, method: :delete %>
 </div>

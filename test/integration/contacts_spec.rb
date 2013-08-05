@@ -35,7 +35,8 @@ describe Contact do
     contact.update_column :user_id, joe.id
     contact.update_attributes data: data
     contact.pending_data.should == data
-    contact.ignore_pending_data
+    contact.overwrite = true
+    contact.save
     contact.pending_data.should == nil
   end
   
@@ -46,7 +47,8 @@ describe Contact do
     contact.update_column :user_id, joe.id
     contact.data = pending_data
     contact.save
-    contact.write_pending_data
+    contact.write_pending
+    contact.save
     contact.data.should == pending_data
     contact.pending_data.should == nil
   end

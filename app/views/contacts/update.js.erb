@@ -1,0 +1,6 @@
+$("#pending_<%= @contact.id %>").remove()
+<% if @pending_count == 0 %>
+  window.location.href = "<%= contacts_path %>"
+<% else %>
+  $(".contacts_pending_count").text("<%= pluralize @pending_count, "Pending Contact" %>")
+<% end %>

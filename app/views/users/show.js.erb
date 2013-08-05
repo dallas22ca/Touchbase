@@ -2,7 +2,8 @@ $("#import_progress").animate({
   width: "<%= @user.import_progress %>%"
 }, 5500)
 $("#import_progress").attr("data-progress", <%= @user.import_progress %>)
-$(".contacts_count, .pending_contacts_count").text("<%= pluralize @user.contacts_count, "Contact" %>")
+$(".contacts_count").text("<%= pluralize @user.contacts_count, "Contact" %>")
+$(".contacts_search_count").text("<%= @user.contacts_count %>")
 // $(".pending_count").text("<= pluralize @pending.count, "Contact" >")
 // $("<= j render @latest >").appendTo("#contacts")
 

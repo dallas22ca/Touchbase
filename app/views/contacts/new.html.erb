@@ -1,3 +1,9 @@
+<% if @user && @user.errors.any? %>
+  <p class="errors">
+    <%= @user.errors.full_messages.map{|m|m}.join("<br>").html_safe %>
+  </p>
+<% end %>
+
 <%= form_for current_user, url: contacts_path, method: :post do |f| %>
   
   <%= f.label :file, "You can either upload a file of your contacts (CSV, Microsoft Excel):" %><br>

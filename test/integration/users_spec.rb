@@ -18,13 +18,10 @@ describe User do
   
   it "sees his contacts if he has some" do
     joe = users(:joe)
+    joe.fields.create! title: "Email", permalink: "email", data_type: "string"
     login_as joe
-    
-    2.times do
-      @name = Faker::Name.name
-      joe.save_contact name: @name, email: Faker::Internet.email
-    end
-    
+    path = "#{Rails.root}/test/assets/4withheaders.csv"
+    importer = Importer.from_file path, joe.id
     visit contacts_path
     page.should have_content @name
   end

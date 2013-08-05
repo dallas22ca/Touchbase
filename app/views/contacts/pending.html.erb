@@ -1,3 +1,11 @@
+<h1>Which info is correct (<span class="contacts_pending_count"><%= pluralize @contacts.count, "Pending Contact" %></span>)?</h1>
+
 <table id="contacts">
-  <%= render @contacts %>
+  <% @contacts.each do |contact| %>
+    <tr id="pending_<%= contact.id %>">
+      <td><%= contact.name %></td>
+      <td><%= link_to contact.data.map{ |k, v| "#{k}: #{v}" }.join("<br>").html_safe, contact_path(contact, contact: { overwrite: true }), method: :patch, remote: true %></td>
+      <td><%= link_to contact.pending_data.map{ |k, v| "#{k}: #{v}" }.join("<br>").html_safe, contact_path(contact, contact: { use_pending: true }), method: :patch, remote: true %></td>
+    </tr>
+  <% end %>
 </table>

@@ -14,7 +14,7 @@ class ContactsController < ApplicationController
     @pending = @contacts.pending
     
     respond_to do |format|
-      if @contacts.empty?
+      if current_user.step == 1
         format.html { redirect_to new_contact_path }
       else
         format.html
@@ -43,7 +43,9 @@ class ContactsController < ApplicationController
 
   # GET /contacts/new
   def new
-    @contact = Contact.new
+    if current_user.has_pending_import?
+      redirect_to fields_path
+    end
   end
 
   # GET /contacts/1/edit
@@ -71,11 +73,14 @@ class ContactsController < ApplicationController
   def update
     respond_to do |format|
       if @contact.update(contact_params)
+        @pending_count = current_user.contacts.pending.count
         format.html { redirect_to contacts_path, notice: 'Contact was successfully updated.' }
         format.json { head :no_content }
+        format.js
       else
         format.html { render action: 'edit' }
         format.json { render json: @contact.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
@@ -102,10 +107,10 @@ class ContactsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def contact_params
-      params.require(:contact).permit(:name, :overwrite, data: current_user.fields.pluck(:permalink))
+      params.require(:contact).permit(:name, :overwrite, :use_pending, data: current_user.fields.pluck(:permalink))
     end
     
     def user_params
-      params.require(:user).permit(:file, :blob)
+      params.require(:user).permit(:file, :blob, :overwrite)
     end
 end

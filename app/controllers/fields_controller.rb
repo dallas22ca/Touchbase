@@ -2,6 +2,14 @@ class FieldsController < ApplicationController
   before_action :set_fields 
   
   def index
+    if current_user.step == 1
+      redirect_to new_contact_path
+    else
+      if current_user.blob.blank?
+        
+      else
+      end
+    end
   end
   
   def update
@@ -25,7 +33,7 @@ private
   end
   
   def user_params
-    params.require(:user).permit(fields_attributes: [:id, :title, :permalink, :data_type, :_destroy])
+    params.require(:user).permit(:upload, fields_attributes: [:id, :title, :permalink, :data_type, :_destroy])
   end
   
 end

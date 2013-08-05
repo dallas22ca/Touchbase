@@ -1,41 +1,28 @@
 <%= render "sidebar" %>
 
-<div id="yield">
-  <% if current_user.import_progress != 100 %>
-    <div id="import_progress_bar">
-      <div id="import_progress" data-progress="<%= current_user.import_progress %>" style="width: <%= current_user.import_progress %>%; " data-url="<%= user_path(current_user) %>"></div>
-    </div>
-    
-    <p>
-      IMPORTING (No need to refresh the page... Go grab a coffee while we analyze your contacts)
-    </p>
-    
-    <script>
-      Import.poll()
-    </script>
-  <% else %>
+<div id="contacts_wrapper">
   
-    <span class="pending_count"><%= pluralize @pending.count, "Contact" %></span> Pending<br>
-    <%= link_to "Add Contact", new_contact_path %>
+  <%= render "has_pending" if current_user.has_pending_import? %>
 
-    <table id="contacts" data-order="name" data-direction="asc" data-data_type="string">
-      <thead>
-        <tr>
-          <th class="name" data-permalink="name" data-data_type="string">Name</th>
-          <% @fields.each do |field| %>
-            <th data-permalink="<%= field.permalink %>" data-data_type="<%= field.data_type %>"><%= field.title %></th>
-          <% end %>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
+  <span class="pending_count"><%= pluralize @pending.count, "Contact" %></span> Pending<br>
+  <%= link_to "Add Contact", new_contact_path %>
 
-      <tbody>
-        <%= render @contacts %>
-      </tbody>
-    </table>
-    
-  <% end %>
-  
+  <table id="contacts" data-order="name" data-direction="asc" data-data_type="string">
+    <thead>
+      <tr>
+        <th class="name" data-permalink="name" data-data_type="string">Name</th>
+        <% @fields.each do |field| %>
+          <th data-permalink="<%= field.permalink %>" data-data_type="<%= field.data_type %>"><%= field.title %></th>
+        <% end %>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= render @contacts %>
+    </tbody>
+  </table>
+
 </div>

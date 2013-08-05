@@ -3,13 +3,16 @@ class ImportWorker
   
   sidekiq_options queue: "ImportWorker"
   
-  def perform user_id, src
+  def perform id, src, overwrite
     if src == "blob"
-      user = User.find(user_id)
-      user.import_blob
+      user = User.find(id)
+      user.import_blob overwrite
     elsif src == "file"
-      user = User.find(user_id)
-      user.import_file
+      user = User.find(id)
+      user.import_file overwrite
+    elsif src == "field"
+      field = Field.find(id)
+      field.update_contacts
     end
   end
 end
