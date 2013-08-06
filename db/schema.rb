@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 20130806100046) do
     t.hstore   "original_data"
   end
 
-  add_index "contacts", ["data"], name: "contacts_data", using: :gin
+  add_index "contacts", ["data"], name: "contacts_data", using: :gist
   add_index "contacts", ["user_id"], name: "index_contacts_on_user_id", using: :btree
 
   create_table "fields", force: true do |t|
