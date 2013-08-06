@@ -2,7 +2,8 @@
 
 <div id="contacts_wrapper">
   
-  <%= render "has_pending" if current_user.has_pending_import? && current_user.import_progress != 100 %>
+  <%= render "has_pending" if @pending.any? %>
+  <%= render "is_importing" if current_user.has_pending_import? && current_user.import_progress != 100 %>
 
   <%= link_to "Add Contact", new_contact_path %>
 
