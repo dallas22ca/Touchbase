@@ -91,7 +91,7 @@ class Contact < ActiveRecord::Base
       else
         case matcher
         when "is"
-          queries.push "contacts.data @> '#{field}=>#{search}'"
+          queries.push "contacts.data @> hstore('#{field}', '#{search}')"
         when "like"
           queries.push "contacts.data -> '#{field}' ilike '%#{search}%'"
         when "greater_than"
