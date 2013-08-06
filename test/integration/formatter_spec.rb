@@ -53,6 +53,7 @@ describe Formatter do
   end
   
   it "refreshes all contacts when updated" do
+    ImportWorker.jobs.clear
     joe = users(:joe)
     path = "#{Rails.root}/test/assets/4withheaders.csv"
     importer = Importer.new(joe.id, "file", false, path).import

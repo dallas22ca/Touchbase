@@ -12,7 +12,7 @@ class ImportWorker
       user.import_file overwrite
     elsif src == "field"
       field = Field.find(id)
-      field.update_contacts
+      field.update_contacts if field
     end
   end
 end

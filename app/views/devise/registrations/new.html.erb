@@ -11,6 +11,9 @@
 
   <div><%= f.label :password %><br />
   <%= f.password_field :password %></div>
+  
+  <div><%= f.label :time_zone %><br />
+  <%= f.time_zone_select :time_zone, /Canada/, default: "Pacific Time (US & Canada)" %></div>
 
   <div><%= f.submit "Sign up" %></div>
 <% end %>

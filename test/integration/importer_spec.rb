@@ -3,6 +3,10 @@ require_relative "../test_helper"
 describe Importer do
   fixtures :all
   
+  before :each do
+    ImportWorker.jobs.clear
+  end
+  
   it "can import contacts with headers" do
     joe = users(:joe)
     path = "#{Rails.root}/test/assets/4withheaders.csv"
