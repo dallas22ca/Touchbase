@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 20130806100046) do
     t.text     "blob"
     t.string   "name"
     t.integer  "import_progress",        default: 100
-    t.integer  "contacts_count"
+    t.integer  "contacts_count",         default: 0
     t.integer  "step",                   default: 1
     t.string   "time_zone"
   end

@@ -3,6 +3,10 @@ require_relative "../test_helper"
 describe User do
   fixtures :all
   
+  before :each do
+    ImportWorker.jobs.clear
+  end
+  
   it "can upload file with header" do
     joe = users(:joe)
     path = "#{Rails.root}/test/assets/4withheaders.csv"
