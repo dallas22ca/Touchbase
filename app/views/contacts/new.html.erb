@@ -22,10 +22,7 @@
   
   <hr />
   
-  <%= f.check_box :overwrite %>
-  <%= f.label :overwrite, "Overwrite existing contacts." %>
-  
-  <hr />
+  <%= f.hidden_field :overwrite, value: false %>
   
   <%= f.submit "Add Contacts" %>
 

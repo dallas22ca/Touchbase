@@ -59,9 +59,7 @@ class ContactsController < ApplicationController
   def create
     @user = current_user
     
-    if @user.update_attributes(user_params)
-      @user.create_headers
-    end
+    @user.create_headers if @user.update_attributes(user_params)
     
     respond_to do |format|
       if @user.errors.any?
