@@ -1,6 +1,6 @@
 class AddDataIndexOnContacts < ActiveRecord::Migration
   def up
-    execute "CREATE INDEX contacts_data ON contacts USING GIN(data)"
+    execute "CREATE INDEX contacts_data ON contacts USING GIST(data)"
   end
   
   def down
