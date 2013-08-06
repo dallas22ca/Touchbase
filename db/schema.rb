@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130805144559) do
+ActiveRecord::Schema.define(version: 20130806100046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,8 +61,9 @@ ActiveRecord::Schema.define(version: 20130805144559) do
     t.text     "blob"
     t.string   "name"
     t.integer  "import_progress",        default: 100
-    t.integer  "contacts_count",         default: 0
+    t.integer  "contacts_count"
     t.integer  "step",                   default: 1
+    t.string   "time_zone"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
