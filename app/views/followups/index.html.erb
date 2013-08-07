@@ -1,37 +1,38 @@
-<h1>Listing followups</h1>
+<% if @user && @user.errors.any? %>
+  <p class="errors">
+    <%= @user.errors.full_messages.map{|m|m}.join("<br>").html_safe %>
+  </p>
+<% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>User</th>
-      <th>Criteria</th>
+<h1>Followups</h1>
+
+<p class="info">
+  Followups are the core of your business!
+</p>
+
+<%= form_for current_user, url: followups_path do |f| %>
+  <table id="followups">
+    <thead>
       <th>Description</th>
-      <th>Date</th>
-      <th>Date offset</th>
-      <th>Recurring</th>
+      <th>Offset</th>
+      <th>Field</th>
       <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
+    </thead>
+  
+    <tbody>
+    	<%= f.fields_for :followups do |builder| %>
+        <%= render "edit_followups", f: builder %>
+      <% end %>
+    </tbody>
+    
+    <tfoot>
+      <td><%= link_to_add_fields "Add Followup", f, :followups %></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tfoot>
+  </table>
+  
+  <%= f.submit "Save Followups!" %>
 
-  <tbody>
-    <% @followups.each do |followup| %>
-      <tr>
-        <td><%= followup.user %></td>
-        <td><%= followup.criteria %></td>
-        <td><%= followup.description %></td>
-        <td><%= followup.date %></td>
-        <td><%= followup.date_offset %></td>
-        <td><%= followup.recurring %></td>
-        <td><%= link_to 'Show', followup %></td>
-        <td><%= link_to 'Edit', edit_followup_path(followup) %></td>
-        <td><%= link_to 'Destroy', followup, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Followup', new_followup_path %>
+<% end %>

@@ -1,33 +1,7 @@
-<h1>Listing tasks</h1>
+<h1>Tasks</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Followup</th>
-      <th>Date</th>
-      <th>Content</th>
-      <th>Complete</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
+<h2><%= @date %></h2>
 
-  <tbody>
-    <% @tasks.each do |task| %>
-      <tr>
-        <td><%= task.followup %></td>
-        <td><%= task.date %></td>
-        <td><%= task.content %></td>
-        <td><%= task.complete %></td>
-        <td><%= link_to 'Show', task %></td>
-        <td><%= link_to 'Edit', edit_task_path(task) %></td>
-        <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Task', new_task_path %>
+<ul>
+  <%= render @tasks %>
+</ul>

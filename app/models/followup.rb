@@ -6,10 +6,18 @@ class Followup < ActiveRecord::Base
   belongs_to :user
   belongs_to :field
   
+  before_validation :set_criteria
   validates_presence_of :user_id, :description
-  
   before_save :add_name_to_description, unless: Proc.new { |f| f.description.match(/\{\{name\}\}/) }
-  after_save :create_tasks
+  after_save :invite_user_to_step, :create_tasks
+  
+  def invite_user_to_step
+    user.update_attributes updated_at: Time.now
+  end
+  
+  def set_criteria
+    self.criteria = [] unless self.criteria.kind_of?(Array)
+  end
   
   def add_name_to_description
     self.description = "#{self.description} to {{name}}"
@@ -22,7 +30,7 @@ class Followup < ActiveRecord::Base
     if field
       if remind_before?
         start = time
-        finish = start - o_was.seconds
+        finish = (start - o_was.seconds)
         filters = [[field.permalink, "recurring", nil, { start: start, finish: finish }]]
       elsif remind_after?
         start = time
@@ -30,8 +38,10 @@ class Followup < ActiveRecord::Base
         filters = [[field.permalink, "recurring", nil, { start: finish.beginning_of_year, finish: finish }]]
       elsif remind_on?
         start = time
-        filters = [[field.permalink, "recurring", nil, { start: time, finish: time }]]
+        filters = [[field.permalink, "recurring", nil, { start: time, finish: time.end_of_day }]]
       end
+      
+      filters = [] if offset_changed?
         
       user.contacts.filter(filters).find_each do |contact|
         start = contact.data[field.permalink].to_datetime

@@ -23,3 +23,14 @@ $(document).on "click", ".add_fields, .add_suggested_field", ->
   
   $("##{association} tbody").append html
   false
+  
+$(document).on "click", ".add_followups", ->
+  button = $(this)
+  id = button.data("id")
+  time = new Date().getTime()
+  regexp = new RegExp(id, 'g')
+  association = $(button).attr("id").replace("add_", "")
+  h = button.data("fields").replace(regexp, time)
+  html = $(h)
+  $("##{association} tbody").append html
+  false

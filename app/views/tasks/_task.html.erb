@@ -1,0 +1,4 @@
+<%= content_tag_for :li, task do %>
+  <%= check_box_tag task %>
+  <%= label_tag task, task.content %>
+<% end %>
