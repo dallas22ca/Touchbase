@@ -114,12 +114,7 @@ class Contact < ActiveRecord::Base
     end
       
     if queries.any?
-      if requirements.size == 4 && requirements.first.last.has_key?(:matcher)
-        matcher = requirements.first.last[:matcher]
-        where(queries.join(" #{matcher} ")).order("#{order} #{direction}")
-      else
-        where(queries.join(" and ")).order("#{order} #{direction}")
-      end
+      where(queries.join(" and ")).order("#{order} #{direction}")
     else
       order("#{order} #{direction}")
     end

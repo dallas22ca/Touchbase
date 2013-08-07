@@ -65,6 +65,7 @@ describe Followup do
     followup = followups(:two_weeks_before_birthday)
     followup.create_tasks
     followup.update_attributes! offset: 3.days * -1, description: "Give {{name}} a handshake"
+    ImportWorker.drain
     joe.tasks_for(Time.now).count.should == 0
     joe.tasks.first.content.should include("handshake")
   end

@@ -13,6 +13,9 @@ class ImportWorker
     elsif src == "field"
       field = Field.find(id)
       field.update_contacts if field
+    elsif src == "followup"
+      followup = Followup.find(id)
+      followup.create_tasks if followup
     end
   end
 end
