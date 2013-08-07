@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  followup_id: 
+  date: 2013-08-07 09:19:37
+  content: MyText
+  complete: false
+
+two:
+  followup_id: 
+  date: 2013-08-07 09:19:37
+  content: MyText
+  complete: false

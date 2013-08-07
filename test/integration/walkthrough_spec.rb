@@ -4,6 +4,7 @@ describe User do
   fixtures :all
   
   before :each do
+    Contact.destroy_all
     ImportWorker.jobs.clear
   end
   
@@ -12,7 +13,7 @@ describe User do
     path = "#{Rails.root}/test/assets/4withheaders.csv"
     
     login_as joe
-    visit root_path
+    visit new_contact_path
     attach_file :user_file, path
     click_button "Add Contacts"
     joe.contacts.count.should == 0
@@ -30,7 +31,7 @@ describe User do
     path = "#{Rails.root}/test/assets/4withoutheaders.csv"
     
     login_as joe
-    visit root_path
+    visit new_contact_path
     attach_file :user_file, path
     click_button "Add Contacts"
     joe.contacts.count.should == 0
@@ -42,7 +43,7 @@ describe User do
     text = "Name, Email, Hobbies\nDallas Read, dallas@touchbasenow.com, Futbol"
     
     login_as joe
-    visit root_path
+    visit new_contact_path
     fill_in :user_blob, with: text
     click_button "Add Contacts"
     joe.contacts.count.should == 0
@@ -60,7 +61,7 @@ describe User do
     text = "Dallas Read, dallas@touchbasenow.com, Futbol"
     
     login_as joe
-    visit root_path
+    visit new_contact_path
     fill_in :user_blob, with: text
     click_button "Add Contacts"
     joe.contacts.count.should == 0

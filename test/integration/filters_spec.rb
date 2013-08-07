@@ -13,7 +13,7 @@ describe "Filters" do
       { title: "Number",     permalink: "number",     data_type: "integer" },
       { title: "Birthday",   permalink: "birthday",   data_type: "datetime" }
     ].each do |field|
-      joe.fields.create! title: field[:title], permalink: field[:permalink], data_type: field[:data_type]
+      joe.fields.create title: field[:title], permalink: field[:permalink], data_type: field[:data_type]
     end
     
     don   = { name: "Don Draper",     data: { "email" => "don@madmen.com",    "paid" => 1,         "number" => 54,   "birthday" => 1.minute.ago - 3.hours } }

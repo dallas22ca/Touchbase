@@ -3,6 +3,10 @@ require_relative "../test_helper"
 describe User do
   fixtures :all
   
+  before :each do
+    Contact.destroy_all
+  end
+  
   it "can sign up when visiting the root path" do
     visit root_url
     page.should have_content "Email"
@@ -13,7 +17,7 @@ describe User do
     login_as joe
     joe.contacts.count.should == 0
     visit contacts_path
-    page.should have_content "upload"
+    page.should have_content "Start"
   end
   
   it "sees his contacts if he has some" do

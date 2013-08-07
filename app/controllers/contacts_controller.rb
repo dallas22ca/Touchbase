@@ -14,12 +14,7 @@ class ContactsController < ApplicationController
     @pending = @contacts.pending
     
     respond_to do |format|
-      if current_user.step == 1
-        format.html { redirect_to new_contact_path }
-      else
-        format.html
-      end
-      
+      format.html
       format.json
       format.js
     end
@@ -115,6 +110,6 @@ class ContactsController < ApplicationController
     end
     
     def user_params
-      params.require(:user).permit(:file, :blob, :overwrite)
+      params.require(:user).permit(:file, :blob, :overwrite, :step)
     end
 end

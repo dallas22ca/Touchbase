@@ -6,3 +6,27 @@ basic:
   name: <%= Faker::Name.name %>
   data:
     email: <%= Faker::Internet.email %>
+
+birthday_a_week_ago:
+  user: joe
+  name: <%= Faker::Name.name %>
+  data:
+    birthday: <%= 1.week.ago - 15.years %>
+
+birthday_in_a_week:
+  user: joe
+  name: <%= Faker::Name.name %>
+  data:
+    birthday: <%= 1.week.from_now - 55.years %>
+
+birthday_5_weeks_ago:
+  user: joe
+  name: <%= Faker::Name.name %>
+  data:
+    birthday: <%= 5.weeks.ago - 35.years %>
+    
+birthday_10_weeks_ago:
+  user: joe
+  name: <%= Faker::Name.name %>
+  data:
+    birthday: <%= 10.weeks.ago - 25.years %>
