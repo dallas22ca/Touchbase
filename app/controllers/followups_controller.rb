@@ -24,7 +24,7 @@ class FollowupsController < ApplicationController
   # POST /followups
   # POST /followups.json
   def create
-    @followup = Followup.new(followup_params)
+    @followup = current_user.followups.new(followup_params)
 
     respond_to do |format|
       if @followup.save
@@ -62,9 +62,9 @@ class FollowupsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+  
     def set_followup
-      @followup = Followup.find(params[:id])
+      @followup = current_user.followups.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -9,7 +9,7 @@ class FieldsController < ApplicationController
 
     respond_to do |format|
       if @user.update_attributes(user_params)
-        format.html { redirect_to contacts_path, notice: 'Fields were successfully updated.' }
+        format.html { redirect_to followups_path, notice: 'Fields were successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'index' }
@@ -25,7 +25,7 @@ private
   end
   
   def user_params
-    params.require(:user).permit(:upload, :step, fields_attributes: [:id, :title, :permalink, :data_type, :_destroy])
+    params.require(:user).permit(:upload, fields_attributes: [:id, :title, :permalink, :data_type, :_destroy])
   end
   
 end

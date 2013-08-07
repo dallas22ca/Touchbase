@@ -1,0 +1,11 @@
+<tr>
+  <td><%= followup.user %></td>
+  <td><%= followup.criteria %></td>
+  <td><%= followup.description %></td>
+  <td><%= followup.starting_at %></td>
+  <td><%= followup.offset %></td>
+  <td><%= followup.recurring %></td>
+  <td><%= link_to 'Show', followup %></td>
+  <td><%= link_to 'Edit', edit_followup_path(followup) %></td>
+  <td><%= link_to 'Destroy', followup, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+</tr>

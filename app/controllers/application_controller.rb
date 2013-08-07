@@ -8,12 +8,16 @@ private
 
   def check_step
     if current_user.step <= 1
-      if !"#{controller_name}##{action_name}".match(/contacts\#(new|create)|registrations|pages\#show/)
+      if !"#{controller_name}##{action_name}".match(/contacts\#(new|create)|sessions|registrations|pages\#show/)
         redirect_to page_path("welcome")
       end
     elsif current_user.step <= 2
-      if !"#{controller_name}##{action_name}".match(/fields\#(index|update)|registrations/)
+      if !"#{controller_name}##{action_name}".match(/fields\#(index|update)|contacts\#(new|create)|sessions|registrations|pages\#show/)
         redirect_to fields_path
+      end
+    elsif current_user.step <= 3
+      if !"#{controller_name}##{action_name}".match(/followups|fields\#(index|update)|contacts\#(new|create)|sessions|registrations|pages\#show/)
+        redirect_to followups_path
       end
     end
   end

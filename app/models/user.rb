@@ -20,13 +20,21 @@ class User < ActiveRecord::Base
     file.instance.id
   end
 
-  # validate :requires_import, unless: Proc.new { |u| u.new_record? || u.has_pending_import? }
+  before_save :set_step
   after_save :sidekiq_blob_import, if: Proc.new { |u| u.upload && !u.blob.blank? }
   after_save :sidekiq_file_import, if: Proc.new { |u| u.upload && u.file.exists? }
   
-  def requires_import
-    if step == 1
-      self.errors.add :base, "You must upload contacts to use the system."
+  def set_step
+    if !has_pending_import? && contacts.empty? && import_progress == 100
+      self.step = 1
+    elsif has_pending_import? && contacts.empty? && import_progress == 100 && fields.empty?
+      self.step = 2
+    elsif followups.empty?
+      self.step = 3
+    elsif tasks.empty?
+      self.step = 4
+    else
+      self.step = 5
     end
   end
   
@@ -79,7 +87,7 @@ class User < ActiveRecord::Base
   end
   
   def has_pending_import?
-    file.exists? || !blob.blank?
+    file.present? || !blob.blank?
   end
   
   def import_blob_headers
