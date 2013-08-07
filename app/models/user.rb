@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   has_many :tasks, through: :followups
   
   accepts_nested_attributes_for :fields, allow_destroy: true, reject_if: Proc.new { |f| f[:title].blank? }
+  accepts_nested_attributes_for :followups, allow_destroy: true, reject_if: Proc.new { |f| f[:description].blank? }
   
   has_attached_file :file,
                     :path  => Rails.env.development? || Rails.env.test? ? "#{Rails.root}/uploads/:user_id/:hash.:extension" : "/home/deployer/apps/touchbase/shared/uploads/:user_id/:hash.:extension",

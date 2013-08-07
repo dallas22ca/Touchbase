@@ -4,16 +4,19 @@ Touchbase::Application.routes.draw do
   
   resources :tasks
 
-  resources :followups
-
   devise_for :users
   
   authenticated :user do
     get "/pending" => "contacts#pending", as: :pending
     resources :contacts
     resources :users
+    
     get "/fields" => "fields#index", as: :fields
     patch "/fields" => "fields#update"
+    
+    get "/followups" => "followups#index", as: :followups
+    patch "/followups" => "followups#update"
+    
     mount Sidekiq::Web => "/sidekiq"
     get "/" => "contacts#index"
   end
