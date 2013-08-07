@@ -1,34 +1,37 @@
-<h1>Fields</h1>
+<h1>Listing followups</h1>
 
-<p class="info">
-  Before we can add your contacts, let us know what sort of info you want to collect.
-</p>
-
-<%= form_for current_user, url: fields_path do |f| %>
-  <table id="fields">
-    <thead>
-      <th>Title</th>
-      <th>Permalink</th>
-      <th>Data Type</th>
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Criteria</th>
+      <th>Description</th>
+      <th>Date</th>
+      <th>Date offset</th>
+      <th>Recurring</th>
       <th></th>
-    </thead>
-  
-    <tbody>
-    	<%= f.fields_for :followups do |builder| %>
-        <%= render "edit_followups", f: builder %>
-      <% end %>
-    </tbody>
-    
-    <tfoot>
-      <td><%= link_to_add_fields "Add Field", f, :fields %></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tfoot>
-  </table>
-  
-  <%= f.hidden_field :upload, value: true %>
-  
-  <%= f.submit "Save Fields and Continue to Upload File" %>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
 
-<% end %>
+  <tbody>
+    <% @followups.each do |followup| %>
+      <tr>
+        <td><%= followup.user %></td>
+        <td><%= followup.criteria %></td>
+        <td><%= followup.description %></td>
+        <td><%= followup.date %></td>
+        <td><%= followup.date_offset %></td>
+        <td><%= followup.recurring %></td>
+        <td><%= link_to 'Show', followup %></td>
+        <td><%= link_to 'Edit', edit_followup_path(followup) %></td>
+        <td><%= link_to 'Destroy', followup, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Followup', new_followup_path %>
