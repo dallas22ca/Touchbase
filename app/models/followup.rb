@@ -9,7 +9,7 @@ class Followup < ActiveRecord::Base
   before_validation :set_criteria
   validates_presence_of :user_id, :description
   before_save :add_name_to_description, unless: Proc.new { |f| f.description.match(/\{\{name\}\}/) }
-  after_save :invite_user_to_step, :sidekiq_create_tasks
+  after_save :invite_user_to_step, :create_tasks
   
   def invite_user_to_step
     user.update_attributes updated_at: Time.now
@@ -21,10 +21,6 @@ class Followup < ActiveRecord::Base
   
   def add_name_to_description
     self.description = "#{self.description} to {{name}}"
-  end
-  
-  def sidekiq_create_tasks
-    ImportWorker.perform_async id, "followup"
   end
   
   def create_tasks(time = Time.now)

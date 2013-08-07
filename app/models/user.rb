@@ -59,7 +59,6 @@ class User < ActiveRecord::Base
       self.blob = nil
       self.import_progress = 100
       self.save
-      self.followups.map { |f| f.sidekiq_create_tasks }
       i.delete_file
     end
   end
@@ -72,7 +71,6 @@ class User < ActiveRecord::Base
       self.file.clear
       self.import_progress = 100
       self.save
-      self.followups.map { |f| f.sidekiq_create_tasks }
     end
   end
   
