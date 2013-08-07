@@ -4,7 +4,6 @@
   </p>
 <% end %>
 
-
 <h1>Fields</h1>
 
 <p class="info">
@@ -35,7 +34,6 @@
   </table>
   
   <%= f.hidden_field :upload, value: true %>
-  <%= f.hidden_field :step, value: 3 if current_user.step == 2 %>
   
   <%= f.submit "Save Fields and Continue to Upload File" %>
 

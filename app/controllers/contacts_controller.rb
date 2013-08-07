@@ -54,15 +54,24 @@ class ContactsController < ApplicationController
   def create
     @user = current_user
     
-    @user.create_headers if @user.update_attributes(user_params)
+    if params[:delete_pending]
+      @user.import_progress = 100
+      @user.blob = nil
+      @user.file.clear
+      @user.save
+      redirect = new_contact_path
+    else
+      @user.create_headers if @user.update_attributes(user_params)
+      redirect = fields_path
+    end
     
     respond_to do |format|
-      if @user.errors.any?
+      if @user.errors.empty?
+        format.html { redirect_to redirect, notice: 'Contact was successfully created.' }
+        format.json { render action: 'show', status: :created, location: @contact }
+      else
         format.html { render action: 'new' }
         format.json { render json: @user.errors, status: :unprocessable_entity }
-      else
-        format.html { redirect_to fields_path, notice: 'Contact was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @contact }
       end
     end
   end
@@ -110,6 +119,6 @@ class ContactsController < ApplicationController
     end
     
     def user_params
-      params.require(:user).permit(:file, :blob, :overwrite, :step)
+      params.require(:user).permit(:file, :blob, :overwrite)
     end
 end

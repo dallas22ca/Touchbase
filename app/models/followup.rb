@@ -1,7 +1,7 @@
 class Followup < ActiveRecord::Base
   serialize :criteria, Array
   
-  has_many :tasks
+  has_many :tasks, dependent: :destroy
   
   belongs_to :user
   belongs_to :field
@@ -9,40 +9,52 @@ class Followup < ActiveRecord::Base
   validates_presence_of :user_id, :description
   
   before_save :add_name_to_description, unless: Proc.new { |f| f.description.match(/\{\{name\}\}/) }
+  after_save :create_tasks
   
   def add_name_to_description
     self.description = "#{self.description} to {{name}}"
   end
   
-  def generate_tasks(time = Time.now)
+  def create_tasks(time = Time.now)
+    o_was = offset_was
+    o_was = offset if o_was.nil?
+    
     if field
-      if offset < 0
+      if remind_before?
         start = time
-        finish = start - offset
+        finish = start - o_was.seconds
         filters = [[field.permalink, "recurring", nil, { start: start, finish: finish }]]
-        remind_at = finish
-      else
+      elsif remind_after?
         start = time
-        finish = time - offset - 1.year
+        finish = time - o_was.seconds - 1.year
         filters = [[field.permalink, "recurring", nil, { start: finish.beginning_of_year, finish: finish }]]
-        remind_at = start
+      elsif remind_on?
+        start = time
+        filters = [[field.permalink, "recurring", nil, { start: time, finish: time }]]
       end
         
       user.contacts.filter(filters).find_each do |contact|
         start = contact.data[field.permalink].to_datetime
-        finish = contact.data[field.permalink].to_datetime - offset
-        contact_tasks = tasks.where(contact_id: contact.id, date: start..finish)
-      
-        if contact_tasks.any?
-          task = contact_tasks.first
-        else
-          task = tasks.new(contact_id: contact.id, date: remind_at)
-        end
-      
+        finish = start - offset
+        remind_at = Chronic.parse (start + offset.to_i.seconds).strftime("%B %d, #{time.year}")
+        task = tasks.where(contact_id: contact.id, date: start..finish).first_or_initialize
+        task.date = remind_at
         task.content = description.gsub("{{name}}", contact.name)
         task.save!
       end
     else
     end
+  end
+  
+  def remind_before?
+    offset < 0
+  end
+  
+  def remind_on?
+    offset == 0
+  end
+  
+  def remind_after?
+    offset > 0
   end
 end
