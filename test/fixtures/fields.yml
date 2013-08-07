@@ -1,0 +1,5 @@
+birthday:
+  user: joe
+  title: Birthday
+  permalink: birthday
+  data_type: datetime

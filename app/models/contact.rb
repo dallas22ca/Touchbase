@@ -1,6 +1,8 @@
 class Contact < ActiveRecord::Base
   belongs_to :user, counter_cache: true
   
+  has_many :tasks
+  
   attr_accessor :overwrite, :warnings, :use_pending, :ignore_formatting
   
   validates_presence_of :user_id
@@ -25,7 +27,12 @@ class Contact < ActiveRecord::Base
   end
   
   def not_duplicate_data
-    if !self.warnings.blank? && data == pending_data
+    d = data
+    p = pending_data
+    d ||= {}
+    p ||= {}
+    
+    if !self.warnings.blank? && d == d.merge(p)
       self.errors.add :base, "#{name} is a duplicate. This data has been ignored."
     end
   end
@@ -107,7 +114,12 @@ class Contact < ActiveRecord::Base
     end
       
     if queries.any?
-      where(queries.join(" and ")).order("#{order} #{direction}")
+      if requirements.size == 4 && requirements.first.last.has_key?(:matcher)
+        matcher = requirements.first.last[:matcher]
+        where(queries.join(" #{matcher} ")).order("#{order} #{direction}")
+      else
+        where(queries.join(" and ")).order("#{order} #{direction}")
+      end
     else
       order("#{order} #{direction}")
     end

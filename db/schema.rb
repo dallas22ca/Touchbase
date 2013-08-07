@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130806100046) do
+ActiveRecord::Schema.define(version: 20130807121937) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,35 @@ ActiveRecord::Schema.define(version: 20130806100046) do
   end
 
   add_index "fields", ["user_id"], name: "index_fields_on_user_id", using: :btree
+
+  create_table "followups", force: true do |t|
+    t.integer  "user_id"
+    t.text     "criteria"
+    t.text     "description"
+    t.integer  "field_id"
+    t.datetime "starting_at"
+    t.integer  "offset",      default: 0
+    t.integer  "recurrence",  default: 0
+    t.boolean  "recurring",   default: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "followups", ["field_id"], name: "index_followups_on_field_id", using: :btree
+  add_index "followups", ["user_id"], name: "index_followups_on_user_id", using: :btree
+
+  create_table "tasks", force: true do |t|
+    t.integer  "followup_id"
+    t.integer  "contact_id"
+    t.datetime "date"
+    t.text     "content"
+    t.boolean  "complete",    default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tasks", ["contact_id"], name: "index_tasks_on_contact_id", using: :btree
+  add_index "tasks", ["followup_id"], name: "index_tasks_on_followup_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "",  null: false

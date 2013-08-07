@@ -23,6 +23,7 @@
   <hr />
   
   <%= f.hidden_field :overwrite, value: false %>
+  <%= f.hidden_field :step, value: 2 if current_user.step == 1 %>
   
   <%= f.submit "Add Contacts" %>
 

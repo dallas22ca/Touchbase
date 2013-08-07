@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @followup.user %>
+</p>
+
+<p>
+  <strong>Criteria:</strong>
+  <%= @followup.criteria %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @followup.description %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @followup.date %>
+</p>
+
+<p>
+  <strong>Date offset:</strong>
+  <%= @followup.date_offset %>
+</p>
+
+<p>
+  <strong>Recurring:</strong>
+  <%= @followup.recurring %>
+</p>
+
+<%= link_to 'Edit', edit_followup_path(@followup) %> |
+<%= link_to 'Back', followups_path %>

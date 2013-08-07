@@ -5,6 +5,8 @@ describe Importer do
   
   before :each do
     ImportWorker.jobs.clear
+    Contact.destroy_all
+    Field.destroy_all
   end
   
   it "can import contacts with headers" do

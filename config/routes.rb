@@ -2,6 +2,10 @@ require "sidekiq/web"
 
 Touchbase::Application.routes.draw do
   
+  resources :tasks
+
+  resources :followups
+
   devise_for :users
   
   authenticated :user do

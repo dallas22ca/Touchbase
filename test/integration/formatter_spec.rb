@@ -3,6 +3,10 @@ require_relative "../test_helper"
 describe Formatter do
   fixtures :all
   
+  before :each do
+    Contact.destroy_all
+  end
+  
   it "detects string fields" do
     Formatter.detect("Name", "Dallas Read")[:data_type].should == "string"
     Formatter.detect("Email", "dallasgood@gmail.com")[:data_type].should == "string"

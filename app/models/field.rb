@@ -1,4 +1,5 @@
 class Field < ActiveRecord::Base
+  has_many :followups
   belongs_to :user
   
   before_validation :set_permalink, :set_data_type

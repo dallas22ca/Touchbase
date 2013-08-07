@@ -9,6 +9,7 @@ describe Contact do
   end
   
   it "should be unique" do
+    Contact.destroy_all
     joe = users(:joe)
 
     2.times do

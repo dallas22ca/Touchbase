@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
      
   has_many :contacts
   has_many :fields
+  has_many :followups
+  has_many :tasks, through: :followups
   
   accepts_nested_attributes_for :fields, allow_destroy: true, reject_if: Proc.new { |f| f[:title].blank? }
   
@@ -18,7 +20,6 @@ class User < ActiveRecord::Base
     file.instance.id
   end
 
-  before_validation :set_step
   # validate :requires_import, unless: Proc.new { |u| u.new_record? || u.has_pending_import? }
   after_save :sidekiq_blob_import, if: Proc.new { |u| u.upload && !u.blob.blank? }
   after_save :sidekiq_file_import, if: Proc.new { |u| u.upload && u.file.exists? }
@@ -26,19 +27,6 @@ class User < ActiveRecord::Base
   def requires_import
     if step == 1
       self.errors.add :base, "You must upload contacts to use the system."
-    end
-  end
-  
-  def set_step
-    self.overwrite ||= false
-    if !has_pending_import? && contacts.empty?
-      self.step = 1
-    elsif fields.empty?
-      self.step = 2
-    elsif true # NO FOLLOWUPS
-      self.step = 3
-    else
-      self.step = 4
     end
   end
   
@@ -94,37 +82,65 @@ class User < ActiveRecord::Base
     file.exists? || !blob.blank?
   end
   
-  def create_headers
-    headers = []
+  def import_blob_headers
+    h = []
     
     if has_pending_import?
       unless blob.blank?
+        
         i = Importer.new(id, "blob")
         
         if i.headers
-          i.headers.map { |h| headers.push h }
+          h = i.headers
           i.create_headers
         end
         
         i.delete_file
       end
-      
+    end
+    
+    h
+  end
+  
+  def import_file_headers
+    h = []
+    
+    if has_pending_import?
       if file.exists?
         i = Importer.new(id, "file")
         
         if i.headers
-          i.headers.map { |h| headers.push h } 
+          h = i.headers
           i.create_headers
         end
       end
-      
-      if headers.empty?
-        self.file.clear
-        self.save
-        self.errors.add :base, "Please upload a file with a header so we know how to read your data!"
-      end
+    end
+    
+    h
+  end
+  
+  def create_headers
+    headers = import_blob_headers + import_file_headers
+    
+    if headers.empty?
+      self.file.clear
+      self.save
+      self.errors.add :base, "Please upload a file with a header so we know how to read your data!"
     else
       false
     end
+  end
+  
+  def tasks_for(start, finish = nil)
+    unless finish
+      start = start.beginning_of_day
+      finish = start.end_of_day
+    end
+    
+    tasks.where("(tasks.date BETWEEN :start and :finish) or (tasks.date <= :start and tasks.complete = :complete)", 
+      start: start, 
+      finish: finish,
+      complete: false
+    )
   end
 end

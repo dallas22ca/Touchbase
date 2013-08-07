@@ -25,7 +25,7 @@ private
   end
   
   def user_params
-    params.require(:user).permit(:upload, fields_attributes: [:id, :title, :permalink, :data_type, :_destroy])
+    params.require(:user).permit(:upload, :step, fields_attributes: [:id, :title, :permalink, :data_type, :_destroy])
   end
   
 end
