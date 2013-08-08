@@ -9,6 +9,12 @@ h1 {
   text-align: center;
 }
 
+#nav_placeholder {
+  width: 100%;
+  font-size: 13px;
+  padding: 15px 0px;
+}
+
 #nav {
   float: left;
   position: fixed;
@@ -90,7 +96,7 @@ input[type="text"], input[type="email"], input[type="password"], select {
 .container {
   width: 100%;
   max-width: 640px;
-  margin: 100px auto 50px auto;
+  margin: 50px auto 50px auto;
   padding: 20px;
   box-sizing: border-box;
   background: #fff;

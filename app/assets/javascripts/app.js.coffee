@@ -12,4 +12,4 @@ $ ->
   load()
 
 document.addEventListener "page:fetch", unload
-document.addEventListener "page:load", load
+document.addEventListener "page:change", load
