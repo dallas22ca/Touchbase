@@ -8,7 +8,7 @@ describe Followup do
     Task.destroy_all
   end
   
-  it "ALL FOLLOWUP TESTS SHOULD FAIL IN JANUARY" do
+  it "ALL TEST FIXTURES SHOULD FAIL IN JANUARY" do
     Time.now.month.should_not == 1
   end
   
@@ -21,7 +21,7 @@ describe Followup do
     followup.description.should include("{{name}}")
   end
   
-  it "generates tasks with a field" do
+  it "create tasks with a field" do
     joe = users(:joe)
     followup = followups(:two_weeks_before_birthday)
     followup.create_tasks
@@ -30,21 +30,21 @@ describe Followup do
     followup.tasks.first.content.should include(contacts(:birthday_in_a_week).name)
   end
   
-  it "doens't generate duplicate tasks" do
+  it "doens't create duplicate tasks" do
     followup = followups(:two_weeks_before_birthday)
     2.times { followup.create_tasks }
     followup.create_tasks(3.days.from_now)
     followup.tasks.count.should == 1
   end
   
-  it "generates tasks with a field" do
+  it "creates tasks with a field" do
     joe = users(:joe)
     followup = followups(:two_weeks_after_birthday)
     followup.create_tasks
-    followup.tasks.count.should == 2
-    joe.tasks.count.should == 2
-    followup.tasks.first.content.should include(contacts(:birthday_5_weeks_ago).name)
-    followup.tasks.first.content.should include(contacts(:birthday_5_weeks_ago).data["birthday"].to_datetime.strftime("%B %d"))
+    followup.tasks.count.should == 1
+    joe.tasks.count.should == 1
+    followup.tasks.first.content.should include(contacts(:birthday_a_week_ago).name)
+    followup.tasks.first.content.should include(contacts(:birthday_a_week_ago).data["birthday"].to_datetime.strftime("%B %d"))
   end
   
   it "returns users tasks for today" do
