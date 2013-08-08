@@ -15,7 +15,7 @@ class ImportWorker
       field.update_contacts if field
     elsif src == "followup"
       followup = Followup.find(id)
-      followup.create_tasks(Time.now, nil, overwrite) if followup
+      followup.create_tasks(Time.now, nil, true, true) if followup
     end
   end
 end

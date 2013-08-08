@@ -5,11 +5,11 @@ class TasksController < ApplicationController
   # GET /tasks.json
   def index
     start = Chronic.parse(params[:start]) if params[:start]
-    start ||= Time.zone.now
+    start ||= Time.zone.now.beginning_of_day
     finish = Chronic.parse(params[:finish])
     finish ? @date = "#{start.strftime("%B %d, %Y")} - #{finish.strftime("%B %d, %Y")}" : @date = start.strftime("%B %d, %Y")
+    current_user.followups.map { |f| f.create_tasks(start) } if start >= Time.zone.now.beginning_of_day
     
-    current_user.followups.map { |f| f.create_tasks(start) }
     @tasks = current_user.tasks_for(start, finish).order(:date)
   end
 
