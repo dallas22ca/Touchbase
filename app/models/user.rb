@@ -143,6 +143,7 @@ class User < ActiveRecord::Base
     
     if headers.empty?
       self.import_progress = 100
+      self.blob = nil
       self.file.clear
       self.save
       self.errors.add :base, "Please upload a file with a header so we know how to read your data!"

@@ -170,6 +170,8 @@ GEM
       json
       redis (>= 3.0)
       redis-namespace
+    sidekiq-failures (0.2.1)
+      sidekiq (>= 2.2.1)
     sinatra (1.4.3)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -234,6 +236,7 @@ DEPENDENCIES
   sass-rails (~> 4.0.0)
   sdoc
   sidekiq
+  sidekiq-failures
   sinatra
   slim
   turbolinks

@@ -1,3 +1,4 @@
+<div id="nav_placeholder">&nbsp;</div>
 <ol id="nav">
   <% if current_user.step >= 4 %>
     <li><%= link_to "Dashboard", page_path("welcome"), class: "#{"selected" if request.path == page_path("welcome")}" %></li>

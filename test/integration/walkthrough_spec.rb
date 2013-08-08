@@ -17,13 +17,17 @@ describe User do
     attach_file :user_file, path
     click_button "Add Contacts"
     joe.contacts.count.should == 0
-    page.should have_content "Fields" # Fields#index
+    
+    page.current_path.should == fields_path
     click_button "Save Fields and Continue to Upload File"
+    page.body.should include "Followups"
     joe.contacts.count.should == 0
+    
     ImportWorker.drain
     joe.contacts.count.should == 4
+    
     visit contacts_path
-    page.should have_content joe.contacts.first.name
+    page.body.should include joe.contacts.first.name
   end
   
   it "can't upload a nonheader file" do
@@ -35,7 +39,10 @@ describe User do
     attach_file :user_file, path
     click_button "Add Contacts"
     joe.contacts.count.should == 0
-    page.should have_content "header"
+    page.body.should include "header"
+    
+    visit fields_path
+    page.body.should include "Welcome"
   end
   
   it "can input text with header" do
@@ -47,13 +54,16 @@ describe User do
     fill_in :user_blob, with: text
     click_button "Add Contacts"
     joe.contacts.count.should == 0
-    page.should have_content "Fields"
+    
+    page.body.should include "Fields"
     click_button "Save Fields and Continue to Upload File"
     joe.contacts.count.should == 0
+    
     ImportWorker.drain
     joe.contacts.count.should == 1
+    
     visit contacts_path
-    page.should have_content joe.contacts.first.name
+    page.body.should include joe.contacts.first.name
   end
   
   it "can't input nonheader text" do
@@ -65,6 +75,18 @@ describe User do
     fill_in :user_blob, with: text
     click_button "Add Contacts"
     joe.contacts.count.should == 0
-    page.should have_content "header"
+    page.body.should include "header"
+    page.body.should_not include "delete it"
+  end
+  
+  it "can't input no contacts" do
+    joe = users(:joe)
+    text = "Dallas Read, dallas@touchbasenow.com, Futbol"
+    
+    login_as joe
+    visit new_contact_path
+    click_button "Add Contacts"
+    joe.contacts.count.should == 0
+    page.body.should include "header"
   end
 end

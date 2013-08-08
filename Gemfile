@@ -16,9 +16,10 @@ gem 'roo'
 gem 'chronic'
 gem 'paperclip', '3.4.2'
 
-gem 'slim'
-gem 'sinatra'
 gem 'sidekiq'
+gem 'sidekiq-failures'
+gem 'sinatra', require: false
+gem 'slim'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
