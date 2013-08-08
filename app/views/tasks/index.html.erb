@@ -1,6 +1,9 @@
 <h1>Tasks</h1>
 
-<h2><%= @date %></h2>
+<%= link_to "&larr; Back".html_safe, tasks_path(start: (@start - 1.day).strftime("%m-%d-%y")), class: "left" %>
+<%= link_to "Next &rarr;".html_safe, tasks_path(start: (@finish + 1.day).strftime("%m-%d-%y")), class: "right" %>
+
+<h2 style="text-align: center;"><%= @date %></h2>
 
 <ul>
   <%= render @tasks %>
