@@ -2,6 +2,7 @@ class Contact < ActiveRecord::Base
   belongs_to :user, counter_cache: true
   
   has_many :tasks
+  has_many :followups, through: :tasks
   
   attr_accessor :overwrite, :warnings, :use_pending, :ignore_formatting
   
