@@ -1,28 +1,24 @@
 <%= render "sidebar" %>
 
-<div id="contacts_wrapper">
-  
-  <%= render "has_pending" if @pending.any? %>
-  <%= render "is_importing" if current_user.has_pending_import? && current_user.import_progress != 100 %>
+<%= render "has_pending" if @pending.any? %>
+<%= render "is_importing" if current_user.has_pending_import? && current_user.import_progress != 100 %>
 
-  <%= link_to "Add Contact", new_contact_path %>
+<%= link_to "Add Contact", new_contact_path %>
 
-  <table id="contacts" data-order="name" data-direction="asc" data-data_type="string">
-    <thead>
-      <tr>
-        <th class="name" data-permalink="name" data-data_type="string">Name</th>
-        <% @fields.each do |field| %>
-          <th data-permalink="<%= field.permalink %>" data-data_type="<%= field.data_type %>"><%= field.title %></th>
-        <% end %>
-        <th></th>
-        <th></th>
-        <th></th>
-      </tr>
-    </thead>
+<table id="contacts" data-order="name" data-direction="asc" data-data_type="string">
+  <thead>
+    <tr>
+      <th class="name" data-permalink="name" data-data_type="string">Name</th>
+      <% @fields.each do |field| %>
+        <th data-permalink="<%= field.permalink %>" data-data_type="<%= field.data_type %>"><%= field.title %></th>
+      <% end %>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
 
-    <tbody>
-      <%= render @contacts %>
-    </tbody>
-  </table>
-
-</div>
+  <tbody>
+    <%= render @contacts %>
+  </tbody>
+</table>

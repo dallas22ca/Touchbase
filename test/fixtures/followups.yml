@@ -1,11 +1,11 @@
 two_weeks_before_birthday:
   user: joe
-  description: Send a birthday card to {{name}} ({{date}})
+  description: Send a birthday card to {{name}} ({{birthday}})
   field: birthday
   offset: <%= 2.weeks * -1 %>
   
 two_weeks_after_birthday:
   user: joe
-  description: Ask {{name}} if they received their birthday card ({{date}})
+  description: Ask {{name}} if they received their birthday card ({{birthday}})
   field: birthday
   offset: <%= 2.weeks * 1 %>

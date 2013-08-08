@@ -27,22 +27,27 @@ class Followup < ActiveRecord::Base
     ImportWorker.perform_async id, "followup", offset_was
   end
   
-  def create_tasks(start = Time.now, offset_was = nil)
+  def create_tasks(start = Time.now, finish = nil, offset_was = nil)
     o_was = offset_was
     o_was = offset if o_was.nil?
     
     if field
-      if remind_before?
-        finish = start - o_was.seconds
-        filters = [[field.permalink, "recurring", nil, { start: start, finish: finish }]]
-      elsif remind_after?
-        finish = start - o_was.seconds - 1.year
-        filters = [[field.permalink, "recurring", nil, { start: finish.beginning_of_year, finish: finish }]]
-      elsif remind_on?
-        filters = [[field.permalink, "recurring", nil, { start: start, finish: start.end_of_day }]]
+      if finish.nil?
+        if remind_before?
+          finish = start - o_was.seconds
+        elsif remind_after?
+          finish = start - o_was.seconds - 1.year
+          start = finish.beginning_of_year
+        elsif remind_on?
+          finish = start.end_of_day
+        end
       end
       
-      filters = [] if offset_changed?
+      if offset_changed?
+        filters = []
+      else
+        filters = [[field.permalink, "recurring", nil, { start: start, finish: finish }]]
+      end
         
       user.contacts.filter(filters).find_each do |contact|
         contact_start = contact_finish = actual_date = contact.data[field.permalink].to_datetime.beginning_of_day
@@ -52,8 +57,17 @@ class Followup < ActiveRecord::Base
         task = tasks.where(contact_id: contact.id, complete: false).first_or_initialize
         
         if contact_start.strftime("#{start.strftime("%y")}%m%d").to_i > start.strftime("%y%m%d").to_i || contact_start.strftime("#{start.strftime("%y")}%m%d").to_i > finish.strftime("%y%m%d").to_i
+          desc = description.gsub("{{name}}", contact.name)
+          
+          user.fields.each do |field|
+            sub = contact.data[field.permalink]
+            sub = sub.to_datetime.strftime("%B %d") if field.data_type == "datetime"
+            desc = desc.gsub("{{#{field.permalink}}}", sub)
+            desc = desc.gsub(/\{\{(.*?)\}\}/, "")
+          end
+          
           task.date = remind_at
-          task.content = description.gsub("{{name}}", contact.name).gsub("{{date}}", actual_date.strftime("%B %d"))
+          task.content = desc
           task.save!
         else
           task.destroy

@@ -1,6 +1,10 @@
 $(document).on "click", ".disabled", ->
   false
 
+$(document).on "click", "#nav a", ->
+  $("#nav .selected").removeClass "selected"
+  $(this).addClass "selected"
+
 unload = ->
   $("#loading").show()
 
