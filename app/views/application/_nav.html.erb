@@ -1,23 +1,18 @@
 <ol id="nav">
-  <% if current_user.step > 4 %>
-    <li><%= link_to "Dashboard", page_path("welcome"), class: "#{"selected" if request.path == page_path("welcome")} #{"disabled" if current_user.step > 4}" %></li>
+  <% if current_user.step >= 4 %>
+    <li><%= link_to "Dashboard", page_path("welcome"), class: "#{"selected" if request.path == page_path("welcome")}" %></li>
+    <li><%= link_to "Contacts", contacts_path, class: "#{"selected" if request.path.include? contacts_path}" %></li>
+    <li><%= link_to "Fields", fields_path, class: "#{"selected" if request.path == fields_path}" %></li>
+    <li><%= link_to "Followups", followups_path, class: "#{"selected" if request.path.include? followups_path}" %></li>
+    <li><%= link_to "Today's Tasks", tasks_path, class: "#{"selected" if request.path.include? tasks_path}" %></li>
   <% else %>
-    <li><%= link_to "#{"1. " if current_user.step < 4}Welcome", page_path("welcome"), class: "#{"selected" if request.path == page_path("welcome")} #{"disabled" if current_user.step > 4}" %></li>
+    <li><%= link_to "1. Welcome", page_path("welcome"), class: "#{"selected" if request.path == page_path("welcome")}" %></li>
+    <li><%= link_to "2. Add Contacts", new_contact_path, class: "#{"selected" if request.path.include? contacts_path} #{"disabled" if current_user.step < 1}" %></li>
+    <li><%= link_to "3. Set Fields", fields_path, class: "#{"selected" if request.path == fields_path} #{"disabled" if current_user.step < 2 || current_user.fields.empty?}" %></li>
+    <li><%= link_to "4. Setup Followups", followups_path, class: "#{"selected" if request.path.include? followups_path} #{"disabled" if current_user.step < 3}" %></li>
+    <li><%= link_to "5. Today's Tasks", tasks_path, class: "#{"selected" if request.path.include? tasks_path} #{"disabled" if current_user.step < 4}" %></li>
   <% end %>
   
-  <li>
-    <%= link_to "#{"2. " if current_user.step < 4}Add Contacts", new_contact_path, class: "#{"selected" if request.path.include? contacts_path} #{"disabled" if current_user.step < 1 || current_user.has_pending_import?}" %>
-    
-    <% if current_user.has_pending_import? && [0, 100].include?(current_user.import_progress) %>
-      <p class="submenu" style="position: absolute; ">
-        You have a pending upload.
-        <%= link_to "Delete it", contacts_path(delete_pending: true), method: :post %>
-      </p>
-    <% end %>
-  </li>
-  <li><%= link_to "#{"3. " if current_user.step < 4}Set Fields", fields_path, class: "#{"selected" if request.path == fields_path} #{"disabled" if current_user.step < 2}" %></li>
-  <li><%= link_to "#{"4. " if current_user.step < 4}Setup Followups", followups_path, class: "#{"selected" if request.path.include? followups_path} #{"disabled" if current_user.step < 3}" %></li>
-  <li><%= link_to "#{"5. " if current_user.step < 4}Today's Tasks", tasks_path, class: "#{"selected" if request.path.include? tasks_path} #{"disabled" if current_user.step < 4}" %></li>
   <li class="right"><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
   <li class="right"><%= link_to "My Profile", edit_user_registration_path, class: "#{"selected" if request.path.include? "users"}" %></li>
 </ol>

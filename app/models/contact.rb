@@ -15,6 +15,7 @@ class Contact < ActiveRecord::Base
   before_validation :set_defaults
   validate :not_duplicate_data
   before_save :format_data, unless: Proc.new { |c| c.ignore_formatting }
+  after_save :create_followup_tasks, if: Proc.new { |c| [0, 100].include?(c.user.import_progress) }
     
   def set_defaults
     self.pending_data = nil if self.overwrite
@@ -114,15 +115,14 @@ class Contact < ActiveRecord::Base
     end
       
     if queries.any?
-      if requirements.size == 4 && requirements.first.last.has_key?(:matcher)
-        matcher = requirements.first.last[:matcher]
-        where(queries.join(" #{matcher} ")).order("#{order} #{direction}")
-      else
-        where(queries.join(" and ")).order("#{order} #{direction}")
-      end
+      where(queries.join(" and ")).order("#{order} #{direction}")
     else
       order("#{order} #{direction}")
     end
+  end
+  
+  def create_followup_tasks
+    user.followups.map { |f| f.sidekiq_create_tasks }
   end
   
   def overwrite?

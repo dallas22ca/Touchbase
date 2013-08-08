@@ -30,9 +30,9 @@ class Formatter
   def self.format(data_type, content)
     if data_type == "boolean"
       if ["true", "1", "t", "y", "yes"].include? content.to_s
-        content = true
+        content = true.to_s
       else
-        content = false
+        content = false.to_s
       end
     elsif data_type == "datetime"
       if content.class == ActiveSupport::TimeWithZone || content.class == Time
@@ -46,6 +46,6 @@ class Formatter
       content = content.to_s
     end
     
-    content.to_s
+    content
   end
 end

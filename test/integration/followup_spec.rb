@@ -4,6 +4,7 @@ describe Followup do
   fixtures :all
   
   before :each do
+    ImportWorker.jobs.clear
     Task.destroy_all
   end
   
@@ -43,6 +44,7 @@ describe Followup do
     followup.tasks.count.should == 2
     joe.tasks.count.should == 2
     followup.tasks.first.content.should include(contacts(:birthday_5_weeks_ago).name)
+    followup.tasks.first.content.should include(contacts(:birthday_5_weeks_ago).data["birthday"].to_datetime.strftime("%B %d"))
   end
   
   it "returns users tasks for today" do
@@ -64,9 +66,12 @@ describe Followup do
     joe = users(:joe)
     followup = followups(:two_weeks_before_birthday)
     followup.create_tasks
+    joe.tasks_for(Time.now).count.should == 1
     followup.update_attributes! offset: 3.days * -1, description: "Give {{name}} a handshake"
-    joe.tasks_for(Time.now).count.should == 3
+    ImportWorker.drain
     joe.tasks.first.content.should include("handshake")
+    joe.tasks_for(Time.now).count.should == 0
+    joe.tasks_for(4.days.from_now).count.should == 1
   end
   
   it "removes any future tasks if field is deleted" do
@@ -76,5 +81,15 @@ describe Followup do
     Task.count.should == 1
     followup.destroy!
     Task.count.should == 0
+  end
+  
+  it "adds tasks to new contacts" do
+    joe = users(:joe)
+    followup = followups(:two_weeks_before_birthday)
+    followup.create_tasks
+    followup.tasks.count.should == 1
+    contact = joe.save_contact name: Faker::Name.name, data: { birthday: 1.week.from_now - 55.years }
+    ImportWorker.drain
+    followup.tasks.count.should == 2
   end
 end
