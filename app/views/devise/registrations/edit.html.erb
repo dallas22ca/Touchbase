@@ -5,6 +5,9 @@
 
   <div><%= f.label :email %><br />
   <%= f.email_field :email, :autofocus => true %></div>
+  
+  <div><%= f.label :time_zone %><br />
+  <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone.all.map { |t| [t, t.tzinfo.name] }, resource.time_zone), default: "Atlantic Time (US & Canada)" %></div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>

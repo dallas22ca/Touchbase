@@ -1,10 +1,20 @@
 class ApplicationController < ActionController::Base
   layout :choose_layout
+  before_filter :configure_permitted_parameters, if: :devise_controller?
   before_filter :authenticate_user!, unless: :public?
   before_filter :check_step, if: :user_signed_in?
+  before_filter :set_timezone
   protect_from_forgery with: :exception
   
-private
+protected
+
+  def set_timezone
+    if user_signed_in?
+      Time.zone = current_user.time_zone
+    else
+      Time.zone = "Atlantic Time (Canada)"
+    end
+  end
 
   def check_step
     current_user.reload
@@ -42,6 +52,11 @@ private
     else
       "application"
     end
+  end
+  
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:name, :email, :password) }
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:name, :email, :password, :time_zone) }
   end
 
 end
