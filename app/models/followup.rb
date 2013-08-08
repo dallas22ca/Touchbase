@@ -27,7 +27,7 @@ class Followup < ActiveRecord::Base
     ImportWorker.perform_async id, "followup"
   end
   
-  def create_tasks(start = Time.now, finish = nil, search_all_tasks = false, delete_old_tasks = false)
+  def create_tasks(start = Time.now, finish = nil, search_all_contacts = false, delete_old_tasks = false)
     if field
       if finish.nil?
         if remind_before?
@@ -40,33 +40,37 @@ class Followup < ActiveRecord::Base
         end
       end
       
-      if search_all_tasks || offset_changed?
+      if search_all_contacts || offset_changed?
         filters = []
       else
         filters = [[field.permalink, "recurring", nil, { start: start, finish: finish }]]
       end
         
       user.contacts.filter(filters).find_each do |contact|
-        contact_start = contact_finish = actual_date = contact.data[field.permalink].to_datetime.beginning_of_day
-        o = (contact_start - offset.seconds).beginning_of_day
-        o > contact_start ? contact_finish = o : contact_start = o
-        remind_at = Chronic.parse ((actual_date + offset.seconds).beginning_of_day).strftime("%B %d, #{start.year}")
-        task = tasks.where(contact_id: contact.id, complete: false).first_or_initialize
+        actual_data = contact.data[field.permalink]
         
-        if !delete_old_tasks || contact_start.strftime("#{start.strftime("%y")}%m%d").to_i > start.strftime("%y%m%d").to_i || contact_start.strftime("#{start.strftime("%y")}%m%d").to_i > finish.strftime("%y%m%d").to_i
-          desc = description.gsub("{{name}}", contact.name)
+        unless actual_data.blank?
+          contact_start = contact_finish = actual_date = actual_data.to_datetime
+          o = contact_start - offset.seconds
+          o > contact_start ? contact_finish = o.end_of_day : contact_start = o.beginning_of_day
+          remind_at = Chronic.parse ((actual_date + offset.seconds).beginning_of_day).strftime("%B %d, #{start.year}")
+          task = tasks.where(contact_id: contact.id, complete: false).first_or_initialize
+        
+          if !delete_old_tasks || contact_start.strftime("#{start.strftime("%y")}%m%d").to_i > start.strftime("%y%m%d").to_i || contact_start.strftime("#{start.strftime("%y")}%m%d").to_i > finish.strftime("%y%m%d").to_i
+            desc = description.gsub("{{name}}", contact.name)
           
-          user.fields.each do |field|
-            sub = contact.data[field.permalink]
-            sub = sub.to_datetime.strftime("%B %d") if field.data_type == "datetime"
-            desc = desc.gsub(/\{\{#{field.permalink}\}\}/, sub)
+            user.fields.each do |field|
+              sub = contact.data[field.permalink]
+              sub = sub.to_datetime.strftime("%B %d") if field.data_type == "datetime"
+              desc = desc.gsub(/\{\{#{field.permalink}\}\}/, sub)
+            end
+          
+            task.date = remind_at
+            task.content = desc
+            task.save!
+          else
+            task.destroy
           end
-          
-          task.date = remind_at
-          task.content = desc
-          task.save!
-        else
-          task.destroy
         end
       end
     else
