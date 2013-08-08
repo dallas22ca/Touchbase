@@ -10,17 +10,11 @@
   
   <%= render "nav" %>
   
+  <div id="loading"></div>
   
-  
-  <% if !@no_container %>
-    <div class="container">
-  <% end %>
-    
+  <div class="container">
     <%= yield %>
-  
-  <% if !@no_container %>
-    </div>
-  <% end %>
+  </div>
 
 </body>
 </html>

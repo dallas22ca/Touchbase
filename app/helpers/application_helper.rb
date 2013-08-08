@@ -10,7 +10,9 @@ module ApplicationHelper
   
   def suggested_fields
     [
-      [ "Rating"                    ,  "rating"                   ,  "integer"     ],
+      [ "Anniversary"               ,  "anniversary"              ,  "datetime"   ],
+      [ "Birthday"                  ,  "birthday"                 ,  "datetime"   ],
+      [ "Rating"                    ,  "rating"                   ,  "integer"    ],
       [ "Hobbies"                   ,  "hobbies"                  ,  "string"     ],
       [ "Favorite Magazine"         ,  "favorite-magazine"        ,  "string"     ],
       [ "Favourite Movie"           ,  "favourite-movie"          ,  "string"     ],
@@ -29,7 +31,6 @@ module ApplicationHelper
       [ "Recent Vacation"           ,  "recent-vacation"          ,  "string"     ],
       [ "Personal Development"      ,  "personal-development"     ,  "string"     ],
       [ "Hometown"                  ,  "hometown"                 ,  "string"     ],
-      [ "Birthday"                  ,  "birthday"                 ,  "datetime"   ],
       [ "Address"                   ,  "address"                  ,  "string"     ],
       [ "Marital Status"            ,  "marital-status"           ,  "string"     ],
       [ "Partner Name"              ,  "partner-name"             ,  "string"     ],

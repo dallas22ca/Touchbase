@@ -30,9 +30,9 @@ class User < ActiveRecord::Base
       self.step = 1
     elsif has_pending_import? && contacts.empty? && import_progress == 100 && fields.empty?
       self.step = 2
-    elsif followups.empty?
+    elsif fields.any? && upload && self.step < 3
       self.step = 3
-    elsif tasks.empty?
+    elsif tasks.empty? && self.step < 4
       self.step = 4
     else
       self.step = 5
@@ -59,6 +59,7 @@ class User < ActiveRecord::Base
       self.blob = nil
       self.import_progress = 100
       self.save
+      self.followups.map { |f| f.sidekiq_create_tasks }
       i.delete_file
     end
   end
@@ -71,6 +72,7 @@ class User < ActiveRecord::Base
       self.file.clear
       self.import_progress = 100
       self.save
+      self.followups.map { |f| f.sidekiq_create_tasks }
     end
   end
   
@@ -89,6 +91,14 @@ class User < ActiveRecord::Base
   
   def has_pending_import?
     file.present? || !blob.blank?
+  end
+  
+  def has_valid_pending_import?
+    (file.present? || !blob.blank?) && fields.any?
+  end
+  
+  def has_deletable_pending_import?
+    has_valid_pending_import? && [0, 100].include?(import_progress)
   end
   
   def import_blob_headers
@@ -132,11 +142,13 @@ class User < ActiveRecord::Base
     headers = import_blob_headers + import_file_headers
     
     if headers.empty?
+      self.import_progress = 100
       self.file.clear
       self.save
       self.errors.add :base, "Please upload a file with a header so we know how to read your data!"
-    else
       false
+    else
+      headers
     end
   end
   
