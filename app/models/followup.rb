@@ -27,7 +27,7 @@ class Followup < ActiveRecord::Base
     ImportWorker.perform_async id, "followup"
   end
   
-  def create_tasks(start = Time.now, finish = nil, search_all_contacts = false, delete_old_tasks = false)
+  def create_tasks(start = Time.now, finish = nil, search_all_contacts = false, update_all = false, create_if_needed = true)
     if field
       if finish.nil?
         if remind_before?
@@ -50,13 +50,16 @@ class Followup < ActiveRecord::Base
         actual_data = contact.data[field.permalink]
         
         unless actual_data.blank?
-          contact_start = contact_finish = actual_date = actual_data.to_datetime
-          o = contact_start - offset.seconds
-          o > contact_start ? contact_finish = o.end_of_day : contact_start = o.beginning_of_day
-          remind_at = Chronic.parse ((actual_date + offset.seconds).beginning_of_day).strftime("%B %d, #{start.year}")
-          task = tasks.where(contact_id: contact.id, complete: false).first_or_initialize
-        
-          if !delete_old_tasks || contact_start.strftime("#{start.strftime("%y")}%m%d").to_i > start.strftime("%y%m%d").to_i || contact_start.strftime("#{start.strftime("%y")}%m%d").to_i > finish.strftime("%y%m%d").to_i
+          actual_date = Chronic.parse(actual_data.to_datetime.strftime("%B %d, #{start.year}")).beginning_of_day
+          remind_at = actual_date + offset.seconds
+          
+          if update_all && !create_if_needed
+            task = tasks.where(contact_id: contact.id, complete: false).first
+          elsif actual_date > start
+            task = tasks.where(contact_id: contact.id, complete: false).first_or_initialize
+          end
+          
+          if task
             desc = description.gsub("{{name}}", contact.name)
           
             user.fields.each do |field|
@@ -68,8 +71,6 @@ class Followup < ActiveRecord::Base
             task.date = remind_at
             task.content = desc
             task.save!
-          else
-            task.destroy
           end
         end
       end
