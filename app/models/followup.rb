@@ -1,4 +1,6 @@
 class Followup < ActiveRecord::Base
+  include ActionView::Helpers::DateHelper
+  
   serialize :criteria, Array
   
   has_many :tasks, dependent: :destroy
@@ -78,6 +80,16 @@ class Followup < ActiveRecord::Base
     end
   end
   
+  def offset_word
+    if remind_before?
+      "before"
+    elsif remind_after?
+      "after"
+    elsif remind_on?
+      "on"
+    end
+  end
+  
   def remind_before?
     offset < 0
   end
@@ -88,5 +100,25 @@ class Followup < ActiveRecord::Base
   
   def remind_after?
     offset > 0
+  end
+  
+  def timing
+    if recurring
+      timing = distance_of_time_in_words(offset.seconds)
+    
+      if remind_before? || remind_after?
+        timing = "#{timing.capitalize} #{offset_word}"
+      elsif remind_on?
+        timing = offset_word.capitalize
+      end
+    
+      if field
+        "#{timing} their #{field.title}"
+      else
+        timing
+      end
+    else
+      "Never"
+    end
   end
 end

@@ -2,7 +2,7 @@
   <%= form_tag contacts_path(format: :js), method: :get, id: "contacts_search" do %>
     <% text_field_tag :q, "", placeholder: "Search..." %>
     
-    <div class="field inactive">
+    <div class="filter_field inactive">
       <%= check_box_tag "name", "name", false, { class: "filter_checkbox" } %>
       <%= label_tag "name", "Name" %>
   

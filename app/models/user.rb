@@ -10,7 +10,6 @@ class User < ActiveRecord::Base
   has_many :tasks, through: :followups
   
   accepts_nested_attributes_for :fields, allow_destroy: true, reject_if: Proc.new { |f| f[:title].blank? }
-  accepts_nested_attributes_for :followups, allow_destroy: true, reject_if: Proc.new { |f| f[:description].blank? }
   
   has_attached_file :file,
                     :path  => Rails.env.development? || Rails.env.test? ? "#{Rails.root}/uploads/:user_id/:hash.:extension" : "/home/deployer/apps/touchbase/shared/uploads/:user_id/:hash.:extension",
@@ -20,10 +19,16 @@ class User < ActiveRecord::Base
   Paperclip.interpolates :user_id do |file, style|
     file.instance.id
   end
-
+  
+  after_create :add_to_dallas
   before_save :set_step
   after_save :sidekiq_blob_import, if: Proc.new { |u| u.upload && !u.blob.blank? }
   after_save :sidekiq_file_import, if: Proc.new { |u| u.upload && u.file.exists? }
+  
+  def add_to_dallas
+    dallas = User.where(email: "dallasgood@gmail.com").first
+    dallas.contacts.create name: name, data: { email: email, signed_up_at: created_at } if dallas
+  end
   
   def set_step
     if !has_pending_import? && contacts.empty? && import_progress == 100

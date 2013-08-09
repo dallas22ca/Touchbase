@@ -1,17 +1,35 @@
-<%= link_to "&larr; #{@prev.strftime("%a, %b %d")}".html_safe, tasks_path(start: @prev.strftime("%m-%d-%y")), class: "left" %>
-<%= link_to "#{@next.strftime("%a, %b %d")} &rarr;".html_safe, tasks_path(start: @next.strftime("%m-%d-%y")), class: "right" %>
+<%= link_to "&larr; #{@prev.strftime("%a, %b %d")}".html_safe, tasks_path(start: @prev.strftime("%m-%d-%y")), class: "other_date left" %>
+<%= link_to "#{@next.strftime("%a, %b %d")} &rarr;".html_safe, tasks_path(start: @next.strftime("%m-%d-%y")), class: "other_date right" %>
 
 <div class="clear"></div>
 
 <h1>Tasks</h1>
 
-<h2 style="text-align: center;"><%= @date %></h2>
+<p id="date"><%= @date %></p>
 
 <ul id="incomplete_tasks" class="task_list">
-  <%= render @tasks.incomplete %>
+  <li class="placeholder" style="<%= "display: block; " if @tasks.incomplete.empty? %>">There is nothing left on your list!</li>
+  
+  <ul class="tasks_for_date overdue_list" style="display: none; ">
+    <li class="date_heading" style="color: red; ">Overdue</li>
+  </ul>
+  
+  <% @tasks.incomplete.group_by(&:date).each do |date, task| %>
+    <ul class="tasks_for_date <%= "late" if @start > date %>" data-start="<%= date.beginning_of_day.to_i %>" data-finish="<%= date.end_of_day.to_i %>">
+      <% if @start <= date %>
+        <li class="date_heading">Today</li>
+      <% else %>
+        <li class="date_heading"><%= link_to "Overdue from #{date.strftime("%a, %b %-d")}", tasks_path(start: date.strftime("%m-%d-%y")) %></li>
+      <% end %>
+      <%= task.map{ render task }.join.html_safe %>
+    </ul>
+  <% end %>
 </ul>
 
-<h3>Complete</h3>
-<ul id="complete_tasks" class="task_list">
-  <%= render @tasks.complete %>
-</ul>
+<div id="completed_tasks_wrapper" style="<%= "display: none; " if @tasks.complete.empty? %>">
+  <hr />
+  <h4>Completed Tasks</h4>
+  <ul id="complete_tasks" class="task_list">
+    <%= render @tasks.complete %>
+  </ul>
+</div>

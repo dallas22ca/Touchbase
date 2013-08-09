@@ -10,12 +10,10 @@ Touchbase::Application.routes.draw do
     get "/pending" => "contacts#pending", as: :pending
     resources :contacts
     resources :users
+    resources :followups
     
     get "/fields" => "fields#index", as: :fields
     patch "/fields" => "fields#update"
-    
-    get "/followups" => "followups#index", as: :followups
-    patch "/followups" => "followups#update"
     
     mount Sidekiq::Web => "/sidekiq"
     

@@ -7,12 +7,11 @@ class TasksController < ApplicationController
     @start = Chronic.parse(params[:start]).beginning_of_day if params[:start]
     @start ||= Time.zone.now.beginning_of_day
     @finish = Chronic.parse(params[:finish])
-    @finish ? @date = "#{@start.strftime("%B %d, %Y")} - #{@finish.strftime("%B %d, %Y")}" : @date = @start.strftime("%B %d, %Y")
+    @finish ? @date = "#{@start.strftime("%B %-d")} - #{@finish.strftime("%B %-d, %Y")}" : @date = @start.strftime("%A, %B %-d")
     @finish ||= @start.end_of_day
     @next = @start + 1.day
     @prev = @finish - 1.day
     current_user.followups.map { |f| f.create_tasks(@start, @finish) } if @start >= Time.zone.now.beginning_of_day
-    
     @tasks = current_user.tasks_for(@start, @finish)
   end
 

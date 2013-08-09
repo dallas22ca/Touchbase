@@ -1,0 +1,4 @@
+<%= content_tag_for :li, followup, data: { url: followup_path(followup) }, class: "#{"complete" if followup.complete}" do %>
+  <%= check_box_tag "#{dom_id followup}_checkbox", true, followup.complete, class: "followup_checkbox" %>
+  <%= label_tag "#{dom_id followup}_checkbox", followup.content %>
+<% end %>

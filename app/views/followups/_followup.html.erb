@@ -1,0 +1,5 @@
+<%= content_tag_for :a, followup, href: edit_followup_path(followup) do %>
+  <p class="description"><%= followup.description %></p>
+  <p class="timing"><%= followup.timing %></p>
+  <div class="clear"></div>
+<% end %>
