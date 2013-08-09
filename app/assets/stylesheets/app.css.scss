@@ -30,6 +30,13 @@ h1 {
   background: linear-gradient(to bottom,  #19709b 0%,#005782 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#19709b', endColorstr='#005782',GradientType=0 ); /* IE6-9 */
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+  border-bottom: 4px solid #182843;
+  
+  &.hide_i {
+    i {
+      display: none;
+    }
+  }
   
   li {
     display: inline;
@@ -38,15 +45,26 @@ h1 {
     a {
       display: inline-block;
       text-decoration: none;
-      padding: 15px 20px;
+      padding: 14px 20px;
       font-size: 13px;
       color: #B1DEF7;
       text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+      /*transition-property: background-color;
+      transition-duration: 50ms;*/
+      
+      i {
+        font-size: 17px;
+        margin-right: 9px;
+      }
       
       &.selected {
         background: #182843;
         color: #eee;
         box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5);
+        
+        i {
+          display: inline-block;
+        }
       }
       
       &.disabled {

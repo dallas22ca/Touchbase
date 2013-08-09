@@ -1,7 +1,9 @@
-<h1>Tasks</h1>
-
 <%= link_to "&larr; #{@prev.strftime("%a, %b %d")}".html_safe, tasks_path(start: @prev.strftime("%m-%d-%y")), class: "left" %>
 <%= link_to "#{@next.strftime("%a, %b %d")} &rarr;".html_safe, tasks_path(start: @next.strftime("%m-%d-%y")), class: "right" %>
+
+<div class="clear"></div>
+
+<h1>Tasks</h1>
 
 <h2 style="text-align: center;"><%= @date %></h2>
 
