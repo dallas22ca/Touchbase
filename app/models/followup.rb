@@ -65,7 +65,7 @@ class Followup < ActiveRecord::Base
             user.fields.each do |field|
               sub = contact.data[field.permalink]
               sub = sub.to_datetime.strftime("%B %d") if field.data_type == "datetime"
-              desc = desc.gsub(/\{\{#{field.permalink}\}\}/, sub)
+              desc = desc.to_s.gsub(/\{\{#{field.permalink}\}\}/, sub)
             end
           
             task.date = remind_at

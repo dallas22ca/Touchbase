@@ -1,3 +1,17 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+$(document).on "click", ".task_checkbox", ->
+  task = $(this).closest(".task")
+  url = task.data("url")
+  
+  if $(this).is ":checked"
+    complete = true
+    task.addClass "complete"
+    task.appendTo "#complete_tasks"
+  else
+    complete = false
+    task.removeClass "complete"
+    task.prependTo "#incomplete_tasks"
+  
+  $.post url,
+    _method: "patch"
+    format: "js"
+    "task[complete]": complete
