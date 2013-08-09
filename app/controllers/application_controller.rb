@@ -17,10 +17,9 @@ protected
   end
 
   def check_step
-    current_user.reload
     if current_user.step <= 1
       if !"#{controller_name}##{action_name}".match(/contacts\#(new|create)|sessions|registrations|pages\#show/)
-        redirect_to page_path("welcome")
+        redirect_to protected_page_path("welcome")
       end
     elsif current_user.step <= 2
       if current_user.has_deletable_pending_import?

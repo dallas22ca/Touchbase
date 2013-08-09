@@ -18,7 +18,9 @@ Touchbase::Application.routes.draw do
     patch "/followups" => "followups#update"
     
     mount Sidekiq::Web => "/sidekiq"
-    get "/" => "contacts#index"
+    
+    get "/:permalink" => "protected_pages#show", as: :protected_page
+    get "/" => "protected_pages#show"
   end
   
   get "/:permalink" => "pages#show", as: :page
