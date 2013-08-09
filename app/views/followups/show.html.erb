@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Followup:</strong>
+  <%= @followup.followup %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @followup.date %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @followup.content %>
+</p>
+
+<p>
+  <strong>Complete:</strong>
+  <%= @followup.complete %>
+</p>
+
+<%= link_to 'Edit', edit_followup_path(@followup) %> |
+<%= link_to 'Back', followups_path %>

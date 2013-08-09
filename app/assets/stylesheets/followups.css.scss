@@ -1,3 +1,29 @@
-// Place all the styles related to the followups controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+#followups {
+  margin: 30px 0;
+  
+  .followup {
+    display: block;
+    margin-bottom: 15px;
+    text-decoration: none;
+    color: #182843;
+    
+    &:hover {
+      color: #19709b;
+      
+      .timing {
+        color: #19709b;
+      }
+    }
+    
+    .description {
+      font-size: 15px;
+    }
+    
+    .timing {
+      font-size: 13px;
+      color: #aaa;
+      font-style: oblique;
+      margin-top: 4px;
+    }
+  }
+}

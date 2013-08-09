@@ -1,38 +1,9 @@
-<% if @user && @user.errors.any? %>
-  <p class="errors">
-    <%= @user.errors.full_messages.map{|m|m}.join("<br>").html_safe %>
-  </p>
-<% end %>
-
 <h1>Followups</h1>
 
-<p class="info">
-  Followups are the core of your business!
-</p>
+<ul id="followups">
+  <%= render @followups %>
+</ul>
 
-<%= form_for current_user, url: followups_path do |f| %>
-  <table id="followups">
-    <thead>
-      <th>Description</th>
-      <th>Offset</th>
-      <th>Field</th>
-      <th></th>
-    </thead>
-  
-    <tbody>
-    	<%= f.fields_for :followups do |builder| %>
-        <%= render "edit_followups", f: builder %>
-      <% end %>
-    </tbody>
-    
-    <tfoot>
-      <td><%= link_to_add_fields "Add Followup", f, :followups %></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tfoot>
-  </table>
-  
-  <%= f.submit "Save Followups!" %>
-
-<% end %>
+<div class="center" style="margin: 50px 0 20px 0; ">
+  <%= link_to "Create Another Followup", new_followup_path, class: "blue button" %>
+</div>

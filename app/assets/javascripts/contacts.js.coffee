@@ -19,10 +19,10 @@ $(document).on "keyup click", ".search_field", ->
 
 $(document).on "click", ".filter_checkbox", ->
   if $(this).is(":checked")
-    $(this).closest(".field").removeClass "inactive"
-    $(this).closest(".field").find("input:visible:eq(1), textarea:visible:eq(1)").focus()
+    $(this).closest(".filter_field").removeClass "inactive"
+    $(this).closest(".filter_field").find("input:visible:eq(1), textarea:visible:eq(1)").focus()
   else
-    $(this).closest(".field").addClass "inactive"
+    $(this).closest(".filter_field").addClass "inactive"
   
   $("#contacts_search").submit()
 
@@ -34,7 +34,7 @@ $(document).on "submit", "#contacts_search", ->
   order = $("#contacts").data("order")
   data_type = $("#contacts").data("data_type")
   
-  $(".field:not(.inactive) .search_field").each ->
+  $(".filter_field:not(.inactive) .search_field").each ->
     matcher = $(this).data("matcher")
     field = $(this).attr("name")
     search = $(this).val()

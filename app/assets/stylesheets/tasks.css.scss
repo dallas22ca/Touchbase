@@ -1,6 +1,40 @@
-.task_list {
+#date {
+  text-align: center;
+  color: #777;
+  font-size: 15px;
+  margin: 5px 0;
+}
+
+.other_date {
+  color: #aaa;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+#incomplete_tasks {
   margin: 30px 0;
+}
+
+.task_list {
+  margin: 0;
   font-size: 14px;
+  
+  .placeholder {
+    font-style: oblique;
+    display: none;
+  }
+  
+  .date_heading {
+    font-weight: bold;
+    margin-bottom: 7px;
+    margin-top: 20px;
+    color: #111;
+    
+    a {
+      text-decoration: none;
+      color: red;
+    }
+  }
   
   .task {
     margin-bottom: 5px;

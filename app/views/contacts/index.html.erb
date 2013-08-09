@@ -4,6 +4,7 @@
 <%= render "is_importing" if current_user.has_pending_import? && current_user.import_progress != 100 %>
 
 <%= link_to "Add Contact", new_contact_path %>
+<%= link_to "Fields", fields_path %>
 
 <table id="contacts" data-order="name" data-direction="asc" data-data_type="string">
   <thead>
