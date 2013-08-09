@@ -159,10 +159,11 @@ class User < ActiveRecord::Base
       finish = start.end_of_day
     end
     
-    tasks.where("(tasks.date BETWEEN :start and :finish) or (tasks.date <= :start and tasks.complete = :complete)", 
+    tasks.where("(tasks.date BETWEEN :start and :finish and tasks.complete = :false) or (tasks.date <= :start and tasks.complete = :false) or (tasks.complete = :true and tasks.completed_at BETWEEN :start and :finish)", 
       start: start, 
       finish: finish,
-      complete: false
-    )
+      true: true,
+      false: false
+    ).order(:complete, :date)
   end
 end

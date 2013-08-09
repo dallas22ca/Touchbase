@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130807121937) do
+ActiveRecord::Schema.define(version: 20130809142917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,9 +62,10 @@ ActiveRecord::Schema.define(version: 20130807121937) do
     t.integer  "contact_id"
     t.datetime "date"
     t.text     "content"
-    t.boolean  "complete",    default: false
+    t.boolean  "complete",     default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "completed_at"
   end
 
   add_index "tasks", ["contact_id"], name: "index_tasks_on_contact_id", using: :btree

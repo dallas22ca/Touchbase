@@ -87,5 +87,6 @@ Melanie, Read, melaniegood@gmail.com, 61 Westfield Crescent
     joe.update_column :blob, blob
     importer = Importer.new(joe.id, "blob").import
     joe.contacts.count.should == 2
+    joe.contacts.last.name.should == "Melanie Read"
   end
 end

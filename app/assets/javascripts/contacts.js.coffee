@@ -14,13 +14,13 @@ $(document).on "click", "#contacts th", ->
   $("#contacts").data("data_type", data_type)
   $("#contacts_search").submit()
 
-$(document).on "keyup", ".search_field", ->
+$(document).on "keyup click", ".search_field", ->
   $("#contacts_search").submit()
 
 $(document).on "click", ".filter_checkbox", ->
   if $(this).is(":checked")
     $(this).closest(".field").removeClass "inactive"
-    $(this).closest(".field").find("input:visible, textarea:visible").focus()
+    $(this).closest(".field").find("input:visible:eq(1), textarea:visible:eq(1)").focus()
   else
     $(this).closest(".field").addClass "inactive"
   
@@ -38,7 +38,9 @@ $(document).on "submit", "#contacts_search", ->
     matcher = $(this).data("matcher")
     field = $(this).attr("name")
     search = $(this).val()
-    args.push [field, matcher, search]
+    
+    unless $(this).is(":radio") && !$(this).is(":checked")
+      args.push [field, matcher, search]
 
   $.get url, 
     search: args

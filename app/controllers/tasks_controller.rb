@@ -4,16 +4,16 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
-    @start = Chronic.parse(params[:start]) if params[:start]
+    @start = Chronic.parse(params[:start]).beginning_of_day if params[:start]
     @start ||= Time.zone.now.beginning_of_day
     @finish = Chronic.parse(params[:finish])
     @finish ? @date = "#{@start.strftime("%B %d, %Y")} - #{@finish.strftime("%B %d, %Y")}" : @date = @start.strftime("%B %d, %Y")
-    @finish ||= @start
+    @finish ||= @start.end_of_day
     @next = @start + 1.day
     @prev = @finish - 1.day
     current_user.followups.map { |f| f.create_tasks(@start, @finish) } if @start >= Time.zone.now.beginning_of_day
     
-    @tasks = current_user.tasks_for(@start, @finish).order(:date)
+    @tasks = current_user.tasks_for(@start, @finish)
   end
 
   # GET /tasks/1
@@ -53,6 +53,7 @@ class TasksController < ApplicationController
       if @task.update(task_params)
         format.html { redirect_to @task, notice: 'Task was successfully updated.' }
         format.json { head :no_content }
+        format.js { render nothing: true }
       else
         format.html { render action: 'edit' }
         format.json { render json: @task.errors, status: :unprocessable_entity }

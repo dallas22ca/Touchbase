@@ -1,4 +1,4 @@
-<%= content_tag_for :li, task do %>
-  <%= check_box_tag task %>
-  <%= label_tag task, task.content %>
+<%= content_tag_for :li, task, data: { url: task_path(task) }, class: "#{"complete" if task.complete}" do %>
+  <%= check_box_tag "#{dom_id task}_checkbox", true, task.complete, class: "task_checkbox" %>
+  <%= label_tag "#{dom_id task}_checkbox", task.content %>
 <% end %>

@@ -20,6 +20,7 @@ class Contact < ActiveRecord::Base
     
   def set_defaults
     self.pending_data = nil if self.overwrite
+    self.name = "#{data["first-name"]} #{data["last-name"]}" if data.has_key?("first-name") && data.has_key?("last-name")
     self.warnings ||= []
   end
   

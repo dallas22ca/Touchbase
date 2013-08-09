@@ -5,6 +5,11 @@
 
 <h2 style="text-align: center;"><%= @date %></h2>
 
-<ul>
-  <%= render @tasks %>
+<ul id="incomplete_tasks" class="task_list">
+  <%= render @tasks.incomplete %>
+</ul>
+
+<h3>Complete</h3>
+<ul id="complete_tasks" class="task_list">
+  <%= render @tasks.complete %>
 </ul>
