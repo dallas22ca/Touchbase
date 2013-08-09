@@ -77,4 +77,15 @@ Melanie Read, melaniegood@gmail.com, 61 Westfield Crescent
     joe.contacts.count.should == 2
   end
   
+  it "adds contacts via plain text" do
+    joe = users(:joe)
+    blob = "
+First Name, Last Name, Email, Address
+Dallas, Read, dallasgood@gmail.com, 61 Westfield Crescent
+Melanie, Read, melaniegood@gmail.com, 61 Westfield Crescent
+"
+    joe.update_column :blob, blob
+    importer = Importer.new(joe.id, "blob").import
+    joe.contacts.count.should == 2
+  end
 end

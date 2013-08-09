@@ -12,6 +12,7 @@ class Field < ActiveRecord::Base
   
   def set_permalink
     self.permalink = self.title.parameterize if self.permalink.blank?
+    self.permalink = self.permalink.parameterize
   end
   
   def set_data_type

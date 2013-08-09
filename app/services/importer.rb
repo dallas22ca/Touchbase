@@ -61,6 +61,7 @@ class Importer
         progress = (i * 100) / row_count
         data = Hash[[permalinks, spreadsheet.row(i).map{ |c| c.to_s.strip }].transpose]
         name = data.delete("name")
+        name = "#{data["first-name"]} #{data["last-name"]}" if name.blank?
         contact = user.save_contact name: name, data: data, overwrite: @overwrite
         user.update_column :import_progress, progress if progress % 1 == 0
         warnings.push contact.errors.full_messages unless contact.errors.empty?
@@ -97,7 +98,7 @@ class Importer
       title = "Email" if title.downcase == "email address"
       title = "Address" if title.downcase == "mailing address"
       
-      if !name_found && title.downcase.include?("name")
+      if !name_found && (title.parameterize == "name" || title.parameterize == "first-name")
         name_found = true
       end
       
