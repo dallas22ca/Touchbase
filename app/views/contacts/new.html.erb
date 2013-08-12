@@ -7,7 +7,7 @@
 <% if current_user.has_deletable_pending_import? %>
 
   <p>
-    You have a pending upload. Your can <%= link_to "move to your next step", root_path %> or
+    You have a pending upload. Your can <%= link_to "move to your next step", fields_path %> or
     <%= link_to "delete it", contacts_path(delete_pending: true), method: :post %>.
   </p>
 

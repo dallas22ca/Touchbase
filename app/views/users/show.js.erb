@@ -8,7 +8,7 @@ $(".contacts_search_count").text("<%= @user.contacts_count %>")
 // $("<= j render @latest >").appendTo("#contacts")
 
 <% if current_user.import_progress == 100 %>
-  window.location.href = "<%= root_path %>"
+  window.location.href = "<%= contacts_path %>"
 <% else %>
   setTimeout(function(){
     Import.poll()
