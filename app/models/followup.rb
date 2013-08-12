@@ -30,6 +30,8 @@ class Followup < ActiveRecord::Base
   end
   
   def create_tasks(start = Time.now, finish = nil, search_all_contacts = false, update_all = false, create_if_needed = true)
+    Time.zone = user.time_zone
+    
     if field
       if finish.nil?
         if remind_before?
