@@ -9,7 +9,7 @@ namespace :postgresql do
   task :install, roles: :db, only: {primary: true} do
     run "#{sudo} add-apt-repository -y ppa:pitti/postgresql"
     run "#{sudo} apt-get -y update"
-    run "#{sudo} apt-get -y install postgresql-9.2 libpq-dev"
+    run "#{sudo} apt-get -y install postgresql-9.2 libpq-dev postgresql-contrib"
   end
   after "deploy:install", "postgresql:install"
 
@@ -35,10 +35,6 @@ namespace :postgresql do
   desc "Symlink the database.yml file into latest release"
   task :symlink, roles: :app do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
-    run "ln -nfs #{shared_path}/public/designs #{release_path}/public/designs"
-    run "ln -nfs #{shared_path}/public/media #{release_path}/public/media"
-    run "ln -nfs #{shared_path}/public/imgs #{release_path}/public/imgs"
-    run "ln -nfs #{shared_path}/public/logos #{release_path}/public/logos"
   end
   after "deploy:finalize_update", "postgresql:symlink"
   

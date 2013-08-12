@@ -1,7 +1,5 @@
 require "bundler/capistrano"
 require 'sidekiq/capistrano'
-require 'capistrano/maintenance'
-require "whenever/capistrano"
 
 Dir.glob("config/recipes/*.rb").each do |file|
   load file

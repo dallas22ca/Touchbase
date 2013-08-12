@@ -53,37 +53,37 @@ hr {
     display: inline;
     position: relative;
     
-    a {
-      display: inline-block;
-      text-decoration: none;
-      padding: 14px 20px;
-      font-size: 13px;
-      color: #B1DEF7;
-      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-      /*transition-property: background-color;
-      transition-duration: 50ms;*/
+    .submenu {
+      display: none;
+    }
+  }
+  
+  a {
+    display: inline-block;
+    text-decoration: none;
+    padding: 14px 20px;
+    font-size: 13px;
+    color: #B1DEF7;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    /*transition-property: background-color;
+    transition-duration: 50ms;*/
+    
+    i {
+      font-size: 17px;
+      margin-right: 9px;
+    }
+    
+    &.selected {
+      background: #0F172A;
+      color: #eee;
       
       i {
-        font-size: 17px;
-        margin-right: 9px;
-      }
-      
-      &.selected {
-        background: #0F172A;
-        color: #eee;
-        
-        i {
-          display: inline-block;
-        }
-      }
-      
-      &.disabled {
-        opacity: 0.3;
+        display: inline-block;
       }
     }
     
-    .submenu {
-      display: none;
+    &.disabled {
+      opacity: 0.3;
     }
   }
   
