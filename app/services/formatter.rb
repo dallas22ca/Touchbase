@@ -20,7 +20,7 @@ class Formatter
     
       if time_attempt
         data_type = "datetime"
-        content = time_attempt
+        content = time_attempt.strftime("%B %-d, %Y")
       end
     end
     
@@ -28,6 +28,8 @@ class Formatter
   end
   
   def self.format(data_type, content)
+    Time.zone = "UTC"
+    
     if data_type == "boolean"
       if ["true", "1", "t", "y", "yes"].include? content.to_s
         content = true.to_s
@@ -36,9 +38,9 @@ class Formatter
       end
     elsif data_type == "datetime"
       if content.class == ActiveSupport::TimeWithZone || content.class == Time
-        content = content.in_time_zone
+        content = content.strftime("%B %-d, %Y")
       else
-        content = Chronic.parse(content).in_time_zone
+        content = Chronic.parse(content).strftime("%B %-d, %Y")
       end
     elsif data_type == "integer"
       content = content.to_s.to_f.to_s.gsub(".0", "")
