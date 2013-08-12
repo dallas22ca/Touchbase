@@ -29,8 +29,8 @@ class Followup < ActiveRecord::Base
     ImportWorker.perform_async id, "followup"
   end
   
-  def create_tasks(start = Time.now, finish = nil, search_all_contacts = false, update_all = false, create_if_needed = true)
-    Time.zone = user.time_zone
+  def create_tasks(start = nil, finish = nil, search_all_contacts = false, update_all = false, create_if_needed = true)
+    start = Time.now if start.blank?
     
     if field
       if finish.nil?
@@ -54,7 +54,7 @@ class Followup < ActiveRecord::Base
         actual_data = contact.data[field.permalink]
         
         unless actual_data.blank?
-          actual_date = Chronic.parse(actual_data.to_datetime.strftime("%B %d, #{start.year}")).beginning_of_day
+          actual_date = Chronic.parse(actual_data.in_time_zone.strftime("%B %d, #{start.year}")).beginning_of_day
           remind_at = actual_date + offset.seconds
           
           if update_all && !create_if_needed
@@ -68,7 +68,7 @@ class Followup < ActiveRecord::Base
           
             user.fields.each do |field|
               sub = contact.data[field.permalink]
-              sub = sub.to_datetime.strftime("%B %d") if field.data_type == "datetime"
+              sub = sub.in_time_zone.strftime("%B %d") if field.data_type == "datetime"
               desc = desc.to_s.gsub(/\{\{#{field.permalink}\}\}/, sub)
             end
           

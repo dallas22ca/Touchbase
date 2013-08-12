@@ -13,7 +13,7 @@
       </td>
       <td class="detail">
         <% if field.data_type == "datetime" %>
-          <%= @contact.d[field.permalink].to_datetime.strftime("%B %-d, %Y") %>
+          <%= @contact.d[field.permalink].in_time_zone.strftime("%B %-d, %Y") %>
         <% else %>
           <%= @contact.d[field.permalink].to_s %>
         <% end %>
