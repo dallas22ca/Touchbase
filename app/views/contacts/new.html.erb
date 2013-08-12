@@ -15,25 +15,30 @@
 
   <%= form_for @user, url: contacts_path, method: :post do |f| %>
 
-    <%= f.label :file, "You can either upload a file of your contacts (CSV, Microsoft Excel):" %><br>
-    <%= f.file_field :file %>
+    <div class="field">
+      <%= f.label :file, "You can either upload a file of your contacts (CSV, Microsoft Excel):" %><br>
+      <%= f.file_field :file %>
+    </div>
 
     <hr />
+    
+    <div class="field">
+      <%= f.label :blob, "Or you can manually upload:" %><br>
+      
+      <p style="margin: 10px 0 20px 0; border: 1px solid #ccc; background: #ddd; border-radius: 3px; padding: 8px; color: #777; line-height: 18px; font-size: 12px; ">
+        For example:<br>
+        Name, Email, Hobbies<br>
+        Dallas Read, dallas@touchbasenow.com, Futbol
+      </p>
 
-    <%= f.label :blob, "Or you can manually upload:" %><br>
-    <p>
-      eg.<br>
-      Name, Email, Hobbies<br>
-      Dallas Read, dallas@touchbasenow.com, Futbol
-    </p>
-
-    <%= f.text_area :blob %>
+      <%= f.text_area :blob, class: "full_width", rows: 4 %>
+    </div>
 
     <hr />
 
     <%= f.hidden_field :overwrite, value: false %>
 
-    <%= f.submit "Add Contacts" %>
+    <%= f.submit "Add Contacts", class: "blue button" %>
 
   <% end %>
 

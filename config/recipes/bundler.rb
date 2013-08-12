@@ -13,5 +13,5 @@ namespace :bundler do
     run "gem install rails"
     run "rbenv rehash"
   end
-  after "deploy:install", "bundler:install"
+  after "rbenv:install", "bundler:install"
 end

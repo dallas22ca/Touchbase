@@ -8,6 +8,12 @@
 </head>
 <body>
   
+  <% if request.path == new_user_session_path %>
+    <%= link_to "Sign Up", root_path, class: "sign_in" %>
+  <% else %>
+    <%= link_to "Sign In", new_user_session_path, class: "sign_in" %>
+  <% end %>
+  
   <div class="container">
     <%= yield %>
   </div>
