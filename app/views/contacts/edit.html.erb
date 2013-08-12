@@ -1,4 +1,6 @@
-<h1>Editing contact</h1>
+<%= link_to "&larr; Back".html_safe, @contact, class: "small_link" %>
+
+<h1><%= @contact.name %></h1>
 
 <%= form_for(@contact) do |f| %>
   <%= f.hidden_field :overwrite, value: true %>

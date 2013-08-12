@@ -2,17 +2,18 @@
   .container {
     width: auto;
     max-width: none;
-    left: 202px;
+    left: 222px;
     right: 12px;
     margin-top: 20px;
     margin-bottom: 50px;
     position: absolute;
+    overflow-x: auto;
   }
 }
 
 #sidebar {
   position: fixed;
-  width: 180px;
+  width: 200px;
   top: 53px;
   left: 0;
   bottom: 0;

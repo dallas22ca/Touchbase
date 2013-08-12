@@ -1,3 +1,5 @@
+<%= link_to "&larr; Back".html_safe, contacts_path, class: "small_link" %>
+
 <h1><%= @contact.name %> <%= "(Pending)" if @contact.pending? %></h1>
 
 <div class="center" style="margin-top: 10px; ">
@@ -13,7 +15,7 @@
       </td>
       <td class="detail">
         <% if field.data_type == "datetime" %>
-          <%= @contact.d[field.permalink].in_time_zone.strftime("%B %-d, %Y") %>
+          <%= @contact.d[field.permalink].in_time_zone.strftime("%B %-d, %Y") unless @contact.d[field.permalink].blank? %>
         <% else %>
           <%= @contact.d[field.permalink].to_s %>
         <% end %>
