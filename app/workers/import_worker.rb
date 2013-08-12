@@ -4,6 +4,7 @@ class ImportWorker
   sidekiq_options queue: "ImportWorker"
   
   def perform id, src, overwrite = false
+    
     if src == "blob"
       user = User.find(id)
       user.import_blob overwrite
@@ -15,7 +16,11 @@ class ImportWorker
       field.update_contacts if field
     elsif src == "followup"
       followup = Followup.find(id)
-      followup.create_tasks(Time.now, nil, true, true, true) if followup
+      
+      if followup
+        Time.zone = followup.user.time_zone
+        followup.create_tasks(Time.now, nil, true, true, true)
+      end
     end
   end
 end
