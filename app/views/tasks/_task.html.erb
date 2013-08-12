@@ -1,4 +1,4 @@
-<%= content_tag_for :li, task, data: { url: task_path(task), date: task.date.to_i, overdue: "Overdue from #{task.date.strftime("%a, %b %-d")}" }, class: "#{"complete" if task.complete}" do %>
+<%= content_tag_for :li, task, data: { url: task_path(task), date: task.date.to_i }, class: "#{"complete" if task.complete}" do %>
   <%= check_box_tag "#{dom_id task}_checkbox", true, task.complete, class: "task_checkbox" %>
   <%= label_tag "#{dom_id task}_checkbox", task.content %>
 <% end %>

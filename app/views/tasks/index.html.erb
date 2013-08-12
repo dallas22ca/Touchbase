@@ -19,7 +19,7 @@
       <% if @start <= date %>
         <li class="date_heading">Today</li>
       <% else %>
-        <li class="date_heading"><%= link_to "Overdue from #{date.strftime("%a, %b %-d")}", tasks_path(start: date.strftime("%m-%d-%y")) %></li>
+        <li class="date_heading"><%= link_to "Overdue from #{(date - 1.day).strftime("%a, %b %-d")}", tasks_path(start: date.strftime("%m-%d-%y")) %></li>
       <% end %>
       <%= tasks.map{ |t| render t }.join.html_safe %>
     </ul>
