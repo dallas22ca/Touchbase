@@ -10,7 +10,7 @@ namespace :nginx do
   desc "Setup nginx configuration for this application"
   task :setup, roles: :web do
     if rails_env == "production"
-      template "nginx_unicorn.erb", "/tmp/nginx_conf"
+      template "nginx_unicorn_nossl.erb", "/tmp/nginx_conf"
     else
       template "nginx_unicorn_nossl.erb", "/tmp/nginx_conf"
     end
