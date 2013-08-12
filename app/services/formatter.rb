@@ -1,7 +1,7 @@
 class Formatter
   
   def self.detect(field, content)
-    # TODO: WHAT ABOUT A REGULAR DATE?
+    # TODO: WHAT ABOUT A REGULAR DATE OR TIME?
     data_type = "string"
 
     if ["true", "1", "t", "y", "yes"].include? content.to_s
@@ -36,9 +36,9 @@ class Formatter
       end
     elsif data_type == "datetime"
       if content.class == ActiveSupport::TimeWithZone || content.class == Time
-        content = content
+        content = content.in_time_zone
       else
-        content = Chronic.parse(content)
+        content = Chronic.parse(content).in_time_zone
       end
     elsif data_type == "integer"
       content = content.to_s.to_f.to_s.gsub(".0", "")
