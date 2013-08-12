@@ -47,7 +47,7 @@ describe Formatter do
       ["April 5, 1988",             "datetime"],
       ["04-05-88",                  "datetime"],
     ].each do |content, format|
-      Formatter.format(format, content).should == Chronic.parse(content).strftime("%B %-d, %Y")
+      Formatter.format(format, content).should == Chronic.parse(content)
     end
     
     Formatter.format("integer", 34.34)
