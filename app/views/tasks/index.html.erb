@@ -14,6 +14,10 @@
     <li class="date_heading" style="color: red; ">Overdue</li>
   </ul>
   
+  <p><%= Time.zone.now %></p>
+  <p><%= Time.now %></p>
+  <p><%= @start %></p>
+  
   <% @tasks.incomplete.group_by(&:date).each do |date, tasks| %>
     <ul class="tasks_for_date <%= "late" if @start > date %>" data-start="<%= date.beginning_of_day.to_i %>" data-finish="<%= date.end_of_day.to_i %>">
       <% if @start <= date %>
