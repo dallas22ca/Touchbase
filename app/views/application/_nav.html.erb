@@ -6,7 +6,7 @@
     <li><%= link_to "<i class=\"icon-comments\"></i> Followups".html_safe, followups_path, class: "#{"selected" if request.path.include? followups_path}" %></li>
     <li><%= link_to "<i class=\"icon-ok\"></i> Today's Tasks".html_safe, tasks_path, class: "#{"selected" if request.path.include? tasks_path}" %></li>
   <% else %>
-    <li><%= link_to "1. Welcome", protected_page_path("welcome"), class: "#{"selected" if request.path == protected_page_path("welcome")}" %></li>
+    <li><%= link_to "1. Welcome", root_path, class: "#{"selected" if request.path == root_path}" %></li>
     <li><%= link_to "2. Add Contacts", new_contact_path, class: "#{"selected" if request.path.include? contacts_path} #{"disabled" if current_user.step < 1}" %></li>
     <li><%= link_to "3. Set Fields", fields_path, class: "#{"selected" if request.path == fields_path} #{"disabled" if current_user.step < 2 || current_user.fields.empty?}" %></li>
     <li><%= link_to "4. Setup Followups", followups_path, class: "#{"selected" if request.path.include? followups_path} #{"disabled" if current_user.step < 3}" %></li>
