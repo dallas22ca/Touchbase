@@ -1,3 +1,13 @@
+$(document).on
+  mouseenter: ->
+    $(this).addClass "hover"
+  mouseleave: ->
+    $(this).removeClass "hover"
+, "#contacts tr"
+
+$(document).on "click", ".toggle_suggested_fields", ->
+  $("#suggested_fields").toggle 150
+
 $(document).on "click", ".remove_fields", () ->
 	$(this).prev('input[type=hidden]').val('1')
 	$(this).closest('tr').hide()

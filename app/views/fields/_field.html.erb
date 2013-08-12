@@ -1,21 +1,19 @@
-<div class="filter_field inactive">
-  <%= check_box_tag "#{field.permalink}_label", field.permalink, false, { class: "filter_checkbox" } %>
-  <%= label_tag "#{field.permalink}_label", field.title %>
+<% if field.data_type != "datetime" %>
+  <div class="filter_field inactive">
+    <%= check_box_tag "#{field.permalink}_label", field.permalink, false, { class: "filter_checkbox" } %>
+    <%= label_tag "#{field.permalink}_label", field.title %>
   
-  <div class="details">
-    <% if field.data_type == "string" %>
-      <%= text_field_tag field.permalink, "", class: "search_field", data: { matcher: :like } %>
-    <% elsif field.data_type == "boolean" %>
-      &nbsp; &nbsp;
-      <%= radio_button_tag field.permalink, true, true, class: "search_field", data: { matcher: :is } %>
-      <%= label_tag "#{field.permalink}_true", "Yes" %>
-      &nbsp; &nbsp;
-      <%= radio_button_tag field.permalink, false, false, class: "search_field", data: { matcher: :is } %>
-      <%= label_tag "#{field.permalink}_false", "No" %>
-    <% elsif field.data_type == "integer" %>
-      <%= text_field_tag field.permalink, "", class: "search_field", data: { matcher: :like } %>
-    <% elsif field.data_type == "datetime" %>
-      <%= text_field_tag field.permalink, "", class: "search_field", data: { matcher: :like } %>
-    <% end %>
+    <div class="details">
+      <% if field.data_type == "string" || field.data_type == "integer" %>
+        <%= text_field_tag field.permalink, "", class: "search_field", data: { matcher: :like }, autocomplete: "off" %>
+      <% elsif field.data_type == "boolean" %>
+        &nbsp; &nbsp;
+        <%= radio_button_tag field.permalink, true, true, class: "search_field", data: { matcher: :is } %>
+        <%= label_tag "#{field.permalink}_true", "Yes" %>
+        &nbsp; &nbsp;
+        <%= radio_button_tag field.permalink, false, false, class: "search_field", data: { matcher: :is } %>
+        <%= label_tag "#{field.permalink}_false", "No" %>
+      <% end %>
+    </div>
   </div>
-</div>
+<% end %>

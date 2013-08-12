@@ -1,0 +1,29 @@
+set daemon 30
+
+set logfile /var/log/monit.log
+set idfile /var/lib/monit/id
+set statefile /var/lib/monit/state
+
+set eventqueue
+	basedir /var/lib/monit/events
+	slots 100
+
+# set mailserver smtp.gmail.com port 587
+# 	username "bob.opened@gmail.com" password "EmailOpened"
+# 	using tlsv1
+# 	with timeout 30 seconds
+# 
+# set alert dallas@emailopened.com
+
+set httpd port 3313 and
+use address app.emailopened.com
+allow admin:"touchbase"
+SSL ENABLE
+PEMFILE /etc/monit/monit.pem
+
+check system touchbase_server
+	if loadavg(5min) > 2 for 2 cycles then restart
+	if memory > 75% for 2 cycles then restart
+	if cpu(user) > 75% for 2 cycles then restart
+
+include /etc/monit/conf.d/*

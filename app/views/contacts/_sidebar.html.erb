@@ -1,4 +1,11 @@
 <div id="sidebar">
+  <%= link_to "Add Contacts", new_contact_path, class: "blue button full_width center" %>
+  <%= link_to "Manage Fields", fields_path, class: "small_link block center" %>
+  
+  <p id="contact_counter">
+    <span class="contacts_search_count"><%= current_user.contacts_count %></span> / <span class="contacts_count"><%= pluralize current_user.contacts_count, "Contact" %></span>
+  </p>
+  
   <%= form_tag contacts_path(format: :js), method: :get, id: "contacts_search" do %>
     <% text_field_tag :q, "", placeholder: "Search..." %>
     
@@ -13,8 +20,4 @@
     
     <%= render @fields.order(:title) %>
   <% end %>
-  
-  <p>
-    <span class="contacts_search_count"><%= current_user.contacts_count %></span> / <span class="contacts_count"><%= pluralize current_user.contacts_count, "Contact" %></span>
-  </p>
 </div>

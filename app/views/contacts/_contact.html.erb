@@ -1,11 +1,8 @@
 <% cache contact do %>
   <%= content_tag_for :tr, contact do %>
-    <td class="name"><%= contact.name %></td>
+    <td class="name"><%= link_to contact.name, contact %></td>
     <% @fields.each do |field| %>
-      <td><%= contact.data[field.permalink] %></td>
+      <td><%= link_to contact.data[field.permalink].to_s, contact %></td>
     <% end %>
-    <td><%= link_to 'Show', contact %></td>
-    <td><%= link_to 'Edit', edit_contact_path(contact) %></td>
-    <td><%= link_to 'Destroy', contact, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   <% end %>
 <% end %>

@@ -1,24 +1,25 @@
-<p id="notice"><%= notice %></p>
+<h1><%= @contact.name %> <%= "(Pending)" if @contact.pending? %></h1>
 
-<p>
-  <strong>Name:</strong>
-  <%= @contact.name %> <%= "(Pending)" if @contact.pending? %>
-</p>
+<div class="center" style="margin-top: 10px; ">
+  <%= link_to 'Edit', edit_contact_path(@contact), class: "cancel", style: "margin-left: 0; " %>
+  <%= link_to "Delete", @contact, method: :delete, data: { confirm: "Are you sure you want to delete this contact?" }, class: "delete" %>
+</div>
 
-<p>
-  <strong>Email:</strong>
-  <%= @contact.d["email"] %>
-</p>
+<table id="contact_show">
+  <% current_user.fields.each do |field| %>
+    <tr>
+      <td class="label">
+        <%= field.title %>:
+      </td>
+      <td class="detail">
+        <% if field.data_type == "datetime" %>
+          <%= @contact.d[field.permalink].to_datetime.strftime("%B %-d, %Y") %>
+        <% else %>
+          <%= @contact.d[field.permalink].to_s %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>
 
-<p>
-  <strong>Details:</strong>
-  <%= @contact.data %>
-</p>
-
-<p>
-  <strong>Pending:</strong>
-  <%= @contact.pending_data %>
-</p>
-
-<%= link_to 'Edit', edit_contact_path(@contact) %> |
-<%= link_to 'Back', contacts_path %>
+<div class="clear"></div>
