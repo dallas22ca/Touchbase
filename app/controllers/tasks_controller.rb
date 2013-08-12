@@ -4,6 +4,7 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
+    params[:start] ||= Time.zone.now.strftime("%m-%d-%y")
     @start = Chronic.parse(params[:start]).beginning_of_day if params[:start]
     @start ||= Time.zone.now.beginning_of_day
     @finish = Chronic.parse(params[:finish])
