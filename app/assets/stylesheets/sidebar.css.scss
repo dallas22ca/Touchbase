@@ -1,10 +1,38 @@
+#contacts_index {
+  .container {
+    width: auto;
+    max-width: none;
+    left: 202px;
+    right: 12px;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    position: absolute;
+  }
+}
+
 #sidebar {
-  position: absolute;
-  width: 200px;
+  position: fixed;
+  width: 180px;
+  top: 53px;
   left: 0;
+  bottom: 0;
   z-index: 7;
   padding: 10px;
   overflow-y: auto;
+  
+  #contact_counter {
+    padding: 25px 0px 15px 0px;
+    text-align: center;
+    
+    font-size: 13px;
+    font-weight: normal;
+    color: #19709b;
+    
+    .contacts_search_count {
+      color: #005782;
+      font-weight: bold;
+    }
+  }
   
   .filter_field {
     font-size: 13px;

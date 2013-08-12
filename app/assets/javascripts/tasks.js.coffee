@@ -12,6 +12,7 @@ $(document).on "click", ".task_checkbox", ->
     $("#incomplete_tasks .placeholder").show() unless $("#incomplete_tasks").find(".task").length
     $("#completed_tasks_wrapper").show()
   else
+    list = false
     complete = false
     task.removeClass "complete"
     
@@ -22,8 +23,7 @@ $(document).on "click", ".task_checkbox", ->
       if start <= date && date <= finish
         list = $(this)
       
-    if !list
-      list = $(".overdue_list")
+    list = $(".overdue_list") unless list
       
     task.appendTo list
     list.show()

@@ -7,6 +7,28 @@
   background: -ms-linear-gradient(top,  #19709b 0%,#005782 100%); /* IE10+ */
   background: linear-gradient(to bottom,  #19709b 0%,#005782 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#19709b', endColorstr='#005782',GradientType=0 ); /* IE6-9 */
+  
+  &.button:hover {
+    background: #19709b; /* Old browsers */
+    background: -moz-linear-gradient(top,  #1A78A6 0%, #005782 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1A78A6), color-stop(100%,#005782)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #1A78A6 0%,#005782 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #1A78A6 0%,#005782 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #1A78A6 0%,#005782 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #1A78A6 0%,#005782 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1A78A6', endColorstr='#005782',GradientType=0 ); /* IE6-9 */
+  }
+  
+  &.button:active {
+    background: #19709b; /* Old browsers */
+    background: -moz-linear-gradient(top,  #166E98 0%, #00476B 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#166E98), color-stop(100%,#00476B)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #166E98 0%,#00476B 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #166E98 0%,#00476B 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #166E98 0%,#00476B 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #166E98 0%,#00476B 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='##166E98', endColorstr='#00476B',GradientType=0 ); /* IE6-9 */
+  }
 }
 
 .button {
@@ -23,13 +45,13 @@
   margin: 0;
   
   &:active {
-    margin-top: 1px;
-    margin-left: 1px;
+    margin: 1px -1px -1px 1px;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
   }
   
   &:hover {
-    color: #eee;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
   }
 }
 

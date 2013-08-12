@@ -14,11 +14,12 @@
   <%= f.hidden_field :offset %>
 
   <div class="field">
-    <%= f.label :description %><br>
+    <%= f.label :description, "What action will you need to take? <span style=\"color: #aaa; font-size: 13px; \">eg. Say Hi to {{name}}</span>".html_safe %><br>
     <%= f.text_field :description, class: "full_width" %>
   </div>
   
   <div class="field">
+    <%= label_tag :offset_word, "When will you need to take action?" %><br>
     <%= text_field_tag :offset_amount, "", placeholder: "23", style: "width: 50px; text-align: center; ", class: "offset_field" %>
     <%= select_tag :offset_unit, options_for_select([["Days", "day"], ["Weeks", "week"], ["Months", "month"]], @followup.offset_word), class: "offset_field" %>
     <%= select_tag :offset_word, options_for_select([["Before", "before"], ["On", "on"], ["After", "after"]], @followup.offset_word), class: "offset_field" %>

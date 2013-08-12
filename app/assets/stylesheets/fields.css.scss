@@ -1,3 +1,48 @@
 #fields {
   width: 100%;
+  
+  td {
+    padding: 3px 0px;
+  }
+}
+
+.edit_fields {
+  .icon-trash {
+    display: inline-block;
+    margin-left: 10px;
+  }
+}
+
+#suggested_fields {
+  a {
+    display: block;
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 18px;
+    color: #777;
+    font-size: 13px;
+    padding: 4px 0px;
+    
+    &:hover {
+      color: #005782;
+      font-weight: bold;
+    }
+  }
+}
+
+.info {
+  color: #777;
+  font-size: 14px;
+  line-height: 18px;
+  margin: 20px 0 20px 0;
+  
+  a {
+    color: #777;
+    text-decoration: none;
+    padding: 5px 0px;
+    
+    &:hover {
+      color: #005782;
+    }
+  }
 }

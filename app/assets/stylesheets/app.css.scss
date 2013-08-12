@@ -107,7 +107,7 @@ hr {
   z-index: 8;
 }
 
-input[type="text"], input[type="email"], input[type="password"], select {
+textarea, input[type="text"], input[type="email"], input[type="password"], select {
   box-sizing: border-box;
   font-size: 15px;
   border: 1px solid #ccc;
@@ -137,6 +137,12 @@ input[type="text"], input[type="email"], input[type="password"], select {
 
 .field {
   margin: 20px 0;
+  
+  label {
+    font-size: 14px;
+    padding-bottom: 3px;
+    display: inline-block;
+  }
 }
 
 .notice {
@@ -149,7 +155,7 @@ input[type="text"], input[type="email"], input[type="password"], select {
   margin: 20px 0;
 }
 
-.errors {
+.errors, #error_explanation {
   background: #E3B0A7;
   color: #6A1418;
   border: 1px solid #6A1418;
@@ -157,6 +163,16 @@ input[type="text"], input[type="email"], input[type="password"], select {
   font-size: 13px;
   line-height: 18px;
   margin: 20px 0;
+}
+
+.field_with_errors {
+  display: inline;
+}
+
+.small_link {
+  font-size: 11px;
+  color: #777;
+  margin-top: 6px;
 }
 
 .right {
@@ -181,4 +197,28 @@ input[type="text"], input[type="email"], input[type="password"], select {
 
 .full_width {
   width: 100%;
+  box-sizing: border-box;
+}
+
+.block {
+  display: block;
+}
+
+.icon-trash {
+  color: #aaa;
+  
+  &:hover {
+    color: #BB1300;
+  }
+}
+
+table {
+  th {
+    font-weight: bold;
+    font-size: 14px;
+  }
+}
+
+strong {
+  font-weight: bold;
 }
