@@ -20,7 +20,7 @@ class Formatter
     
       if time_attempt
         data_type = "datetime"
-        content = time_attempt.strftime("%B %-d, %Y")
+        content = time_attempt
       end
     end
     
@@ -38,9 +38,10 @@ class Formatter
       end
     elsif data_type == "datetime"
       if content.class == ActiveSupport::TimeWithZone || content.class == Time
-        content = content.strftime("%B %-d, %Y")
+        content = content
       else
-        content = Chronic.parse(content).strftime("%B %-d, %Y")
+        time = Chronic.parse(content)
+        content = time if time
       end
     elsif data_type == "integer"
       content = content.to_s.to_f.to_s.gsub(".0", "")
