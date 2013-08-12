@@ -44,7 +44,7 @@ describe Followup do
     followup.tasks.count.should == 1
     joe.tasks.count.should == 1
     followup.tasks.first.content.should include(contacts(:birthday_a_week_ago).name)
-    followup.tasks.first.content.should include(contacts(:birthday_a_week_ago).data["birthday"].to_datetime.strftime("%B %d"))
+    followup.tasks.first.content.should include(contacts(:birthday_a_week_ago).data["birthday"].in_time_zone.strftime("%B %d"))
   end
   
   it "returns users tasks for today" do
