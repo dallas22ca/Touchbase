@@ -25,6 +25,7 @@
       <% else %>
         <li class="date_heading"><%= link_to "Overdue from #{date.strftime("%a, %b %-d")}", tasks_path(start: date.strftime("%m-%d-%y")) %></li>
       <% end %>
+      <li><%= date %></li>
       <%= tasks.map{ |t| render t }.join.html_safe %>
     </ul>
   <% end %>
