@@ -1,5 +1,5 @@
 set_default(:postgresql_host, "localhost")
-set_default(:postgresql_user) { "#{application}" }
+set_default(:postgresql_user) { application }
 set_default(:postgresql_password) { Capistrano::CLI.password_prompt "PostgreSQL Password: " }
 set_default(:postgresql_database) { "#{application}_#{rails_env}" }
 set_default(:postgresql_pid) { "/var/run/postgresql/9.2-main.pid" }
@@ -9,7 +9,7 @@ namespace :postgresql do
   task :install, roles: :db, only: {primary: true} do
     run "#{sudo} add-apt-repository -y ppa:pitti/postgresql"
     run "#{sudo} apt-get -y update"
-    run "#{sudo} apt-get -y install postgresql-9.2 libpq-dev postgresql-contrib"
+    run "#{sudo} apt-get -y install postgresql-9.2 libpq-dev apt-get install postgresql-contrib-9.2"
   end
   after "deploy:install", "postgresql:install"
 
@@ -23,6 +23,7 @@ namespace :postgresql do
   desc "Drop database for this application."
   task :drop_database, roles: :db, only: {primary: true} do
     run %Q{#{sudo} -u postgres psql -c "drop database #{postgresql_database};"}
+    run %Q{#{sudo} -u postgres psql -c "drop user #{postgresql_user};"}
   end
 
   desc "Generate the database.yml configuration file."

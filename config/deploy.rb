@@ -19,7 +19,7 @@ set :maintenance_template_path, File.expand_path("../recipes/templates/maintenan
 set :whenever_command, "bundle exec whenever"
 
 set :server_name, "66.228.40.130"
-set :rails_env, "master"
+set :rails_env, "production"
 set :branch, "master"
 set :root_url, "http://touchbasenow.com"
 server server_name, :web, :app, :db, primary: true
