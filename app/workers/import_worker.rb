@@ -18,7 +18,8 @@ class ImportWorker
       followup = Followup.find(id)
       
       if followup
-        followup.create_tasks(Time.now, nil, true, true, true)
+        Time.zone = followup.user.time_zone
+        followup.create_tasks(Time.zone.now, nil, true, true, true)
       end
     end
   end
