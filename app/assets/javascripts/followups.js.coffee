@@ -10,6 +10,7 @@ $(document).on "change keyup", ".offset_field", ->
       amount = $("#offset_amount")
       unit = $("#offset_unit")
       word = $("#offset_word")
+      recurrence = $("#followup_recurrence")
     
       if value == 0
         word.val "on"
@@ -40,28 +41,41 @@ $(document).on "change keyup", ".offset_field", ->
       amount = $("#offset_amount")
       unit = $("#offset_unit")
       word = $("#offset_word")
-    
-      if word.val() == "on"
-        amount.hide()
-        unit.hide()
-        offset.val 0
-      else
-        value = amount.val()
-        value = 0 if value is ""
+      field = $("#followup_field_id")
+      recurrence = $("#followup_recurrence")
+      value = parseFloat amount.val()
+      value = 0 if isNaN value
       
+      if unit.val() == "month"
+        unit_multiplier = 60 * 60 * 24 * 30
+      else if unit.val() == "week"
+        unit_multiplier = 60 * 60 * 24 * 7
+      else
+        unit_multiplier = 60 * 60 * 24
+    
+      if word.val() == "before" || word.val() == "after"
         if word.val() == "after"
           word_multiplier = 1
         else
           word_multiplier = -1
       
+        word.insertAfter unit
         amount.show()
         unit.show()
       
-        if unit.val() == "month"
-          unit_multiplier = 60 * 60 * 24 * 30
-        else if unit.val() == "week"
-          unit_multiplier = 60 * 60 * 24 * 7
-        else
-          unit_multiplier = 60 * 60 * 24
-      
-        offset.val parseFloat(value) * unit_multiplier * word_multiplier
+        offset.val value * unit_multiplier * word_multiplier
+        recurrence.val 0
+    
+      else if word.val() == "on"
+        word.insertAfter unit
+        amount.hide()
+        unit.hide()
+        field.show()
+        offset.val 0
+        recurrence.val 0
+      else if word.val() == "every"
+        word.insertBefore amount
+        amount.show()
+        unit.show()
+        field.hide()
+        recurrence.val value * unit_multiplier

@@ -73,7 +73,7 @@ private
   end
   
   def followup_params
-    params.require(:followup).permit(:offset, :description, :field_id)
+    params.require(:followup).permit(:offset, :description, :field_id, :recurrence)
   end
   
 end
