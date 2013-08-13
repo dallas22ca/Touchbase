@@ -40,36 +40,65 @@ class Followup < ActiveRecord::Base
     ImportWorker.perform_async id, "followup"
   end
   
-  def create_tasks(start = nil, finish = nil, contact_id = nil, create_only = false)
-    start ||= Time.now
-    finish ||= start + 30.days
-    tasks.destroy_all unless create_only
-    filters = [[field.permalink, "recurring", nil, { start: start, finish: finish }]]
+  def create_tasks(start = nil, finish = nil, search_all_contacts = false, update_all = false, create_if_needed = true)
+    if remind_every?
       
-    user.contacts.filter(filters).find_each do |contact|
-      actual_data = contact.data[field.permalink]
+      # WHAT SHOULD THIS ACTUALLY DO? :: SAME AS BELOW!
+      # 2. Loop through all contacts tasks
+      # 3. Try to find a task between dates.
+      # 4. If not there, create it. If there, edit it.
       
-      unless actual_data.blank?
-        actual_date = Chronic.parse(actual_data.in_time_zone.strftime("%B %d, #{start.year}")).beginning_of_day
-        remind_at = actual_date + offset.seconds
-        task = tasks.where(contact_id: contact.id, complete: false).first_or_initialize
-        
-        if task
-          desc = description.gsub("{{name}}", contact.name).to_s
-        
-          user.fields.each do |field|
-            sub = contact.data[field.permalink]
-            sub = sub.in_time_zone.strftime("%B %-d") if field.data_type == "datetime"
-            desc = desc.gsub(/\{\{#{field.permalink}\}\}/, sub)
-          end
-        
-          task.date = remind_at
-          task.content = desc
-          task.save!
+    else
+
+      start ||= Time.now
+      
+      if finish.nil?
+        if remind_before?
+          finish = start - offset.seconds
+        elsif remind_after?
+          finish = start
+          start = start - offset.seconds
+        elsif remind_on?
+          finish = start.end_of_day
         end
       end
+      
+      if search_all_contacts || offset_changed?
+        filters = []
+      else
+        filters = [[field.permalink, "recurring", nil, { start: start, finish: finish }]]
+      end
+        
+      user.contacts.filter(filters).find_each do |contact|
+        actual_data = contact.data[field.permalink]
+        
+        unless actual_data.blank?
+          actual_date = Chronic.parse(actual_data.in_time_zone.strftime("%B %d, #{start.year}")).beginning_of_day
+          remind_at = actual_date + offset.seconds
+          
+          if update_all && !create_if_needed
+            task = tasks.where(contact_id: contact.id, complete: false).first
+          elsif actual_date > start
+            task = tasks.where(contact_id: contact.id, complete: false).first_or_initialize
+          end
+          
+          if task
+            desc = description.gsub("{{name}}", contact.name)
+          
+            user.fields.each do |field|
+              sub = contact.data[field.permalink]
+              sub = sub.in_time_zone.strftime("%B %d") if field.data_type == "datetime"
+              desc = desc.to_s.gsub(/\{\{#{field.permalink}\}\}/, sub)
+            end
+          
+            task.date = remind_at
+            task.content = desc
+            task.save!
+          end
+        end
+      end
+      
     end
-    
   end
   
   def offset_word
