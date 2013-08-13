@@ -19,11 +19,12 @@
   </div>
   
   <div class="field">
-    <%= label_tag :offset_word, "When will you need to take action?" %><br>
+    <%= label_tag :offset_word, "When will you take action?" %><br>
     <%= text_field_tag :offset_amount, "", placeholder: "23", style: "width: 50px; text-align: center; ", class: "offset_field" %>
     <%= select_tag :offset_unit, options_for_select([["Days", "day"], ["Weeks", "week"], ["Months", "month"]], @followup.offset_word), class: "offset_field" %>
-    <%= select_tag :offset_word, options_for_select([["Before", "before"], ["On", "on"], ["After", "after"]], @followup.offset_word), class: "offset_field" %>
+    <%= select_tag :offset_word, options_for_select([["On", "on"], ["Before", "before"], ["After", "after"], ["Every", "every"]], @followup.offset_word), class: "offset_field" %> 
     <%= f.collection_select :field_id, current_user.fields.where(data_type: "datetime"), :id, :title, class: "offset_field" %>
+    <%= f.text_field :recurrence %>
   </div>
   
   <div class="actions">
