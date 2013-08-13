@@ -5,20 +5,32 @@ $(document).on "change keyup", ".offset_field", ->
   initOffset: ->
     if $("#followup_offset").length
       offset = $("#followup_offset")
+      recurrence = $("#followup_recurrence")
+      re_val = parseFloat(recurrence.val())
       value = parseFloat(offset.val())
-      abs = Math.abs(value)
+      field = $("#followup_field_id")
+      
+      if re_val != 0
+        abs = Math.abs(re_val)
+      else
+        abs = Math.abs(value)
+      
       amount = $("#offset_amount")
       unit = $("#offset_unit")
       word = $("#offset_word")
-      recurrence = $("#followup_recurrence")
-    
-      if value == 0
+      
+      if re_val != 0
+        word.val "every"
+        field.hide()
+      else if value == 0
         word.val "on"
         amount.hide()
         unit.hide()
+        field.show()
       else
         amount.show()
         unit.show()
+        field.show()
         
         if value > 0
           word.val "after"  
@@ -34,6 +46,8 @@ $(document).on "change keyup", ".offset_field", ->
       else
         unit.val "day"
         amount.val abs / 60 / 60 / 24
+      
+      Followup.calcOffset()
     
   calcOffset: ->
     if $("#followup_offset").length
@@ -62,6 +76,7 @@ $(document).on "change keyup", ".offset_field", ->
         word.insertAfter unit
         amount.show()
         unit.show()
+        field.show()
       
         offset.val value * unit_multiplier * word_multiplier
         recurrence.val 0
@@ -73,9 +88,11 @@ $(document).on "change keyup", ".offset_field", ->
         field.show()
         offset.val 0
         recurrence.val 0
+
       else if word.val() == "every"
         word.insertBefore amount
         amount.show()
         unit.show()
         field.hide()
+        offset.val 0
         recurrence.val value * unit_multiplier

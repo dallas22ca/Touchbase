@@ -9,3 +9,8 @@ two_weeks_after_birthday:
   description: Ask {{name}} if they received their birthday card ({{birthday}})
   field: birthday
   offset: <%= 2.weeks * 1 %>
+  
+every_three_weeks:
+  user: joe
+  description: Pop by {{name}}
+  recurrence: <%= 3.weeks.to_i %>
