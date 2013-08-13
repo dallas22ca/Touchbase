@@ -21,18 +21,8 @@
     </thead>
   
     <tbody>
-    	<%= f.fields_for :fields do |field| %>
-        <tr>
-          <td>
-            <%= field.text_field :title, class: "title full_width" %>
-            <%= field.hidden_field :permalink, class: "permalink" %>
-          </td>
-          <td class="center"><%= field.select :data_type, options_for_select([["Text", "string"], ["Number", "integer"], ["Yes/No", "boolean"], ["Date", "datetime"]], field.object.try(:data_type)), {}, class: "data_type" %></td>
-          <td>
-        		<%= field.hidden_field :_destroy %>
-          	<%= link_to "", '#', class: "icon-trash remove_fields", data: { confirm: "Are you sure you want to delete this field?" } %>
-          </td>
-        </tr>
+    	<%= f.fields_for :fields do |builder| %>
+        <%= render "edit_fields", f: builder %>
       <% end %>
     </tbody>
     
