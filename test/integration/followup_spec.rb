@@ -8,7 +8,7 @@ describe Followup do
     Task.destroy_all
   end
   
-  it "ALL TEST FIXTURES MAY FAIL IN JANUARY" do
+  it "ALL TEST FIXTURES SHOULD FAIL IN JANUARY" do
     Time.now.month.should_not == 1
   end
   
@@ -59,6 +59,12 @@ describe Followup do
     followup = followups(:two_weeks_before_birthday)
     followup.create_tasks
     joe.tasks_for(Time.now).count.should == 1
+  end
+  
+  it "returns users tasks for today" do
+    joe = users(:joe)
+    followup = followups(:two_weeks_before_birthday)
+    followup.create_tasks
     joe.tasks.update_all complete: true
     joe.tasks_for(Time.now).count.should == 0
   end
@@ -75,21 +81,12 @@ describe Followup do
     joe.tasks_for(4.days.from_now).count.should == 1
   end
   
-  it "removes any future tasks if followup is deleted" do
-    joe = users(:joe)
-    followup = followups(:two_weeks_before_birthday)
-    followup.create_tasks
-    Task.count.should == 1
-    followup.destroy!
-    Task.count.should == 0
-  end
-  
   it "removes any future tasks if field is deleted" do
     joe = users(:joe)
     followup = followups(:two_weeks_before_birthday)
     followup.create_tasks
     Task.count.should == 1
-    Field.destroy_all
+    followup.destroy!
     Task.count.should == 0
   end
   
