@@ -25,3 +25,20 @@
 </table>
 
 <div class="clear"></div>
+
+<hr />
+
+<ul id="incomplete_tasks" class="task_list">
+  <ul class="tasks_for_date overdue_list">
+    <li class="date_heading">Upcoming Tasks</li>
+  </ul>
+  <%= render @tasks.incomplete %>
+</ul>
+
+<div id="completed_tasks_wrapper" style="<%= "display: none; " if @tasks.complete.empty? %>">
+  <hr />
+  <h4>Completed Tasks</h4>
+  <ul id="complete_tasks" class="task_list">
+    <%= render @tasks.complete %>
+  </ul>
+</div>

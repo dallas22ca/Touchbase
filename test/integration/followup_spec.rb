@@ -47,6 +47,13 @@ describe Followup do
     followup.tasks.first.content.should include(contacts(:birthday_a_week_ago).data["birthday"].in_time_zone.strftime("%B %d"))
   end
   
+  it "creates tasks every 3 weeks" do
+    joe = users(:joe)
+    followup = followups(:every_three_weeks)
+    followup.create_tasks(3.weeks.from_now)
+    joe.tasks_for(3.weeks.from_now).count.should == 4
+  end
+  
   it "returns users tasks for today" do
     joe = users(:joe)
     followup = followups(:two_weeks_before_birthday)

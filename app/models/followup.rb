@@ -11,7 +11,18 @@ class Followup < ActiveRecord::Base
   before_validation :set_criteria
   validates_presence_of :user_id, :description
   before_save :add_name_to_description, unless: Proc.new { |f| f.description.match(/\{\{name\}\}/) }
+  before_save :set_starting_at
   after_save :invite_user_to_step, :sidekiq_create_tasks
+  
+  def set_starting_at
+    if self.recurrence == 0
+      self.starting_at = nil
+    else
+      self.starting_at = Time.zone.now
+      self.offset = 0
+      self.field_id = nil
+    end
+  end
   
   def invite_user_to_step
     user.update_attributes updated_at: Time.now
@@ -30,10 +41,17 @@ class Followup < ActiveRecord::Base
   end
   
   def create_tasks(start = nil, finish = nil, search_all_contacts = false, update_all = false, create_if_needed = true)
-    Time.zone = user.time_zone
-    start ||= Time.now
-    
-    if field
+    if remind_every?
+      
+      # WHAT SHOULD THIS ACTUALLY DO? :: SAME AS BELOW!
+      # 2. Loop through all contacts tasks
+      # 3. Try to find a task between dates.
+      # 4. If not there, create it. If there, edit it.
+      
+    else
+
+      start ||= Time.now
+      
       if finish.nil?
         if remind_before?
           finish = start - offset.seconds
@@ -79,12 +97,14 @@ class Followup < ActiveRecord::Base
           end
         end
       end
-    else
+      
     end
   end
   
   def offset_word
-    if remind_before?
+    if remind_every?
+      "every"
+    elsif remind_before?
       "before"
     elsif remind_after?
       "after"
@@ -93,20 +113,27 @@ class Followup < ActiveRecord::Base
     end
   end
   
+  def remind_every?
+    recurrence > 0
+  end
+  
   def remind_before?
-    offset < 0
+    offset < 0 && !remind_every?
   end
   
   def remind_on?
-    offset == 0
+    offset == 0 && !remind_every?
   end
   
   def remind_after?
-    offset > 0
+    offset > 0 && !remind_every?
   end
   
   def timing
-    if recurring
+    if remind_every?
+      timing = distance_of_time_in_words(recurrence.seconds)
+      "#{offset_word.capitalize} #{timing}"
+    else
       timing = distance_of_time_in_words(offset.seconds)
     
       if remind_before? || remind_after?
@@ -120,8 +147,6 @@ class Followup < ActiveRecord::Base
       else
         timing
       end
-    else
-      "Never"
     end
   end
 end
