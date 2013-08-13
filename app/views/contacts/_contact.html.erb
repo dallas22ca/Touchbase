@@ -3,7 +3,7 @@
     <td class="name"><%= link_to contact.name, contact %></td>
     <% @fields.each do |field| %>
       <% if field.data_type == "datetime" %>
-        <td><%= link_to Formatter.format("datetime", contact.data[field.permalink]).strftime("%b %-d, %Y"), contact %></td>
+        <td><%= link_to Formatter.format("datetime", contact.data[field.permalink]), contact %></td>
       <% elsif field.data_type == "boolean" %>
         <% if contact.data[field.permalink] == "true" %>
           <td><i class="icon-ok"></i></td>
