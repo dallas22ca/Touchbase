@@ -8,7 +8,8 @@ $(document).on "change keyup", ".offset_field", ->
       recurrence = $("#followup_recurrence")
       re_val = parseFloat(recurrence.val())
       value = parseFloat(offset.val())
-      field = $("#followup_field_id")
+      field = $("#fake_field_id")
+      start = $("#start")
       
       if re_val != 0
         abs = Math.abs(re_val)
@@ -21,17 +22,9 @@ $(document).on "change keyup", ".offset_field", ->
       
       if re_val != 0
         word.val "every"
-        field.hide()
       else if value == 0
         word.val "on"
-        amount.hide()
-        unit.hide()
-        field.show()
       else
-        amount.show()
-        unit.show()
-        field.show()
-        
         if value > 0
           word.val "after"  
         else
@@ -55,8 +48,10 @@ $(document).on "change keyup", ".offset_field", ->
       amount = $("#offset_amount")
       unit = $("#offset_unit")
       word = $("#offset_word")
-      field = $("#followup_field_id")
+      w = word.val()
+      field = $("#fake_field_id")
       recurrence = $("#followup_recurrence")
+      start = $("#start")
       value = parseFloat amount.val()
       value = 0 if isNaN value
       
@@ -67,32 +62,28 @@ $(document).on "change keyup", ".offset_field", ->
       else
         unit_multiplier = 60 * 60 * 24
     
-      if word.val() == "before" || word.val() == "after"
+      if w == "before" || w == "after"
         if word.val() == "after"
           word_multiplier = 1
         else
           word_multiplier = -1
       
         word.insertAfter unit
-        amount.show()
-        unit.show()
-        field.show()
-      
         offset.val value * unit_multiplier * word_multiplier
         recurrence.val 0
+        $("#followup_field_id").val field.val()
     
-      else if word.val() == "on"
+      else if w == "on"
         word.insertAfter unit
-        amount.hide()
-        unit.hide()
-        field.show()
         offset.val 0
         recurrence.val 0
+        $("#followup_field_id").val field.val()
 
-      else if word.val() == "every"
+      else if w == "every"
         word.insertBefore amount
-        amount.show()
-        unit.show()
-        field.hide()
         offset.val 0
         recurrence.val value * unit_multiplier
+        $("#followup_field_id").val start.val()
+        
+    $(".offset_toggle").hide()
+    $(".offset_#{w}").show()

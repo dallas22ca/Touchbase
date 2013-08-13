@@ -19,12 +19,23 @@
   </div>
   
   <div class="field">
+    <%= label_tag :who, "Who do you need to follow up with?" %><br>
+    <%= select_tag :who, options_for_select([["Everyone", "everyone"]]), class: "full_width" %>
+  </div>
+  
+  <div class="field">
     <%= label_tag :offset_word, "When will you take action?" %><br>
-    <%= text_field_tag :offset_amount, "", placeholder: "23", style: "width: 50px; text-align: center; ", class: "offset_field" %>
-    <%= select_tag :offset_unit, options_for_select([["Days", "day"], ["Weeks", "week"], ["Months", "month"]], @followup.offset_word), class: "offset_field" %>
-    <%= select_tag :offset_word, options_for_select([["On", "on"], ["Before", "before"], ["After", "after"], ["Every", "every"]], @followup.offset_word), class: "offset_field" %> 
-    <%= f.collection_select :field_id, current_user.fields.where(data_type: "datetime"), :id, :title, class: "offset_field" %>
+    <%= text_field_tag :offset_amount, "", placeholder: "23", style: "width: 50px; text-align: center; ", class: "offset_field offset_toggle offset_every offset_before offset_after" %>
+    <%= select_tag :offset_unit, options_for_select([["Days", "day"], ["Weeks", "week"], ["Months", "month"]], @followup.offset_word), class: "offset_field offset_toggle offset_every offset_before offset_after" %>
+    <%= select_tag :offset_word, options_for_select([["On", "on"], ["Before", "before"], ["After", "after"], ["Every", "every"]]), class: "offset_field" %> 
+    <%= f.hidden_field :field_id %>
+    <%= select_tag :fake_field_id, options_for_select(current_user.fields.where(data_type: "datetime").map{ |f| [f.title, f.id] }, @followup.field_id), class: "offset_field offset_toggle offset_on offset_before offset_after" %>
     <%= f.hidden_field :recurrence %>
+  </div>
+  
+  <div class="field offset_toggle offset_every">
+    <%= label_tag :start, "When should this start?" %><br>
+    <%= select_tag :start, options_for_select([["Now", ""]] + current_user.fields.where(data_type: "datetime").map{ |f| ["On their #{f.title}", f.id] }, @followup.field_id), class: "offset_field" %>
   </div>
   
   <div class="actions">

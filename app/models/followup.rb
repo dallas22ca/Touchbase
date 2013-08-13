@@ -7,20 +7,19 @@ class Followup < ActiveRecord::Base
   
   belongs_to :user
   belongs_to :field
-  
+
+  before_validation :set_starting_at
   before_validation :set_criteria
   validates_presence_of :user_id, :description
   before_save :add_name_to_description, unless: Proc.new { |f| f.description.match(/\{\{name\}\}/) }
-  before_save :set_starting_at
   after_save :invite_user_to_step, :sidekiq_create_tasks
   
   def set_starting_at
     if self.recurrence == 0
       self.starting_at = nil
     else
-      self.starting_at = Time.zone.now
+      self.starting_at = Time.zone.now if self.starting_at.blank?
       self.offset = 0
-      self.field_id = nil
     end
   end
   
@@ -132,14 +131,21 @@ class Followup < ActiveRecord::Base
   def timing
     if remind_every?
       timing = distance_of_time_in_words(recurrence.seconds)
-      "#{offset_word.capitalize} #{timing}"
+      
+      if field
+        "#{offset_word.capitalize} #{timing} starting on their #{field.title}"
+      else
+        "#{offset_word.capitalize} #{timing} starting on #{starting_at.strftime("%b %-d, %Y")}"
+      end
     else
       timing = distance_of_time_in_words(offset.seconds)
     
-      if remind_before? || remind_after?
-        timing = "#{timing.capitalize} #{offset_word}"
+      if remind_before?
+        timing = "#{timing.capitalize} before"
+      elsif remind_after?
+        timing = "#{timing.capitalize} after"
       elsif remind_on?
-        timing = offset_word.capitalize
+        timing = "On"
       end
     
       if field
