@@ -32,7 +32,7 @@
   <ul class="tasks_for_date overdue_list">
     <li class="date_heading">Upcoming Tasks</li>
   </ul>
-  <%= render @tasks.incomplete %>
+  <%= render @tasks.incomplete.order("tasks.date asc") %>
 </ul>
 
 <div id="completed_tasks_wrapper" style="<%= "display: none; " if @tasks.complete.empty? %>">
