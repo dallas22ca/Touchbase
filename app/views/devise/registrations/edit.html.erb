@@ -10,7 +10,7 @@
   
   <div class="field">
     <%= f.label :time_zone %><br />
-    <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone.all.map { |t| [t, t.tzinfo.name] }, current_user.time_zone), default: "Atlantic Time (US & Canada)" %>
+    <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone.all.map { |t| [t, t.tzinfo.name] }, resource.time_zone), default: "Atlantic Time (US & Canada)" %>
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
