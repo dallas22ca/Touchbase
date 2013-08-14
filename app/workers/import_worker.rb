@@ -3,23 +3,23 @@ class ImportWorker
   
   sidekiq_options queue: "ImportWorker"
   
-  def perform id, src, overwrite = false
+  def perform id, src, option = false
     
     if src == "blob"
       user = User.find(id)
-      user.import_blob overwrite
+      user.import_blob option
     elsif src == "file"
       user = User.find(id)
-      user.import_file overwrite
-    elsif src == "field"
+      user.import_file option
+    elsif src == "field_update_contacts_with_data"
       field = Field.find(id)
-      field.update_contacts if field
+      field.update_contacts_with_data(option) if field
+    elsif src == "field_update_contacts_with_permalink"
+      field = Field.find(id)
+      field.update_contacts_with_permalink(option) if field
     elsif src == "followup"
       followup = Followup.find(id)
-      
-      if followup
-        followup.create_tasks(nil, nil, true, true, true)
-      end
+      followup.create_tasks option, 1.year.to_i if followup
     end
   end
 end
