@@ -20,11 +20,31 @@ class Field < ActiveRecord::Base
   end
   
   def sidekiq_update_contacts
-    ImportWorker.perform_async id, "field"
+    if data_type_changed? && permalink_changed?
+      ImportWorker.perform_async id, "field_update_contacts_with_data", permalink_was
+    elsif data_type_changed?
+      ImportWorker.perform_async id, "field_update_contacts_with_data"
+    elsif permalink_changed?
+      ImportWorker.perform_async id, "field_update_contacts_with_permalink", permalink_was
+    end
+  end
+
+  def update_contacts_with_permalink(permalink_was)
+    user.contacts.find_each do |contact|
+      detail = {}
+      detail[permalink] = contact.data[permalink_was]
+      contact.data ||= {}
+      contact.data = contact.data.merge(detail)
+      contact.data.delete(permalink_was)
+      contact.overwrite = true
+      contact.save
+    end
   end
   
-  def update_contacts
+  
+  def update_contacts_with_data(permalink_was = false)
     user.contacts.find_each do |contact|
+      contact.original_data ||= {}
       content = contact.original_data[permalink]
       details = { permalink => Formatter.format(data_type, content) }
       contact.data = contact.data.merge(details)
@@ -32,11 +52,13 @@ class Field < ActiveRecord::Base
       contact.overwrite = true
       contact.save
     end
+    
+    ImportWorker.perform_async id, "field_update_contacts_with_permalink", permalink_was if permalink_was
   end
   
   def substitute_data(content)
     if !content.blank? && data_type == "datetime"
-      content = Chronic.parse(content.to_s).strftime("%B %-d")
+      content = Formatter.format(data_type, content.to_s).strftime("%B %-d")
     end
     
     content.to_s

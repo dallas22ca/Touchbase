@@ -7,6 +7,7 @@ basic:
   data:
     email: <%= Faker::Internet.email %>
 
+# JOES CONTACTS
 birthday_a_week_ago:
   user: joe
   name: <%= Faker::Name.name %>

@@ -1,3 +1,9 @@
+on_birthday:
+  user: joe
+  description: Say Happy Birthday to {{name}} ({{birthday}})
+  field: birthday
+  offset: 0
+
 two_weeks_before_birthday:
   user: joe
   description: Send a birthday card to {{name}} ({{birthday}})
@@ -14,3 +20,22 @@ every_three_weeks:
   user: joe
   description: Pop by {{name}}
   recurrence: <%= 3.weeks.to_i %>
+  starting_at: <%= Time.now %>
+  
+every_five_weeks:
+  user: joe
+  description: Pop by {{name}}
+  recurrence: <%= 5.weeks.to_i %>
+  starting_at: <%= Time.now %>
+  
+every_three_weeks_starting_on_birthday:
+  user: joe
+  description: Pop by {{name}}
+  recurrence: <%= 3.weeks.to_i %>
+  field: birthday
+  
+every_five_weeks_starting_on_birthday:
+  user: joe
+  description: Pop by {{name}}
+  recurrence: <%= 5.weeks.to_i %>
+  field: birthday

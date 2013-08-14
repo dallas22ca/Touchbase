@@ -62,15 +62,97 @@ describe Followup do
     followup.tasks.count.should == 2
   end
   
-  it "renaming a field prepares contacts"
+  it "every 3 weeks starting now" do
+    joe = users(:joe)
+    followup = followups(:every_three_weeks)
+    followup.create_tasks
+    followup.tasks.count.should == 8
+  end
   
-  it "every 3 weeks starting now"
-  it "every 3 weeks starting on their birthday"
-  it "on birthday"
-  it "3 weeks after birthday"
-  it "3 weeks before birthday"
+  it "every 5 weeks starting now" do
+    joe = users(:joe)
+    followup = followups(:every_five_weeks)
+    followup.create_tasks
+    followup.tasks.count.should == 4
+  end
   
-  # it "doesn't create duplicate tasks"
-  # it "update contacts when field is changed"
-  # it "update future tasks if followup is changed"
+  it "every 3 weeks starting on their birthday" do
+    joe = users(:joe)
+    followup = followups(:every_three_weeks_starting_on_birthday)
+    followup.create_tasks
+    followup.tasks.count.should == 6
+  end
+  
+  it "every 5 weeks starting on their birthday" do
+    joe = users(:joe)
+    followup = followups(:every_five_weeks_starting_on_birthday)
+    followup.create_tasks
+    followup.tasks.count.should == 4
+  end
+  
+  it "on birthday" do
+    joe = users(:joe)
+    followup = followups(:on_birthday)
+    followup.create_tasks
+    followup.tasks.count.should == 1
+  end
+  
+  it "2 weeks after birthday" do
+    joe = users(:joe)
+    followup = followups(:two_weeks_after_birthday)
+    followup.create_tasks
+    followup.tasks.count.should == 1
+  end
+  
+  it "2 weeks before birthday" do
+    joe = users(:joe)
+    followup = followups(:two_weeks_before_birthday)
+    followup.create_tasks
+    followup.tasks.count.should == 1
+  end
+  
+  it "creates tasks for only 1 contact" do
+    joe = users(:joe)
+    followup = followups(:two_weeks_before_birthday)
+    
+    Task.destroy_all
+    contact = contacts(:birthday_in_a_week)
+    followup.create_tasks(contact.id)
+    followup.tasks.count.should == 1
+    
+    Task.destroy_all
+    contact = contacts(:birthday_a_week_ago)
+    followup.create_tasks(contact.id)
+    followup.tasks.count.should == 0
+  end
+  
+  it "doesn't create duplicate tasks" do
+    joe = users(:joe)
+    followup = followups(:two_weeks_before_birthday)
+    followup.create_tasks
+    followup.tasks.first.update_attributes complete: true
+    2.times.map { followup.create_tasks }
+    followup.tasks.count.should == 1
+  end
+  
+  it "update future tasks if followup is changed" do
+    joe = users(:joe)
+    followup = followups(:two_weeks_before_birthday)
+    followup.create_tasks
+    task_content = followup.tasks.first.content
+    followup.update_attributes description: "Say Wahoo"
+    ImportWorker.drain
+    followup.tasks.first.content.should include("Say Wahoo")
+  end
+  
+  it "updates followups for contact if contact is changed" do
+    ImportWorker.jobs.clear
+    joe = users(:joe)
+    c = contacts(:birthday_in_a_week)
+    followup = followups(:two_weeks_before_birthday)
+    followup.create_tasks
+    c.update_attributes! name: "Super Man"
+    ImportWorker.drain
+    followup.tasks.first.reload.content.should include("Super Man")
+  end
 end

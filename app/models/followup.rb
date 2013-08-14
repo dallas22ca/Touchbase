@@ -4,6 +4,7 @@ class Followup < ActiveRecord::Base
   serialize :criteria, Array
   
   has_many :tasks, dependent: :destroy
+  has_many :contacts, through: :tasks
   
   belongs_to :user
   belongs_to :field
@@ -35,13 +36,14 @@ class Followup < ActiveRecord::Base
     self.description = "#{self.description} to {{name}}"
   end
   
-  def sidekiq_create_tasks
-    ImportWorker.perform_async id, "followup"
+  def sidekiq_create_tasks(contact_id = false)
+    ImportWorker.perform_async id, "followup", contact_id
   end
   
-  def create_tasks(query_start = nil, query_finish = nil, contact_id = nil)
-    query_start ||= Time.now
-    query_finish ||= query_start.end_of_day + 30.days
+  def create_tasks(contact_id = false, query_duration = 30.days.to_i, query_start = nil)
+    query_start ||= Time.now.beginning_of_day
+    query_start += offset
+    query_finish = query_start.end_of_day + query_duration.seconds
     filters = []
     
     if contact_id
@@ -49,39 +51,47 @@ class Followup < ActiveRecord::Base
       filters.push ["id", "is", contact_id]
     else
       tasks.incomplete.destroy_all
-      # filters = [[field.permalink, "recurring", nil, { start: start, finish: finish }]]
     end
     
     user.contacts.filter(filters).find_each do |contact|
-      how_often = 1.year.to_i
+      start = false
       
       if field
-        start = Chronic.parse(contact.data[field.permalink].to_datetime.strftime("%B %d, #{query_start.year}")).beginning_of_day
+        begin
+          start = Chronic.parse(contact.data[field.permalink].to_datetime.strftime("%B %d, #{query_start.year}")).beginning_of_day
+        rescue
+        end
       else
         start = starting_at
       end
       
-      if remind_every?
-        how_often = recurrence.seconds
-      else
+      if start
+        if remind_every?
+          how_often = recurrence.seconds
+        else
+          how_often = 1.year.to_i
+          start = start + offset.seconds
+        end
+      
+        date = start
+      
+        while date <= query_finish
+          if date >= query_start
+            desc = description.gsub("{{name}}", contact.name)
+            user.fields.map { |f| desc = desc.to_s.gsub(/\{\{#{f.permalink}\}\}/, f.substitute_data(contact.data[f.permalink])) }
+          
+            if tasks.where(contact_id: contact.id, date: date).empty?
+              task = tasks.create(
+                contact_id: contact.id, 
+                complete: false,
+                date: date,
+                content: desc
+              )
+            end
+          end
         
-        start = start + offset.seconds
-      end
-      
-      date = query_start
-      
-      while date <= query_finish
-        desc = description.gsub("{{name}}", contact.name)
-        user.fields.map { |f| desc = desc.to_s.gsub(/\{\{#{f.permalink}\}\}/, f.substitute_data(contact.data[f.permalink])) }
-      
-        task = tasks.create(
-          contact_id: contact.id, 
-          complete: false,
-          date: date,
-          content: desc
-        )
-        
-        date = date + how_often
+          date = date + how_often
+        end
       end
     end
   end

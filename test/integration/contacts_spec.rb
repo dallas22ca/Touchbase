@@ -53,4 +53,11 @@ describe Contact do
     contact.data.should == pending_data
     contact.pending_data.should == nil
   end
+  
+  it "contact first_name and last_name" do
+    joe = users(:joe)
+    contact = joe.contacts.create!(name: nil, data: { "first-name" => "Cool", "last-name" => "Cat" })
+    contact.name.should == "Cool Cat"
+    contact.data["first-name"].should == nil
+  end
 end

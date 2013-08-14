@@ -12,16 +12,21 @@ class Contact < ActiveRecord::Base
   scope :pending, -> { where("pending_data is not ?", nil) }
   
   before_validation :write_pending, if: :use_pending
-  before_validation :move_data_to_pending, unless: Proc.new { |c| c.overwrite? || c.new_record? }
+  before_validation :move_data_to_pending, unless: Proc.new { |c| c.overwrite? || c.new_record? || (c.name_changed? && !c.data_changed?) }
   before_validation :set_defaults
-  validate :not_duplicate_data
+  validate :not_duplicate_data, unless: :name_changed?
   before_save :format_data, unless: Proc.new { |c| c.ignore_formatting }
   after_save :create_followup_tasks, if: Proc.new { |c| [0, 100].include?(c.user.import_progress) }
     
   def set_defaults
     self.pending_data = nil if self.overwrite
-    self.name = "#{data["first-name"]} #{data["last-name"]}" if !data.nil? && data.has_key?("first-name") && data.has_key?("last-name")
     self.warnings ||= []
+    
+    if !data.nil? && data.has_key?("first-name") && data.has_key?("last-name")
+      self.name = "#{data["first-name"]} #{data["last-name"]}"
+      self.data.delete("first-name")
+      self.data.delete("last-name")
+    end
   end
   
   def write_pending
@@ -124,7 +129,7 @@ class Contact < ActiveRecord::Base
   end
   
   def create_followup_tasks
-    user.followups.map { |f| f.sidekiq_create_tasks }
+    user.followups.map { |f| f.sidekiq_create_tasks(id) }
   end
   
   def overwrite?
