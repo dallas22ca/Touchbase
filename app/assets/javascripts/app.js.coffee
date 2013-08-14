@@ -12,7 +12,8 @@ unload = ->
 load = ->
   $("#loading").fadeOut()
   setTimezone()
-  Followup.initOffset()
+  Followup.init()
+  Filters.init()
   
 $ ->
   load()

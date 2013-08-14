@@ -63,4 +63,11 @@ class Field < ActiveRecord::Base
     
     content.to_s
   end
+  
+  def self.for_filters
+    for_filters = {}
+    for_filters["name"] = { "permalink" => "name", "data_type" => "string", "title" => "Name" }
+    where("data_type != ?", "datetime").map{ |f| for_filters[f.permalink] = { permalink: f.permalink, data_type: f.data_type, title: f.title } }
+    for_filters
+  end
 end
