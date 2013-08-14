@@ -1,8 +1,9 @@
 $(document).on "change keyup", ".offset_field", ->
-  Followup.calcOffset()
+  Followup.calc()
+  Filters.calc()
 
 @Followup =
-  initOffset: ->
+  init: ->
     if $("#followup_offset").length
       offset = $("#followup_offset")
       recurrence = $("#followup_recurrence")
@@ -40,9 +41,9 @@ $(document).on "change keyup", ".offset_field", ->
         unit.val "day"
         amount.val abs / 60 / 60 / 24
       
-      Followup.calcOffset()
+      Followup.calc()
     
-  calcOffset: ->
+  calc: ->
     if $("#followup_offset").length
       offset = $("#followup_offset")
       amount = $("#offset_amount")

@@ -1,5 +1,6 @@
 class FollowupsController < ApplicationController
   before_action :set_followup, only: [:show, :edit, :update, :destroy]
+  before_action :parse_criteria, only: [:create, :update]
   
   def index
     @followups = current_user.followups
@@ -27,7 +28,7 @@ class FollowupsController < ApplicationController
   # POST /followups.json
   def create
     @followup = current_user.followups.new(followup_params)
-
+    
     respond_to do |format|
       if @followup.save
         format.html { redirect_to followups_path, notice: 'Followup was successfully created.' }
@@ -44,7 +45,9 @@ class FollowupsController < ApplicationController
   # PATCH/PUT /followups/1.json
   def update
     respond_to do |format|
-      if @followup.update(followup_params)
+      @followup.assign_attributes(followup_params)
+      
+      if @followup.save
         format.html { redirect_to followups_path, notice: 'Followup was successfully updated.' }
         format.json { head :no_content }
         format.js
@@ -74,6 +77,22 @@ private
   
   def followup_params
     params.require(:followup).permit(:offset, :description, :field_id, :recurrence)
+  end
+  
+  def parse_criteria
+    criteria = []
+    
+    if params[:filter_permalink]
+      params[:filter_permalink].each_with_index do |permalink, index|
+        search = params[:filter_search][index]
+        
+        unless search.blank?
+          criteria.push [permalink, params[:filter_matcher][index], search]
+        end
+      end
+    end
+  
+    @followup.criteria = criteria
   end
   
 end

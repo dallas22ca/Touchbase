@@ -44,7 +44,7 @@ class Followup < ActiveRecord::Base
     query_start ||= Time.now.beginning_of_day
     query_start += offset
     query_finish = query_start.end_of_day + query_duration.seconds
-    filters = []
+    filters = criteria
     
     if contact_id
       tasks.incomplete.where(contact_id: contact_id).destroy_all
