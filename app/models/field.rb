@@ -1,5 +1,5 @@
 class Field < ActiveRecord::Base
-  has_many :followups
+  has_many :followups, dependent: :destroy
   belongs_to :user
   
   before_validation :set_permalink, :set_data_type
@@ -32,5 +32,13 @@ class Field < ActiveRecord::Base
       contact.overwrite = true
       contact.save
     end
+  end
+  
+  def substitute_data(content)
+    if !content.blank? && data_type == "datetime"
+      content = Chronic.parse(content.to_s).strftime("%B %-d")
+    end
+    
+    content.to_s
   end
 end

@@ -67,7 +67,7 @@ class Contact < ActiveRecord::Base
   
   def self.filter(requirements = [], q = "", order = "name", direction = "asc", data_type = "string")
     queries = []
-    normal_fields = ["created_at", "updated_at", "name"]
+    normal_fields = ["created_at", "updated_at", "name", "id"]
 
     unless normal_fields.include? order
       if data_type == "integer"

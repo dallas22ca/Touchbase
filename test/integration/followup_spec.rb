@@ -21,64 +21,26 @@ describe Followup do
     followup.description.should include("{{name}}")
   end
   
-  it "create tasks with a field" do
-    joe = users(:joe)
-    followup = followups(:two_weeks_before_birthday)
-    followup.create_tasks
-    followup.tasks.count.should == 1
-    joe.tasks.count.should == 1
-    followup.tasks.first.content.should include(contacts(:birthday_in_a_week).name)
+  it "substitutes birthday shortcode" do
+    fields(:birthday).substitute_data(Time.now).should == Time.now.strftime("%B %-d")
   end
   
-  it "doens't create duplicate tasks" do
-    followup = followups(:two_weeks_before_birthday)
-    2.times { followup.create_tasks }
-    followup.create_tasks(3.days.from_now)
-    followup.tasks.count.should == 1
-  end
-  
-  it "creates tasks with a field" do
-    joe = users(:joe)
-    followup = followups(:two_weeks_after_birthday)
-    followup.create_tasks
-    followup.tasks.count.should == 1
-    joe.tasks.count.should == 1
-    followup.tasks.first.content.should include(contacts(:birthday_a_week_ago).name)
-    followup.tasks.first.content.should include(contacts(:birthday_a_week_ago).data["birthday"].in_time_zone.strftime("%B %d"))
-  end
-  
-  it "creates tasks every 3 weeks" do
-    joe = users(:joe)
-    followup = followups(:every_three_weeks)
-    followup.create_tasks(3.weeks.from_now)
-    joe.tasks_for(3.weeks.from_now).count.should == 4
-  end
-  
-  it "returns users tasks for today" do
+  it "returns user's tasks for today" do
     joe = users(:joe)
     followup = followups(:two_weeks_before_birthday)
     followup.create_tasks
     joe.tasks_for(Time.now).count.should == 1
-  end
-  
-  it "returns users tasks for today" do
-    joe = users(:joe)
-    followup = followups(:two_weeks_before_birthday)
-    followup.create_tasks
     joe.tasks.update_all complete: true
     joe.tasks_for(Time.now).count.should == 0
   end
   
-  it "updates any future tasks if field is changed" do
+  it "removes any future tasks if followup is deleted" do
     joe = users(:joe)
     followup = followups(:two_weeks_before_birthday)
     followup.create_tasks
-    joe.tasks_for(Time.now).count.should == 1
-    followup.update_attributes! offset: 3.days * -1, description: "Give {{name}} a handshake"
-    ImportWorker.drain
-    joe.tasks.first.content.should include("handshake")
-    joe.tasks_for(Time.now).count.should == 0
-    joe.tasks_for(4.days.from_now).count.should == 1
+    Task.count.should == 1
+    Followup.destroy_all
+    Task.count.should == 0
   end
   
   it "removes any future tasks if field is deleted" do
@@ -86,7 +48,7 @@ describe Followup do
     followup = followups(:two_weeks_before_birthday)
     followup.create_tasks
     Task.count.should == 1
-    followup.destroy!
+    Field.destroy_all
     Task.count.should == 0
   end
   
@@ -99,4 +61,16 @@ describe Followup do
     ImportWorker.drain
     followup.tasks.count.should == 2
   end
+  
+  it "renaming a field prepares contacts"
+  
+  it "every 3 weeks starting now"
+  it "every 3 weeks starting on their birthday"
+  it "on birthday"
+  it "3 weeks after birthday"
+  it "3 weeks before birthday"
+  
+  # it "doesn't create duplicate tasks"
+  # it "update contacts when field is changed"
+  # it "update future tasks if followup is changed"
 end
