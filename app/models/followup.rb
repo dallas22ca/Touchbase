@@ -39,64 +39,50 @@ class Followup < ActiveRecord::Base
     ImportWorker.perform_async id, "followup"
   end
   
-  def create_tasks(start = nil, finish = nil, search_all_contacts = false, update_all = false, create_if_needed = true)
-    if remind_every?
-      
-      # WHAT SHOULD THIS ACTUALLY DO? :: SAME AS BELOW!
-      # 2. Loop through all contacts tasks
-      # 3. Try to find a task between dates.
-      # 4. If not there, create it. If there, edit it.
-      
+  def create_tasks(query_start = nil, query_finish = nil, contact_id = nil)
+    query_start ||= Time.now
+    query_finish ||= query_start.end_of_day + 30.days
+    filters = []
+    
+    if contact_id
+      tasks.incomplete.where(contact_id: contact_id).destroy_all
+      filters.push ["id", "is", contact_id]
     else
-
-      start ||= Time.now
+      tasks.incomplete.destroy_all
+      # filters = [[field.permalink, "recurring", nil, { start: start, finish: finish }]]
+    end
+    
+    user.contacts.filter(filters).find_each do |contact|
+      how_often = 1.year.to_i
       
-      if finish.nil?
-        if remind_before?
-          finish = start - offset.seconds
-        elsif remind_after?
-          finish = start
-          start = start - offset.seconds
-        elsif remind_on?
-          finish = start.end_of_day
-        end
-      end
-      
-      if search_all_contacts || offset_changed?
-        filters = []
+      if field
+        start = Chronic.parse(contact.data[field.permalink].to_datetime.strftime("%B %d, #{query_start.year}")).beginning_of_day
       else
-        filters = [[field.permalink, "recurring", nil, { start: start, finish: finish }]]
-      end
-        
-      user.contacts.filter(filters).find_each do |contact|
-        actual_data = contact.data[field.permalink]
-        
-        unless actual_data.blank?
-          actual_date = Chronic.parse(actual_data.in_time_zone.strftime("%B %d, #{start.year}")).beginning_of_day
-          remind_at = actual_date + offset.seconds
-          
-          if update_all && !create_if_needed
-            task = tasks.where(contact_id: contact.id, complete: false).first
-          elsif actual_date > start
-            task = tasks.where(contact_id: contact.id, complete: false).first_or_initialize
-          end
-          
-          if task
-            desc = description.gsub("{{name}}", contact.name)
-          
-            user.fields.each do |field|
-              sub = contact.data[field.permalink]
-              sub = sub.in_time_zone.strftime("%B %d") if field.data_type == "datetime"
-              desc = desc.to_s.gsub(/\{\{#{field.permalink}\}\}/, sub)
-            end
-          
-            task.date = remind_at
-            task.content = desc
-            task.save!
-          end
-        end
+        start = starting_at
       end
       
+      if remind_every?
+        how_often = recurrence.seconds
+      else
+        
+        start = start + offset.seconds
+      end
+      
+      date = query_start
+      
+      while date <= query_finish
+        desc = description.gsub("{{name}}", contact.name)
+        user.fields.map { |f| desc = desc.to_s.gsub(/\{\{#{f.permalink}\}\}/, f.substitute_data(contact.data[f.permalink])) }
+      
+        task = tasks.create(
+          contact_id: contact.id, 
+          complete: false,
+          date: date,
+          content: desc
+        )
+        
+        date = date + how_often
+      end
     end
   end
   
