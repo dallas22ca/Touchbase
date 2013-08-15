@@ -39,3 +39,17 @@ every_five_weeks_starting_on_birthday:
   description: Pop by {{name}}
   recurrence: <%= 5.weeks.to_i %>
   field: birthday
+
+awesome:
+  user: joe
+  description: Say Hi to awesome people {{name}}
+  recurrence: <%= 3.months %>
+  starting_at: <%= Time.now %>
+  criteria: [["awesome", "is", "true"]]
+
+not_awesome:
+  user: joe
+  description: Say Hi to awesome people {{name}}
+  recurrence: <%= 3.months %>
+  starting_at: <%= Time.now %>
+  criteria: [["awesome", "is_not", "true"]]

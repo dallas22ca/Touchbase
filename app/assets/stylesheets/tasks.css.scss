@@ -46,9 +46,21 @@
     margin-bottom: 5px;
     
     &.complete {
-      text-decoration: line-through;
       opacity: 0.4;
       font-size: 12px;
+      
+      .content {
+        text-decoration: line-through;
+      }
+    }
+    
+    .content {
+      display: inline-block;
+      
+      a {
+        font-weight: bold;
+        color: #005782;
+      }
     }
   }
 }
