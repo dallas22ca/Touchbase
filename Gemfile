@@ -15,6 +15,7 @@ gem 'devise', :github => 'plataformatec/devise', :branch => 'rails4'
 gem 'roo'
 gem 'chronic'
 gem 'paperclip', '3.4.2'
+gem 'whenever', require: false
 
 gem 'sidekiq'
 gem 'sidekiq-failures'

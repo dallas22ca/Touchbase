@@ -1,4 +1,4 @@
-<%= link_to "&larr; Back".html_safe, contacts_path, class: "small_link" %>
+<%= link_to "&larr; Back".html_safe, :back, class: "small_link" %>
 
 <h1><%= @contact.name %> <%= "(Pending)" if @contact.pending? %></h1>
 

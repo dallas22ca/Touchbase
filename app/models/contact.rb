@@ -96,6 +96,8 @@ class Contact < ActiveRecord::Base
         case matcher
         when "is"
           queries.push "contacts.#{field} = '#{search}'"
+        when "is_not"
+          queries.push "contacts.#{field} != '#{search}'"
         when "like"
           queries.push "contacts.#{field} ilike '%#{search}%'"
         when "greater_than"
@@ -107,6 +109,8 @@ class Contact < ActiveRecord::Base
         case matcher
         when "is"
           queries.push "contacts.data @> hstore('#{field}', '#{search}')"
+        when "is_not"
+          queries.push "contacts.data -> '#{field}' <> '#{search}'"
         when "like"
           queries.push "contacts.data -> '#{field}' ilike '%#{search}%'"
         when "greater_than"

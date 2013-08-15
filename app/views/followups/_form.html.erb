@@ -24,18 +24,18 @@
     
     <div class="filter_options">
       <table id="filters_container"></table>
-      <%= link_to "Add Another Filter", "#", class: "add_filter" %>
+      <%= link_to "+ Add Another Filter", "#", class: "add_filter small_link" %>
     </div>
   </div>
   
-  <table>
+  <table style="display: none; ">
     <tr id="filter_template" data-criteria="<%= @followup.criteria %>" data-filters="<%= current_user.fields.for_filters.to_json %>" class="filter">
-      <td>&rarr;</td>
+
       <td><%= select_tag "filter_permalink[]", options_for_select([["Name", "name"]] + current_user.fields.where("data_type != ?", "datetime").map{ |f| [f.title, f.permalink] }), id: nil, class: "filter_permalink filter_field" %></td>
-      <td><%= select_tag "filter_matcher[]", options_for_select([["is", "like"]]), id: nil, class: "filter_matcher filter_field" %></td>
+      <td><%= select_tag "filter_matcher[]", options_for_select([]), id: nil, class: "filter_matcher filter_field" %></td>
       <td>
         <%= select_tag "filter_boolean_matcher[]", options_for_select([["Yes", "true"], ["No", "false"]]), id: nil, class: "filter_boolean filter_field" %>
-        <%= text_field_tag "filter_search_string[]", "", id: nil, class: "filter_string filter_field" %>
+        <%= text_field_tag "filter_search_string[]", "", id: nil, class: "filter_integer filter_string filter_field" %>
         <%= hidden_field_tag "filter_search[]", "", id: nil, class: "filter_search filter_field" %>
       </td>
       <td><%= link_to "", "#", class: "icon-trash delete_filter", data: { confirm: "Are you sure you want to delete this filter?" } %></td>

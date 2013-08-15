@@ -4,7 +4,7 @@ $(document).on "change", "#who", ->
     $("#filters_container").find(".filter").remove()
   else if $(this).val() == "filter"
     $(".filter_options").show()
-    Filters.add "name", "is", "" if !$("#filters_container").find(".filter").length
+    Filters.add "name", "like", "" if !$("#filters_container").find(".filter").length
 
 $(document).on "submit", ".edit_followup, #new_followup", ->
   $("#filter_template").find(".filter_field").removeAttr("name")
@@ -14,12 +14,13 @@ $(document).on "change", ".filter_permalink", ->
   string = filter.find(".filter_string")
   search = filter.find(".filter_search").val()
   string.val "" if search == "true" || search == "false"
+  Filters.setMatcherField filter
 
 $(document).on "keyup change", ".filter_field", ->
   Filters.calc()
 
 $(document).on "click", ".add_filter", ->
-  Filters.add "name", "is", ""
+  Filters.add "name", "like", ""
   false
 
 $(document).on "click", ".delete_filter", ->
@@ -37,7 +38,6 @@ $(document).on "click", ".delete_filter", ->
         $("#who").val("filter").change()
       else
         $("#who").val("everyone").change()
-        
       Filters.calc()
 
   calc: ->
@@ -47,16 +47,18 @@ $(document).on "click", ".delete_filter", ->
       $(".filter").each ->
         permalink = $(this).find(".filter_permalink").val()
         search = $(this).find(".filter_search")
-        applicable = ".filter_#{filters[permalink].data_type}"
+        data_type = filters[permalink].data_type
+        applicable = ".filter_#{data_type}"
 
         search.val $(this).find(applicable).val()
-        
         $(this).find(".filter_field:not(.filter_matcher, .filter_permalink)").hide()
         $(this).find(applicable).show()
       
   add: (permalink = false, matcher = false, search = false)->
     template = $("#filter_template").clone().removeAttr("id")
-    template.find(".filter_permalink").val permalink if permalink
+    template.find(".filter_permalink").val permalink
+    
+    Filters.setMatcherField template
     
     if matcher
       template.find(".filter_matcher").val matcher
@@ -69,3 +71,23 @@ $(document).on "click", ".delete_filter", ->
   
   remove: (el) ->
     el.closest(".filter").remove()
+  
+  setMatcherField: (template, matcher = false) ->
+    filters = $("#filter_template").data("filters")
+    permalink = template.find(".filter_permalink").val()
+    matcher_field = template.find(".filter_matcher")
+    matcher_field.find("option").remove()
+    
+    for opt in Filters.matcherOptions(filters[permalink].data_type)
+      option = $("<option>").val(opt[1]).text(opt[0])
+      option.appendTo matcher_field
+      
+    matcher_field.val matcher if matcher
+
+  matcherOptions: (type) ->
+    if type == "boolean"
+      [["is", "is"], ["is not", "is_not"]]
+    else if type == "integer"
+      [["is", "like"], ["is not", "is_not"], ["is exactly", "is"], ["greater than", "greater_than"], ["less than", "less_than"]]
+    else
+      [["is", "like"], ["is not", "is_not"], ["is exactly", "is"]]

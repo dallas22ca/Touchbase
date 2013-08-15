@@ -135,7 +135,7 @@ describe Followup do
     followup.tasks.count.should == 1
   end
   
-  it "update future tasks if followup is changed" do
+  it "updates future tasks if followup is changed" do
     joe = users(:joe)
     followup = followups(:two_weeks_before_birthday)
     followup.create_tasks
@@ -154,5 +154,22 @@ describe Followup do
     c.update_attributes! name: "Super Man"
     ImportWorker.drain
     followup.tasks.first.reload.content.should include("Super Man")
+  end
+  
+  it "creates followups with criteria (awesome: true)" do
+    joe = users(:joe)
+    c = contacts(:birthday_a_week_ago)
+    followup = followups(:awesome)
+    followup.create_tasks
+    followup.contacts.count.should == 1
+    followup.tasks.first.reload.content.should include(c.name)
+  end
+  
+  it "creates followups with criteria (awesome: false)" do
+    joe = users(:joe)
+    c = contacts(:birthday_a_week_ago)
+    followup = followups(:not_awesome)
+    followup.create_tasks
+    followup.contacts.count.should == 0
   end
 end

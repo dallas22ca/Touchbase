@@ -1,6 +1,5 @@
 class FollowupsController < ApplicationController
   before_action :set_followup, only: [:show, :edit, :update, :destroy]
-  before_action :parse_criteria, only: [:create, :update]
   
   def index
     @followups = current_user.followups
@@ -28,6 +27,7 @@ class FollowupsController < ApplicationController
   # POST /followups.json
   def create
     @followup = current_user.followups.new(followup_params)
+    parse_criteria
     
     respond_to do |format|
       if @followup.save
@@ -44,6 +44,8 @@ class FollowupsController < ApplicationController
   # PATCH/PUT /followups/1
   # PATCH/PUT /followups/1.json
   def update
+    parse_criteria
+    
     respond_to do |format|
       @followup.assign_attributes(followup_params)
       

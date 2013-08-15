@@ -1,4 +1,5 @@
 class Followup < ActiveRecord::Base
+  include Rails.application.routes.url_helpers
   include ActionView::Helpers::DateHelper
   
   serialize :criteria, Array
@@ -77,8 +78,13 @@ class Followup < ActiveRecord::Base
       
         while date <= query_finish
           if date >= query_start
-            desc = description.gsub("{{name}}", contact.name)
-            user.fields.map { |f| desc = desc.to_s.gsub(/\{\{#{f.permalink}\}\}/, f.substitute_data(contact.data[f.permalink])) }
+            link = contact_url(contact.id)
+            desc = description.gsub("{{name}}", ActionController::Base.helpers.link_to(contact.name, link))
+            
+            user.fields.each do |f|
+              text = f.substitute_data(contact.data[f.permalink])
+              desc = desc.to_s.gsub(/\{\{#{f.permalink}\}\}/, text)
+            end
           
             if tasks.where(contact_id: contact.id, date: date).empty?
               task = tasks.create(
@@ -124,14 +130,18 @@ class Followup < ActiveRecord::Base
     offset > 0 && !remind_every?
   end
   
-  def timing
+  def timing(out = false)
+    output = []
+    
     if remind_every?
       timing = distance_of_time_in_words(recurrence.seconds)
       
       if field
-        "#{offset_word.capitalize} #{timing} starting on their #{field.title}"
+        output.push "#{offset_word.capitalize} #{timing}"
+        output.push "starting on their #{field.title}"
       else
-        "#{offset_word.capitalize} #{timing} starting on #{starting_at.strftime("%b %-d, %Y")}"
+        output.push "#{offset_word.capitalize} #{timing}"
+        output.push "starting on #{starting_at.strftime("%b %-d, %Y")}"
       end
     else
       timing = distance_of_time_in_words(offset.seconds)
@@ -145,10 +155,25 @@ class Followup < ActiveRecord::Base
       end
     
       if field
-        "#{timing} their #{field.title}"
+        output.push "#{timing} their #{field.title}"
       else
-        timing
+        output.push "#{timing}"
       end
     end
+    
+    if criteria.any?
+      crits = criteria.map{ |field, matcher, search| "#{field} #{"is" unless matcher.include?("is")} #{matcher.humanize.downcase} \"#{search}\"" } 
+      output.push "where #{crits.to_sentence}" if out != "without_criteria"
+    end
+    
+    if out == "criteria"
+      crits
+    else
+      output.join(", ")
+    end
+  end
+  
+  def self.create_tasks_for_all
+    Followup.all.map { |f| f.sidekiq_create_tasks }
   end
 end

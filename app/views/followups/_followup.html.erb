@@ -1,5 +1,12 @@
 <%= content_tag_for :a, followup, href: edit_followup_path(followup) do %>
   <p class="description"><%= followup.description %></p>
-  <p class="timing"><%= followup.timing %></p>
+  <p class="timing"><%= followup.timing("without_criteria") %></p>
+  <% if followup.criteria.any? %>
+    <ul class="criteria">
+      <% followup.timing("criteria").each do |criteria| %>
+        <li><%= criteria %></li>
+      <% end %>
+    </ul>
+  <% end %>
   <div class="clear"></div>
 <% end %>
