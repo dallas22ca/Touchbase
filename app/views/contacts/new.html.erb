@@ -13,7 +13,7 @@
 
 <% else %>
 
-  <%= form_for @user, url: contacts_path, method: :post do |f| %>
+  <%= form_for @user, url: multicreate_contacts_path, method: :post do |f| %>
 
     <div class="field">
       <%= f.label :file, "You can either upload a file of your contacts (CSV, Microsoft Excel):" %><br>
