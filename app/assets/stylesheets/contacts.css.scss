@@ -29,14 +29,6 @@
       background: #f5f5f5;
     }
   }
-  
-  .icon-ok {
-    color: green;
-  }
-  
-  .icon-remove {
-    color: #920000;
-  }
 }
 
 #import_progress_bar {
@@ -68,4 +60,9 @@
       font-weight: bold;
     }
   }
+}
+
+.pagination {
+  font-size: 13px;
+  color: #777;
 }

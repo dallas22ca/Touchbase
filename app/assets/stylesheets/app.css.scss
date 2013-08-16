@@ -1,6 +1,6 @@
 body {
   font-family: Helvetica Neue, Helvetica, Arial, Sans Serif;
-  background: #eee;
+  background: #F2F4EE;
 }
 
 h1 {
@@ -68,9 +68,17 @@ hr {
     /*transition-property: background-color;
     transition-duration: 50ms;*/
     
+    &:hover {
+      color: #eee;
+    }
+    
     i {
       font-size: 17px;
       margin-right: 9px;
+      
+      &.icon-ok {
+        color: inherit;
+      }
     }
     
     &.selected {
@@ -221,4 +229,12 @@ table {
 
 strong {
   font-weight: bold;
+}
+
+.icon-ok {
+  color: green;
+}
+
+.icon-remove {
+  color: #920000;
 }

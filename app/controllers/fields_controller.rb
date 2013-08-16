@@ -9,7 +9,13 @@ class FieldsController < ApplicationController
 
     respond_to do |format|
       if @user.update_attributes(user_params)
-        format.html { redirect_to followups_path, notice: 'Fields were successfully updated.' }
+        if @user.contacts.any?
+          redirect = contacts_path
+        else
+          redirect = followups_path
+        end
+        
+        format.html { redirect_to redirect, notice: 'Fields were successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'index' }

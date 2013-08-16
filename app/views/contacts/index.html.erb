@@ -1,6 +1,6 @@
 <%= render "sidebar" %>
 
-<%= render "has_pending" if @pending.any? %>
+<%= render "has_pending" if @pending_count > 0 %>
 <%= render "is_importing" if current_user.has_pending_import? && current_user.import_progress != 100 %>
 
 <table id="contacts" data-order="name" data-direction="asc" data-data_type="string">
@@ -17,3 +17,5 @@
     <%= render @contacts %>
   </tbody>
 </table>
+
+<%= will_paginate @contacts, previous_label: h("<"), next_label: h(">") %>
