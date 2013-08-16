@@ -10,8 +10,8 @@ class ContactsController < ApplicationController
     params[:order] ||= "name"
     params[:direction] ||= "asc"
     
-    @contacts = current_user.contacts.filter(search, params[:q], params[:order], params[:direction], params[:data_type])
-    @pending = @contacts.pending
+    @contacts = current_user.contacts.filter(search, params[:q], params[:order], params[:direction], params[:data_type]).page(params[:page]).per_page(50)
+    @pending_count = current_user.contacts.pending.count
     
     respond_to do |format|
       format.html

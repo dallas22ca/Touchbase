@@ -10,10 +10,14 @@ unload = ->
   $("#loading").show()
 
 load = ->
+  $(".datepicker").datepicker
+    dateFormat: "M d, yy"
+    
   $("#loading").fadeOut()
   setTimezone()
   Followup.init()
   Filters.init()
+  Contacts.paginate()
   
 $ ->
   load()

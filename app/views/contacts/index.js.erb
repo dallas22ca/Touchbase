@@ -1,2 +1,15 @@
-$("#contacts tbody").html("<%= j render @contacts %>")
+<% if params[:from_sidebar] %>
+  $("#contacts tbody").html("<%= j render @contacts %>")
+<% else %>
+  $("<%= j render @contacts %>").appendTo("#contacts tbody")
+<% end %>
+
 $(".contacts_search_count").text("<%= @contacts.count %>")
+
+<% if @contacts.next_page %>
+  $(".pagination").replaceWith("<%= j will_paginate(@contacts) %>");
+<% else %>
+  $(".pagination").remove();
+<% end %>
+
+$(window).scroll()

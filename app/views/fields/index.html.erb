@@ -8,9 +8,16 @@
 
 <h1>Fields</h1>
 
-<p class="info">
-  Which info do you want to collect for each contact? There are a few suggestions on the left to get you started. To use a suggestion, click on it.
-</p>
+<% if current_user.has_pending_import? %>
+  <p class="notice">
+    <strong>Almost Done!</strong><br>
+    Please confirm the fields you'd like to use, click "Save Fields and Continue to Upload File", and we'll start importing your contacts.
+  </p>
+<% else %>
+  <p class="info">
+    Which info do you want to collect for each contact? There are a few suggestions on the left sidebar to get you started. To use a suggestion, click on it.
+  </p>
+<% end %>
 
 <%= form_for current_user, url: fields_path do |f| %>
   <table id="fields">

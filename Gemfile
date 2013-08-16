@@ -16,6 +16,7 @@ gem 'roo'
 gem 'chronic'
 gem 'paperclip', '3.4.2'
 gem 'whenever', require: false
+gem 'will_paginate'
 
 gem 'sidekiq'
 gem 'sidekiq-failures'

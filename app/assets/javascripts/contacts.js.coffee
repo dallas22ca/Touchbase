@@ -1,18 +1,18 @@
-$(document).on "click", "#contacts th", ->
-  permalink = $(this).data("permalink")
-  data_type = $(this).data("data_type")
-  
-  if $("#contacts").data("order") == permalink
-    if $("#contacts").data("direction") == "asc"
-      $("#contacts").data("direction", "desc")
-    else
-      $("#contacts").data("direction", "asc")
-  else
-    $("#contacts").data("order", permalink)
-    $("#contacts").data("direction", "asc")
-    
-  $("#contacts").data("data_type", data_type)
-  $("#contacts_search").submit()
+# $(document).on "click", "#contacts th", ->
+#   permalink = $(this).data("permalink")
+#   data_type = $(this).data("data_type")
+#   
+#   if $("#contacts").data("order") == permalink
+#     if $("#contacts").data("direction") == "asc"
+#       $("#contacts").data("direction", "desc")
+#     else
+#       $("#contacts").data("direction", "asc")
+#   else
+#     $("#contacts").data("order", permalink)
+#     $("#contacts").data("direction", "asc")
+#     
+#   $("#contacts").data("data_type", data_type)
+#   $("#contacts_search").submit()
 
 $(document).on "keyup click", ".search_field", ->
   $("#contacts_search").submit()
@@ -48,6 +48,7 @@ $(document).on "submit", "#contacts_search", ->
     order: order
     direction: direction
     data_type: data_type
+    from_sidebar: true
   , (data) ->
     eval data
   false
@@ -58,3 +59,13 @@ $(document).on "submit", "#contacts_search", ->
     if ip.data("progress") != 100
       url = ip.data("url")
       $.getScript url
+
+@Contacts =
+  paginate: ->
+    if $(".pagination").length
+      $(window).scroll ->
+        url = $(".pagination .next_page").attr("href")
+        if url && $(window).scrollTop() > $(document).height() - $(window).height() - 350
+          $(".pagination").text("Fetching more contacts...")
+          $.getScript(url)
+      $(window).scroll()
