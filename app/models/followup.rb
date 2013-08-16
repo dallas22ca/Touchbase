@@ -78,20 +78,12 @@ class Followup < ActiveRecord::Base
       
         while date <= query_finish
           if date >= query_start
-            link = contact_url(contact.id)
-            desc = description.gsub("{{name}}", ActionController::Base.helpers.link_to(contact.name, link))
-            
-            user.fields.each do |f|
-              text = f.substitute_data(contact.data[f.permalink])
-              desc = desc.to_s.gsub(/\{\{#{f.permalink}\}\}/, text)
-            end
-          
             if tasks.where(contact_id: contact.id, date: date).empty?
               task = tasks.create(
                 contact_id: contact.id, 
                 complete: false,
                 date: date,
-                content: desc
+                content: description
               )
             end
           end
