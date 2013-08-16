@@ -46,9 +46,9 @@ class ContactsController < ApplicationController
   def edit
   end
 
-  # POST /contacts
-  # POST /contacts.json
-  def create
+  # POST /multicreate
+  # POST /multicreate.json
+  def multicreate
     @user = current_user
     
     if params[:delete_pending]

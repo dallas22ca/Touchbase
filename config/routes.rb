@@ -8,6 +8,7 @@ Touchbase::Application.routes.draw do
   
   authenticated :user do
     get "/pending" => "contacts#pending", as: :pending
+    post "/multicreate" => "contacts#multicreate", as: :multicreate_contacts
     resources :contacts
     resources :users
     resources :followups
