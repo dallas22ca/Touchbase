@@ -11,7 +11,9 @@ unload = ->
 
 load = ->
   $(".datepicker").datepicker
-    dateFormat: "M d, yy"
+    dateFormat: "MM d, yy"
+  
+  $(".show_contacts_format").change() if $("#new_contact").length
     
   $("#loading").fadeOut()
   setTimezone()

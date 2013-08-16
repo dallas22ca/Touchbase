@@ -32,20 +32,6 @@ class User < ActiveRecord::Base
     dallas.contacts.create name: name, data: { email: email, signed_up_at: created_at } if dallas
   end
   
-  def set_step
-    if !has_pending_import? && contacts.empty? && import_progress == 100
-      self.step = 1
-    elsif has_pending_import? && contacts.empty? && import_progress == 100 && fields.empty?
-      self.step = 2
-    elsif fields.any? && upload && self.step < 3
-      self.step = 3
-    elsif tasks.empty? && self.step < 4
-      self.step = 4
-    else
-      self.step = 5
-    end
-  end
-  
   def sidekiq_blob_import
     if self.update_column :import_progress, 0
       ImportWorker.perform_async id, "blob", overwrite
@@ -153,7 +139,7 @@ class User < ActiveRecord::Base
       self.blob = nil
       self.file.clear
       self.save
-      self.errors.add :base, "Please upload a file with a header so we know how to read your data!"
+      self.errors.add :base, "Please upload add a header row so we know how to read your data!"
       false
     else
       headers
@@ -174,57 +160,74 @@ class User < ActiveRecord::Base
     ).order(:complete, :date)
   end
   
-  def all_fields
-    all_fields = []
+  def suggested_fields
+    suggested_fields = []
     
-    suggested_fields.map do |title, permalink, data_type|
+    Field.suggested.each do |title, permalink, data_type|
       unless fields.pluck(:permalink).include? permalink
-        all_fields.push link_to(title, "#", class: "add_suggested_field", data: { title: title, data_type: data_type, permalink: permalink })
+        suggested_fields.push link_to(title, "#", class: "add_suggested_field", data: { title: title, data_type: data_type, permalink: permalink })
       end
     end
     
-    all_fields
+    suggested_fields
   end
   
-  def suggested_fields
-    [
-      [ "Anniversary"               ,  "anniversary"              ,  "datetime"   ],
-      [ "Birthday"                  ,  "birthday"                 ,  "datetime"   ],
-      [ "Rating"                    ,  "rating"                   ,  "integer"    ],
-      [ "Hobbies"                   ,  "hobbies"                  ,  "string"     ],
-      [ "Favorite Magazine"         ,  "favorite-magazine"        ,  "string"     ],
-      [ "Favourite Movie"           ,  "favourite-movie"          ,  "string"     ],
-      [ "Leisure Activities"        ,  "leisure-activities"       ,  "string"     ],
-      [ "Favourite Sport"           ,  "favourite-sport"          ,  "string"     ],
-      [ "Favourite Sports Team"     ,  "favourite-sports-team"    ,  "string"     ],
-      [ "Sport Participation"       ,  "sport-participation"      ,  "string"     ],
-      [ "Car Type Owned"            ,  "car-type-owned"           ,  "string"     ],
-      [ "Favourite Car"             ,  "favourite-car"            ,  "string"     ],
-      [ "Pet Owner"                 ,  "pet-owner"                ,  "string"     ],
-      [ "Recent Reading"            ,  "recent-reading"           ,  "string"     ],
-      [ "Favourite Restaurant"      ,  "favourite-restaurant"     ,  "string"     ],
-      [ "Favourite Food"            ,  "favourite-food"           ,  "string"     ],
-      [ "Awards"                    ,  "awards"                   ,  "string"     ],
-      [ "Recent Seminar"            ,  "recent-seminar"           ,  "string"     ],
-      [ "Recent Vacation"           ,  "recent-vacation"          ,  "string"     ],
-      [ "Personal Development"      ,  "personal-development"     ,  "string"     ],
-      [ "Hometown"                  ,  "hometown"                 ,  "string"     ],
-      [ "Address"                   ,  "address"                  ,  "string"     ],
-      [ "Marital Status"            ,  "marital-status"           ,  "string"     ],
-      [ "Partner Name"              ,  "partner-name"             ,  "string"     ],
-      [ "Goals"                     ,  "goals"                    ,  "string"     ],
-      [ "Dislikes"                  ,  "dislikes"                 ,  "string"     ],
-      [ "Clubs"                     ,  "clubs"                    ,  "string"     ],
-      [ "Previous Work"             ,  "previous-work"            ,  "string"     ],
-      [ "Previous Residence"        ,  "previous-residence"       ,  "string"     ],
-      [ "Faith"                     ,  "faith"                    ,  "string"     ],
-      [ "Post Secondary"            ,  "post-secondary"           ,  "string"     ],
-      [ "Children"                  ,  "children"                 ,  "string"     ],
-      [ "Business Challenges"       ,  "business-challenges"      ,  "string"     ],
-      [ "Business Competitors"      ,  "business-competitors"     ,  "string"     ],
-      [ "Associations"              ,  "associations"             ,  "string"     ],
-      [ "Publications"              ,  "publications"             ,  "string"     ],
-      [ "Past Experiences"          ,  "past-experiences"         ,  "string"     ]
-    ]
+  def set_step
+    if self.step < 5
+      if contacts.empty?
+        if !has_pending_import?
+          self.step = 1
+        else
+          if upload
+            self.step = 4
+          else
+            self.step = 3
+          end
+        end
+      end
+      
+      if followups.any?
+        self.step = 5
+      end
+    end
+  end
+  
+  def allowed_actions
+    actions = []
+    
+    if step >= 1
+      actions.push "contacts\#(new|create|multicreate)"
+      actions.push "sessions"
+      actions.push "registrations"
+      actions.push "pages\#show"
+    end
+    
+    if step >= 3
+      actions.push "fields\#(index|update)"
+    end
+    
+    if step >= 4
+      actions.push "followups"
+    end
+    
+    if step >= 5
+      actions = []
+    end
+    
+    /#{actions.join("|")}/
+  end
+  
+  def next_step
+    router = Rails.application.routes.url_helpers
+    
+    if step <= 2
+      router.root_path
+    elsif step <= 3
+      router.fields_path
+    elsif step <= 4
+      router.followups_path
+    elsif step <= 5
+      router.tasks_path
+    end
   end
 end

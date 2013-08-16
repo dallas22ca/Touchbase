@@ -1,6 +1,6 @@
 <div id="sidebar">
   <ul id="suggested_fields">
-    <% current_user.all_fields.each do |field| %>
+    <% current_user.suggested_fields.each do |field| %>
       <%= field.html_safe %>
     <% end %>
   </ul>

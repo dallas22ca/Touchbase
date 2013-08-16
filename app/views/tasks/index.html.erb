@@ -1,5 +1,5 @@
-<%= link_to "&larr; #{@prev.strftime("%a, %b %d")}".html_safe, tasks_path(start: @prev.strftime("%m-%d-%y")), class: "other_date left" %>
-<%= link_to "#{@next.strftime("%a, %b %d")} &rarr;".html_safe, tasks_path(start: @next.strftime("%m-%d-%y")), class: "other_date right" %>
+<%= link_to "&larr; #{@prev.strftime("%a, %b %d")}".html_safe, tasks_path(start: @prev.strftime("%m-%d-%y")), class: "small_link left" %>
+<%= link_to "#{@next.strftime("%a, %b %d")} &rarr;".html_safe, tasks_path(start: @next.strftime("%m-%d-%y")), class: "small_link right" %>
 
 <div class="clear"></div>
 

@@ -40,16 +40,32 @@ class ContactsController < ApplicationController
   # GET /contacts/new
   def new
     @user = current_user
+    @contact = Contact.new
   end
 
-  # GET /contacts/1/edit
-  def edit
+  # POST /contacts
+  # POST /contacts.json
+  def create
+    @user = current_user
+    @contact = @user.contacts.new(contact_params)
+
+    respond_to do |format|
+      if @contact.save
+        @user.set_step && @user.save if @user.step < 3
+        format.html { redirect_to @contact, notice: 'Contact was successfully created.' }
+        format.json { render action: 'show', status: :created, location: @contact }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @contact.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # POST /multicreate
   # POST /multicreate.json
   def multicreate
     @user = current_user
+    @contact = Contact.new
     
     if params[:delete_pending]
       @user.import_progress = 100

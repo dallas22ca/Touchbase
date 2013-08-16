@@ -1,6 +1,8 @@
 body {
   font-family: Helvetica Neue, Helvetica, Arial, Sans Serif;
   background: #F2F4EE;
+  color: #111;
+  font-size: 14px;
 }
 
 h1 {
@@ -137,7 +139,7 @@ textarea, input[type="text"], input[type="email"], input[type="password"], selec
   width: 100%;
   max-width: 520px;
   margin: 50px auto 50px auto;
-  padding: 20px;
+  padding: 30px;
   box-sizing: border-box;
   background: #fff;
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
@@ -147,7 +149,6 @@ textarea, input[type="text"], input[type="email"], input[type="password"], selec
   margin: 20px 0;
   
   label {
-    font-size: 14px;
     padding-bottom: 3px;
     display: inline-block;
   }
@@ -178,8 +179,8 @@ textarea, input[type="text"], input[type="email"], input[type="password"], selec
 }
 
 .small_link {
-  font-size: 11px;
-  color: #777;
+  font-size: 12px;
+  color: #999;
   margin-top: 6px;
 }
 

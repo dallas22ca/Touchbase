@@ -8,16 +8,10 @@ describe User do
   end
   
   it "can sign up when visiting the root path" do
-    visit root_url
-    page.should have_content "Email"
-  end
-  
-  it "is asked to upload contacts if none exists" do
     joe = users(:joe)
-    login_as joe
-    joe.contacts.count.should == 0
-    visit contacts_path
-    page.should have_content "Start"
+    logout joe
+    visit root_path
+    page.should have_content "Email"
   end
   
   it "sees his contacts if he has some" do

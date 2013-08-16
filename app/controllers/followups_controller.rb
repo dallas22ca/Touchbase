@@ -26,12 +26,19 @@ class FollowupsController < ApplicationController
   # POST /followups
   # POST /followups.json
   def create
+    @signup_complete = true if current_user.step == 4
     @followup = current_user.followups.new(followup_params)
     parse_criteria
     
     respond_to do |format|
       if @followup.save
-        format.html { redirect_to followups_path, notice: 'Followup was successfully created.' }
+        if @signup_complete
+          redirect = tasks_path
+        else
+          redirect = followups_path
+        end
+        
+        format.html { redirect_to redirect, notice: 'Followup was successfully created.' }
         format.json { render action: 'show', status: :created, location: @followup }
       else
         format.html { render action: 'new' }

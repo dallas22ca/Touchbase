@@ -15,7 +15,7 @@ describe User do
     login_as joe
     visit new_contact_path
     attach_file :user_file, path
-    click_button "Add Contacts"
+    click_button "Upload File"
     joe.contacts.count.should == 0
     
     page.current_path.should == fields_path
@@ -32,17 +32,15 @@ describe User do
   
   it "can't upload a nonheader file" do
     joe = users(:joe)
+    joe.update_column :step, 1
     path = "#{Rails.root}/test/assets/4withoutheaders.csv"
     
     login_as joe
     visit new_contact_path
     attach_file :user_file, path
-    click_button "Add Contacts"
+    click_button "Upload File"
     joe.contacts.count.should == 0
     page.body.should include "header"
-    
-    visit fields_path
-    page.body.should include "Welcome"
   end
   
   it "can input text with header" do
@@ -79,10 +77,8 @@ describe User do
     page.body.should_not include "delete it"
   end
   
-  it "can't input no contacts" do
+  it "can't input nothing into blob" do
     joe = users(:joe)
-    text = "Dallas Read, dallas@touchbasenow.com, Futbol"
-    
     login_as joe
     visit new_contact_path
     click_button "Add Contacts"
