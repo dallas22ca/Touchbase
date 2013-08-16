@@ -8,13 +8,14 @@ namespace :monit do
   desc "Setup all Monit configuration"
   task :setup do
     if rails_env == "production"
-      monit_config "monitrc", "/etc/monit/monitrc"
+      monit_config "monitrc_nossl", "/etc/monit/monitrc"
     else
       monit_config "monitrc_nossl", "/etc/monit/monitrc"
     end
     nginx
     postgresql
     unicorn
+    sidekiq
     reload
   end
   after "deploy:setup", "monit:setup"
