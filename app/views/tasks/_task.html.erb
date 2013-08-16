@@ -1,7 +1,9 @@
-<%= content_tag_for :li, task, data: { url: task_path(task), date: task.date.to_i }, class: "#{"complete" if task.complete}" do %>
-  <%= check_box_tag "#{dom_id task}_checkbox", true, task.complete, class: "task_checkbox" %>
-  <p class="content">
-    <%= task.content.html_safe %>
-    <span class="date">on <%= task.date.strftime("%b %-d, %Y") %></span>
-  </p>
+<% cache task do %>
+  <%= content_tag_for :li, task, data: { url: task_path(task), date: task.date.to_i }, class: "#{"complete" if task.complete}" do %>
+    <%= check_box_tag "#{dom_id task}_checkbox", true, task.complete, class: "task_checkbox" %>
+    <p class="content">
+      <%= task.content_with_links.html_safe %>
+      <span class="date">on <%= task.date.strftime("%b %-d, %Y") %></span>
+    </p>
+  <% end %>
 <% end %>

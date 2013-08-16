@@ -1,6 +1,9 @@
 class Task < ActiveRecord::Base
+  include Rails.application.routes.url_helpers
+  
   belongs_to :followup
   belongs_to :contact
+  has_one :user, through: :contact
   
   validates_presence_of :date, :content
   
@@ -17,5 +20,17 @@ class Task < ActiveRecord::Base
         self.completed_at = nil
       end
     end
+  end
+  
+  def content_with_links
+    link = contact_url(contact.id)
+    content_with_links = content.gsub("{{name}}", ActionController::Base.helpers.link_to(contact.name, link))
+    
+    user.fields.each do |f|
+      text = f.substitute_data(contact.data[f.permalink])
+      content = content.to_s.gsub(/\{\{#{f.permalink}\}\}/, text)
+    end
+    
+    content_with_links
   end
 end
