@@ -1,6 +1,4 @@
 class Task < ActiveRecord::Base
-  include Rails.application.routes.url_helpers
-  
   belongs_to :followup
   belongs_to :contact
   has_one :user, through: :contact
@@ -22,8 +20,7 @@ class Task < ActiveRecord::Base
     end
   end
   
-  def content_with_links
-    link = contact_url(contact.id)
+  def content_with_links(link)
     content_with_links = content.gsub("{{name}}", ActionController::Base.helpers.link_to(contact.name, link))
     
     user.fields.each do |f|
