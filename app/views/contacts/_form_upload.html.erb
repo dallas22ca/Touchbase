@@ -1,0 +1,13 @@
+<%= form_for @user, url: multicreate_contacts_path, method: :post, html: { class: "contacts_format contacts_format_upload" } do |f| %>
+
+  <div class="field">
+    <%= f.label :file, "You can either upload a file of your contacts (CSV, Microsoft Excel):" %><br><br>
+    <%= f.file_field :file %>
+  </div>
+
+  <%= f.hidden_field :overwrite, value: false %>
+  <%= hidden_field_tag :contacts_format, "upload" %>
+
+  <%= f.submit "Upload File", class: "blue button" %>
+
+<% end %>

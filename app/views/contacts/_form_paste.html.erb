@@ -1,0 +1,20 @@
+<%= form_for @user, url: multicreate_contacts_path, method: :post, html: { class: "contacts_format contacts_format_paste" } do |f| %>
+
+  <div class="field">
+    <%= f.label :blob, "Or you can manually upload:" %><br>
+  
+    <p style="margin: 10px 0 20px 0; border: 1px solid #ccc; background: #ddd; border-radius: 3px; padding: 8px; color: #777; line-height: 18px; font-size: 12px; ">
+      For example:<br>
+      Name, Email, Hobbies<br>
+      Dallas Read, dallas@touchbasenow.com, Futbol
+    </p>
+
+    <%= f.text_area :blob, class: "full_width", rows: 4, value: (params[:user] && params[:user][:blob] ? params[:user][:blob] : "") %>
+  </div>
+
+  <%= f.hidden_field :overwrite, value: false %>
+  <%= hidden_field_tag :contacts_format, "paste" %>
+
+  <%= f.submit "Add Contacts", class: "blue button" %>
+
+<% end %>

@@ -17,24 +17,8 @@ protected
   end
 
   def check_step
-    if current_user.step <= 1
-      if !"#{controller_name}##{action_name}".match(/contacts\#(new|create)|sessions|registrations|pages\#show/)
-        redirect_to protected_page_path("welcome")
-      end
-    elsif current_user.step <= 2
-      if current_user.has_deletable_pending_import?
-        if !"#{controller_name}##{action_name}".match(/fields\#(index|update)|contacts\#(new|create)|sessions|registrations|pages\#show/)
-          redirect_to fields_path
-        end
-      else
-        if !"#{controller_name}##{action_name}".match(/contacts\#(new|create)|sessions|registrations|pages\#show/)
-          redirect_to new_contact_path
-        end
-      end
-    elsif current_user.step <= 3
-      if !"#{controller_name}##{action_name}".match(/followups|fields\#(index|update)|contacts\#(new|create)|sessions|registrations|pages\#show/)
-        redirect_to followups_path
-      end
+    if !"#{controller_name}##{action_name}".match current_user.allowed_actions
+      redirect_to current_user.next_step
     end
   end
   

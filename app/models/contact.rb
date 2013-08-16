@@ -6,7 +6,7 @@ class Contact < ActiveRecord::Base
   
   attr_accessor :overwrite, :warnings, :use_pending, :ignore_formatting
   
-  validates_presence_of :user_id
+  validates_presence_of :user_id, :name
   validates_uniqueness_of :name, scope: :user_id
   
   scope :pending, -> { where("pending_data is not ?", nil) }

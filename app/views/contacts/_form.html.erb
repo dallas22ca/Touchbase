@@ -1,0 +1,29 @@
+<%= form_for @contact, html: { class: "contacts_format contacts_format_one" } do |f| %>
+  <%= f.hidden_field :overwrite, value: true %>
+  <%= hidden_field_tag :contacts_format, "one" %>
+  
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  
+  <% @fields.each do |field| %>
+    <div class="field">
+      <% if field.data_type == "boolean" %>
+        <%= check_box_tag field.title, true, @contact.d[field.permalink] == "true", name: "contact[data][#{field.permalink}]" %>
+        <%= label_tag field.title %><br>
+      <% elsif field.data_type == "datetime" %>
+        <% date = @contact.d[field.permalink].to_s.to_datetime %>
+        <%= label_tag field.title %><br>
+        <%= text_field_tag field.title, (date ? date.strftime("%B %-d, %Y") : ""), name: "contact[data][#{field.permalink}]", class: "datepicker", autocomplete: :off %>
+      <% else %>
+        <%= label_tag field.title %><br>
+        <%= text_field_tag field.title, @contact.d[field.permalink], name: "contact[data][#{field.permalink}]" %>
+      <% end %>
+    </div>
+  <% end %>
+  
+  <div class="actions">
+    <%= f.submit "Save Contact", class: "blue button" %>
+  </div>
+<% end %>

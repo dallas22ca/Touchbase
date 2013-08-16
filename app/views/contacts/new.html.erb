@@ -1,6 +1,12 @@
-<% if @user && @user.errors.any? %>
+<% if @user.errors.any? %>
   <p class="errors">
     <%= @user.errors.full_messages.map{|m|m}.join("<br>").html_safe %>
+  </p>
+<% end %>
+
+<% if @contact.errors.any? %>
+  <p class="errors">
+    <%= @contact.errors.full_messages.map{|m|m}.join("<br>").html_safe %>
   </p>
 <% end %>
 
@@ -8,38 +14,40 @@
 
   <p>
     You have a pending upload. Your can <%= link_to "move to your next step", fields_path %> or
-    <%= link_to "delete it", contacts_path(delete_pending: true), method: :post %>.
+    <%= link_to "delete it", multicreate_contacts_path(delete_pending: true), method: :post %>.
   </p>
 
+<% elsif current_user.has_pending_import? %>
+
+  <p>
+    We're currently working on your last upload. Give us a few minutes and you'll be able to add more!
+  </p>
+  
 <% else %>
 
-  <%= form_for @user, url: multicreate_contacts_path, method: :post do |f| %>
-
-    <div class="field">
-      <%= f.label :file, "You can either upload a file of your contacts (CSV, Microsoft Excel):" %><br>
-      <%= f.file_field :file %>
-    </div>
-
-    <hr />
-    
-    <div class="field">
-      <%= f.label :blob, "Or you can manually upload:" %><br>
-      
-      <p style="margin: 10px 0 20px 0; border: 1px solid #ccc; background: #ddd; border-radius: 3px; padding: 8px; color: #777; line-height: 18px; font-size: 12px; ">
-        For example:<br>
-        Name, Email, Hobbies<br>
-        Dallas Read, dallas@touchbasenow.com, Futbol
-      </p>
-
-      <%= f.text_area :blob, class: "full_width", rows: 4 %>
-    </div>
-
-    <hr />
-
-    <%= f.hidden_field :overwrite, value: false %>
-
-    <%= f.submit "Add Contacts", class: "blue button" %>
-
-  <% end %>
+  <p>
+    <strong>How would you like to add contacts?</strong>
+  </p>
+  
+  <ul id="contact_format_chooser">
+    <% [
+        ["Upload a file", "upload", (params[:contacts_format].blank? || params[:contacts_format] == "upload" ? true : false)],
+        ["Copy and Paste", "paste", params[:contacts_format] == "paste" ? true : false],
+        ["Manually Add 1 Contact", "one", params[:contacts_format] == "one" ? true : false]
+       ].each do |title, value, checked| %>
+       <% unless value == "one" && current_user.step < 4 %>
+        <li>
+          <%= radio_button_tag :contacts_format, value, checked, class: "show_contacts_format" %>
+          <%= label_tag "contacts_format_#{value}".to_sym, title %>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+  
+  <hr />
+  
+  <%= render "form" %>
+  <%= render "form_upload" %>
+  <%= render "form_paste" %>
 
 <% end %>

@@ -70,4 +70,46 @@ class Field < ActiveRecord::Base
     where("data_type != ?", "datetime").map{ |f| for_filters[f.permalink] = { permalink: f.permalink, data_type: f.data_type, title: f.title } }
     for_filters
   end
+  
+  def self.suggested
+    [
+      [ "Anniversary"               ,  "anniversary"              ,  "datetime"   ],
+      [ "Birthday"                  ,  "birthday"                 ,  "datetime"   ],
+      [ "Rating"                    ,  "rating"                   ,  "integer"    ],
+      [ "Hobbies"                   ,  "hobbies"                  ,  "string"     ],
+      [ "Favorite Magazine"         ,  "favorite-magazine"        ,  "string"     ],
+      [ "Favourite Movie"           ,  "favourite-movie"          ,  "string"     ],
+      [ "Leisure Activities"        ,  "leisure-activities"       ,  "string"     ],
+      [ "Favourite Sport"           ,  "favourite-sport"          ,  "string"     ],
+      [ "Favourite Sports Team"     ,  "favourite-sports-team"    ,  "string"     ],
+      [ "Sport Participation"       ,  "sport-participation"      ,  "string"     ],
+      [ "Car Type Owned"            ,  "car-type-owned"           ,  "string"     ],
+      [ "Favourite Car"             ,  "favourite-car"            ,  "string"     ],
+      [ "Pet Owner"                 ,  "pet-owner"                ,  "string"     ],
+      [ "Recent Reading"            ,  "recent-reading"           ,  "string"     ],
+      [ "Favourite Restaurant"      ,  "favourite-restaurant"     ,  "string"     ],
+      [ "Favourite Food"            ,  "favourite-food"           ,  "string"     ],
+      [ "Awards"                    ,  "awards"                   ,  "string"     ],
+      [ "Recent Seminar"            ,  "recent-seminar"           ,  "string"     ],
+      [ "Recent Vacation"           ,  "recent-vacation"          ,  "string"     ],
+      [ "Personal Development"      ,  "personal-development"     ,  "string"     ],
+      [ "Hometown"                  ,  "hometown"                 ,  "string"     ],
+      [ "Address"                   ,  "address"                  ,  "string"     ],
+      [ "Marital Status"            ,  "marital-status"           ,  "string"     ],
+      [ "Partner Name"              ,  "partner-name"             ,  "string"     ],
+      [ "Goals"                     ,  "goals"                    ,  "string"     ],
+      [ "Dislikes"                  ,  "dislikes"                 ,  "string"     ],
+      [ "Clubs"                     ,  "clubs"                    ,  "string"     ],
+      [ "Previous Work"             ,  "previous-work"            ,  "string"     ],
+      [ "Previous Residence"        ,  "previous-residence"       ,  "string"     ],
+      [ "Faith"                     ,  "faith"                    ,  "string"     ],
+      [ "Post Secondary"            ,  "post-secondary"           ,  "string"     ],
+      [ "Children"                  ,  "children"                 ,  "string"     ],
+      [ "Business Challenges"       ,  "business-challenges"      ,  "string"     ],
+      [ "Business Competitors"      ,  "business-competitors"     ,  "string"     ],
+      [ "Associations"              ,  "associations"             ,  "string"     ],
+      [ "Publications"              ,  "publications"             ,  "string"     ],
+      [ "Past Experiences"          ,  "past-experiences"         ,  "string"     ]
+    ].sort{ |a, b| a[0] <=> b[0] }
+  end
 end

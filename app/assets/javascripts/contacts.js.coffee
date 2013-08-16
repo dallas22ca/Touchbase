@@ -14,6 +14,13 @@
 #   $("#contacts").data("data_type", data_type)
 #   $("#contacts_search").submit()
 
+$(document).on "change", ".show_contacts_format", ->
+  if $(this).is(":checked")
+    val = $(this).val()
+    $(".contacts_format").hide()
+    $(".contacts_format_#{val}").show()
+    $(".contacts_format_#{val}").find("input[type='text']:visible:first, textarea:visible:first").focus()
+
 $(document).on "keyup click", ".search_field", ->
   $("#contacts_search").submit()
 
