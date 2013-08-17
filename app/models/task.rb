@@ -25,7 +25,7 @@ class Task < ActiveRecord::Base
     
     user.fields.each do |f|
       text = f.substitute_data(contact.data[f.permalink])
-      content = content.to_s.gsub(/\{\{#{f.permalink}\}\}/, text)
+      content_with_links = content_with_links.to_s.gsub(/\{\{#{f.permalink}\}\}/, text)
     end
     
     content_with_links
