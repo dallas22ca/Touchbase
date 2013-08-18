@@ -1,0 +1,45 @@
+@media (max-width: 720px) {
+  .container {
+    max-width: none;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  #sidebar {
+    position: static;
+  }
+  
+  #contacts_index {
+    .container {
+      position: static;
+    }
+  }
+  
+  .container {
+    padding: 15px;
+  }
+  
+  #nav {
+    display: block;
+    
+    li {
+      float: none;
+      margin-right: -5px;
+      
+      a {
+        width: 20%;
+        padding: 14px 0px;
+        margin: 0;
+        text-align: center;
+      
+        .icon {
+          margin: 0 !important;
+        }
+    
+        .word {
+          display: none;
+        }
+      }
+    }
+  }
+}

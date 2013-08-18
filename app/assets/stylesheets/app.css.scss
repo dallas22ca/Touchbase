@@ -32,8 +32,8 @@ hr {
 
 #nav_placeholder {
   width: 100%;
-  font-size: 13px;
-  padding: 15px 0px;
+  font-size: 17px;
+  padding: 17px 0px;
 }
 
 #nav {
@@ -46,7 +46,7 @@ hr {
   border-bottom: 4px solid #0F172A;
   
   &.hide_i {
-    i {
+    .icon {
       display: none !important;
     }
   }
@@ -74,7 +74,7 @@ hr {
       color: #eee;
     }
     
-    i {
+    .icon {
       font-size: 17px;
       margin-right: 9px;
       
