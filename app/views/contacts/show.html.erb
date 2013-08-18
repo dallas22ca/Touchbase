@@ -1,4 +1,4 @@
-<%= link_to "&larr; Back".html_safe, :back, class: "small_link" %>
+<%= link_to "&larr; Back".html_safe, :back, class: "small_link" %><br><br>
 
 <h1><%= @contact.name %> <%= "(Pending)" if @contact.pending? %></h1>
 
@@ -39,6 +39,7 @@
     <li class="date_heading">Upcoming Tasks</li>
   </ul>
   <%= render @tasks.incomplete.order("tasks.date asc") %>
+  <div class="clear"></div>
 </ul>
 
 <div id="completed_tasks_wrapper" style="<%= "display: none; " if @tasks.complete.empty? %>">
@@ -47,4 +48,5 @@
   <ul id="complete_tasks" class="task_list">
     <%= render @tasks.complete %>
   </ul>
+  <div class="clear"></div>
 </div>
