@@ -20,6 +20,8 @@
   }
   
   #nav {
+    top: auto;
+    bottom: 0;
     display: block;
     
     li {
@@ -41,5 +43,9 @@
         }
       }
     }
+  }
+  
+  .task {
+    
   }
 }

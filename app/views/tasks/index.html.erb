@@ -26,6 +26,7 @@
         <% end %>
         <%= tasks.map{ |t| render t }.join.html_safe %>
       </ul>
+      <div class="clear"></div>
     <% end %>
   </ul>
 
@@ -35,6 +36,7 @@
     <ul id="complete_tasks" class="task_list">
       <%= render @tasks.complete %>
     </ul>
+    <div class="clear"></div>
   </div>
 
 </div>
