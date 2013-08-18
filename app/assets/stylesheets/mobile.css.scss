@@ -20,6 +20,13 @@
     display: none;
   }
   
+  .field {
+    input[type="text"], input[type="email"], input[type="password"], select {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+  
   #nav {
     top: auto;
     bottom: 0;
