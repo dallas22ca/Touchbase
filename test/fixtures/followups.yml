@@ -40,6 +40,13 @@ every_five_weeks_starting_on_birthday:
   recurrence: <%= 5.weeks.to_i %>
   field: birthday
 
+every_three_months:
+  user: joe
+  description: Say yo to {{name}}
+  criteria: [["awesome", "is", "true"]]
+  recurrence: <%= 3.months.to_i %>
+  starting_at: <%= Time.now %>
+
 awesome:
   user: joe
   description: Say Hi to awesome people {{name}}

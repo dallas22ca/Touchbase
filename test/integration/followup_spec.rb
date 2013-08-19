@@ -153,7 +153,7 @@ describe Followup do
     followup.create_tasks
     c.update_attributes! name: "Super Man"
     ImportWorker.drain
-    followup.tasks.first.reload.content.should include("Super Man")
+    followup.tasks.first.reload.content_with_links("/path").should include("Super Man")
   end
   
   it "creates followups with criteria (awesome: true)" do
@@ -162,14 +162,21 @@ describe Followup do
     followup = followups(:awesome)
     followup.create_tasks
     followup.contacts.count.should == 1
-    followup.tasks.first.reload.content.should include(c.name)
+    followup.tasks.first.reload.content_with_links("/path").should include(c.name)
   end
   
   it "creates followups with criteria (awesome: false)" do
     joe = users(:joe)
-    c = contacts(:birthday_a_week_ago)
     followup = followups(:not_awesome)
     followup.create_tasks
     followup.contacts.count.should == 0
+  end
+  
+  it "creates followups for every 3 months, but excludes the occurence closest to next year" do
+    joe = users(:joe)
+    c = contacts(:birthday_a_week_ago)
+    followup = followups(:every_three_months)
+    followup.create_tasks(false, 1.year.to_i)
+    followup.tasks.count.should == 4
   end
 end
