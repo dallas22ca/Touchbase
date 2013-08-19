@@ -13,6 +13,8 @@
     <li><%= link_to "<span class=\"icon\">5</span><span class=\"word\">. Today's Tasks</span>".html_safe, tasks_path, class: "disabled #{"selected" if request.path.include? tasks_path}" %></li>
   <% end %>
   
-  <li class="right"><%= link_to "<i class=\"icon icon-user\"></i><span class=\"word\"> My Account</span>".html_safe, edit_user_registration_path, class: "#{"selected" if request.path.include? "users"}" %></li>
-  <li class="right"><%= link_to "<i class=\"icon icon-lock\"></i><span class=\"word\"> Sign Out</span>".html_safe, destroy_user_session_path, method: :delete %></li>
+  <ul class="right">
+    <li><%= link_to "<i class=\"icon icon-user\"></i><span class=\"word\"> My Account</span>".html_safe, edit_user_registration_path, class: "#{"selected" if request.path.include? "users"}" %></li>
+    <li><%= link_to "<i class=\"icon icon-lock\"></i><span class=\"word\"> Sign Out</span>".html_safe, destroy_user_session_path, method: :delete %></li>
+  </ul>
 </ol>
