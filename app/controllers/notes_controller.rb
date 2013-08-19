@@ -72,6 +72,7 @@ class NotesController < ApplicationController
     
     def set_note
       @note = @contact.notes.find(params[:id])
+      redirect_to @contact unless @note
     end
 
     def note_params
