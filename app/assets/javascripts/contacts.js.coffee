@@ -1,3 +1,7 @@
+$(document).on "click", ".show_advanced", ->
+  $(".advanced").toggle 150
+  false
+
 $(document).on "click", "#contacts th", ->
   permalink = $(this).data("permalink")
   data_type = $(this).data("data_type")
@@ -49,14 +53,16 @@ $(document).on "submit", "#contacts_search", ->
     unless $(this).is(":radio") && !$(this).is(":checked")
       args.push [field, matcher, search]
 
-  $.get url, 
+  params =
     search: args
-    q: q
     order: order
     direction: direction
     data_type: data_type
     from_sidebar: true
-  , (data) ->
+  
+  params["q"] = q if q.length
+  
+  $.get url, params, (data) ->
     eval data
   false
 
