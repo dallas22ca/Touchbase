@@ -5,5 +5,6 @@
       <%= task.content_with_links(contact_path(task.contact)).html_safe %>
       <span class="date">on <%= task.date.strftime("%b %-d, %Y") %></span>
     </p>
+    <div class="clear"></div>
   <% end %>
 <% end %>
