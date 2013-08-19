@@ -78,13 +78,15 @@ class Followup < ActiveRecord::Base
       
         while date <= query_finish
           if date >= query_start
-            if tasks.where(contact_id: contact.id, date: date).empty?
-              task = tasks.create(
-                contact_id: contact.id, 
-                complete: false,
-                date: date,
-                content: description
-              )
+            if date + how_often < query_finish
+              if tasks.where(contact_id: contact.id, date: date).empty?
+                task = tasks.create(
+                  contact_id: contact.id, 
+                  complete: false,
+                  date: date,
+                  content: description
+                )
+              end
             end
           end
         
