@@ -171,12 +171,4 @@ describe Followup do
     followup.create_tasks
     followup.contacts.count.should == 0
   end
-  
-  it "creates followups for every 3 months, but excludes the occurence closest to next year" do
-    joe = users(:joe)
-    c = contacts(:birthday_a_week_ago)
-    followup = followups(:every_three_months)
-    followup.create_tasks(false, 1.year.to_i)
-    followup.tasks.count.should == 4
-  end
 end

@@ -56,7 +56,7 @@ class Formatter
         time = Chronic.parse(content)
       end
       
-      content = time.strftime("%b %-d, %Y")
+      content = time.strftime("%b %-d, %Y") if time
     elsif data_type == "integer"
       content = content.to_s.to_f.to_s.gsub(".0", "")
     else

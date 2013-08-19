@@ -3,5 +3,5 @@ class Note < ActiveRecord::Base
   
   validates_presence_of :contact_id, :date
   
-  default_scope order("notes.date desc")
+  default_scope -> { order("notes.date desc") }
 end
