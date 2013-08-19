@@ -20,7 +20,11 @@
       <% date = date.utc %>
       <ul class="tasks_for_date <%= "late" if @start > date %>" data-start="<%= date.beginning_of_day.to_i %>" data-finish="<%= date.end_of_day.to_i %>">
         <% if @start <= date %>
-          <li class="date_heading">Today</li>
+          <% if date > Time.zone.now.beginning_of_day && date < Time.zone.now.end_of_day %>
+            <li class="date_heading">Today</li>
+          <% else %>
+            <li class="date_heading"><%= date.strftime("%a, %b %-d") %></li>
+          <% end %>
         <% else %>
           <li class="date_heading"><%= link_to "Overdue from #{date.strftime("%a, %b %-d")}", tasks_path(start: date.strftime("%m-%d-%y")) %></li>
         <% end %>
