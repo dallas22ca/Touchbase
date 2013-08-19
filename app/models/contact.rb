@@ -147,4 +147,16 @@ class Contact < ActiveRecord::Base
   def d
     data ? data : {}
   end
+  
+  def self.to_csv(user_id)
+    require 'csv'
+    CSV.generate do |csv|
+      fields = User.find(user_id).fields
+      
+      csv << ["Name"] + fields.pluck(:title)
+      all.each do |contact|
+        csv << [contact.name] + fields.map{ |f| contact.d[f.permalink] }
+      end
+    end
+  end
 end
