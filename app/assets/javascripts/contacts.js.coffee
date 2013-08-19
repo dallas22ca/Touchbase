@@ -19,7 +19,7 @@ $(document).on "change", ".show_contacts_format", ->
     val = $(this).val()
     $(".contacts_format").hide()
     $(".contacts_format_#{val}").show()
-    $(".contacts_format_#{val}").find("input[type='text']:visible:first, textarea:visible:first").focus()
+    $(".contacts_format_#{val}").find("input[type='text']:visible:first, textarea:visible:first").focus() if $(window).width() > 720
 
 $(document).on "keyup click", ".search_field", ->
   $("#contacts_search").submit()
@@ -27,7 +27,7 @@ $(document).on "keyup click", ".search_field", ->
 $(document).on "click", ".filter_checkbox", ->
   if $(this).is(":checked")
     $(this).closest(".filter_field").removeClass "inactive"
-    $(this).closest(".filter_field").find("input:visible:eq(1), textarea:visible:eq(1)").focus()
+    $(this).closest(".filter_field").find("input:visible:eq(1), textarea:visible:eq(1)").focus() if $(window).width() > 720
   else
     $(this).closest(".filter_field").addClass "inactive"
   
