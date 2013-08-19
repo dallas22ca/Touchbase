@@ -1,18 +1,18 @@
-# $(document).on "click", "#contacts th", ->
-#   permalink = $(this).data("permalink")
-#   data_type = $(this).data("data_type")
-#   
-#   if $("#contacts").data("order") == permalink
-#     if $("#contacts").data("direction") == "asc"
-#       $("#contacts").data("direction", "desc")
-#     else
-#       $("#contacts").data("direction", "asc")
-#   else
-#     $("#contacts").data("order", permalink)
-#     $("#contacts").data("direction", "asc")
-#     
-#   $("#contacts").data("data_type", data_type)
-#   $("#contacts_search").submit()
+$(document).on "click", "#contacts th", ->
+  permalink = $(this).data("permalink")
+  data_type = $(this).data("data_type")
+  
+  if $("#contacts").data("order") == permalink
+    if $("#contacts").data("direction") == "asc"
+      $("#contacts").data("direction", "desc")
+    else
+      $("#contacts").data("direction", "asc")
+  else
+    $("#contacts").data("order", permalink)
+    $("#contacts").data("direction", "asc")
+    
+  $("#contacts").data("data_type", data_type)
+  $("#contacts_search").submit()
 
 $(document).on "change", ".show_contacts_format", ->
   if $(this).is(":checked")

@@ -9,6 +9,7 @@ class ContactsController < ApplicationController
     search = params[:search].map { |k, v| v } if params[:search]
     params[:order] ||= "name"
     params[:direction] ||= "asc"
+    params[:page] ||= 1
     
     @all_contacts = current_user.contacts.filter(search, params[:q], params[:order], params[:direction], params[:data_type])
     @contacts = @all_contacts.page(params[:page]).per_page(50)
