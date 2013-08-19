@@ -2,16 +2,19 @@ require "sidekiq/web"
 
 Touchbase::Application.routes.draw do
   
-  resources :tasks
-
   devise_for :users
   
   authenticated :user do
     get "/pending" => "contacts#pending", as: :pending
     post "/multicreate" => "contacts#multicreate", as: :multicreate_contacts
-    resources :contacts
+    
+    resources :tasks
     resources :users
     resources :followups
+    
+    resources :contacts do 
+      resources :notes
+    end
     
     get "/fields" => "fields#index", as: :fields
     patch "/fields" => "fields#update"

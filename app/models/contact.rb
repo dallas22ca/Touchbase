@@ -1,8 +1,9 @@
 class Contact < ActiveRecord::Base
   belongs_to :user, counter_cache: true
   
-  has_many :tasks
+  has_many :tasks, dependent: :destroy
   has_many :followups, through: :tasks
+  has_many :notes, dependent: :destroy
   
   attr_accessor :overwrite, :warnings, :use_pending, :ignore_formatting
   

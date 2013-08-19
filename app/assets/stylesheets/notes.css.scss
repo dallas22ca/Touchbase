@@ -1,0 +1,28 @@
+#notes {
+  width: 100%;
+  margin: 0 0 30px 0;
+  
+  .new_note {
+    padding: 0px 0px 20px 0;
+    display: none;
+  }
+  
+  .note {
+    line-height: 20px;
+    
+    td {
+      padding: 5px;
+    }
+    
+    .date {
+      font-size: 12px;
+      color: #777;
+      width: 7em;
+      text-align: right;
+      padding-right: 10px;
+    }
+    
+    .description {
+    }
+  }
+}

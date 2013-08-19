@@ -34,6 +34,28 @@
 
 <hr />
 
+<h4>Notes</h4>
+
+<table id="notes">
+  <%= render @contact.notes %>
+  <tfoot>
+    <tr>
+      <td colspan="2">
+        <%= render "notes/form" %>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" style="padding-top: 10px; ">
+        <%= link_to "Add A Note", "#", class: "show_new_note small_link" %>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+<div class="clear"></div>
+
+<hr />
+
 <ul id="incomplete_tasks" class="task_list">
   <ul class="tasks_for_date overdue_list">
     <li class="date_heading">Upcoming Tasks</li>
