@@ -6,21 +6,23 @@
     <span class="contacts_search_count"><%= current_user.contacts_count %></span> / <span class="contacts_count"><%= pluralize current_user.contacts_count, "Contact" %></span>
   </p>
   
-  
   <%= form_tag contacts_path(format: :js), method: :get, id: "contacts_search" do %>
-    <% text_field_tag :q, "", placeholder: "Search..." %>
+    <%= text_field_tag :q, "", placeholder: "Search...", class: "search_field" %>
     
-    <div class="filter_field inactive">
-      <%= check_box_tag "name", "name", false, { class: "filter_checkbox" } %>
-      <%= label_tag "name", "Name" %>
+    <div class="advanced">
+      <div class="filter_field inactive">
+        <%= check_box_tag "name", "name", false, { class: "filter_checkbox" } %>
+        <%= label_tag "name", "Name" %>
   
-      <div class="details">
-        <%= text_field_tag "name", "", class: "search_field", data: { matcher: :like } %>
+        <div class="details">
+          <%= text_field_tag "name", "", class: "search_field", data: { matcher: :like } %>
+        </div>
       </div>
+    
+      <%= render @fields.order(:title) %>
     </div>
     
-    <%= render @fields.order(:title) %>
-    
-    <%= submit_tag "Search", class: "blue button full_width", style: "margin-top: 20px; " %>
+    <% submit_tag "Search", class: "blue button full_width", style: "margin-top: 20px; " %>
+    <%= link_to "Advanced Search", "#", class: "show_advanced small_link right"%>
   <% end %>
 </div>

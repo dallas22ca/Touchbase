@@ -70,6 +70,34 @@ class Contact < ActiveRecord::Base
     self.data = prepared_data unless prepared_data == {}
   end
   
+  def create_followup_tasks
+    user.followups.map { |f| f.sidekiq_create_tasks(id) }
+  end
+  
+  def overwrite?
+    overwrite
+  end
+  
+  def pending?
+    self.pending_data != nil
+  end
+  
+  def d
+    data ? data : {}
+  end
+  
+  def self.to_csv(user_id)
+    require 'csv'
+    CSV.generate do |csv|
+      fields = User.find(user_id).fields
+      
+      csv << ["Name"] + fields.pluck(:title)
+      all.each do |contact|
+        csv << [contact.name] + fields.map{ |f| contact.d[f.permalink] }
+      end
+    end
+  end
+  
   def self.filter(requirements = [], q = "", order = "name", direction = "asc", data_type = "string")
     queries = []
     normal_fields = ["created_at", "updated_at", "name", "id"]
@@ -86,7 +114,7 @@ class Contact < ActiveRecord::Base
     
     unless q.blank?
       q = q.to_s
-      queries.push "contacts.name ilike '%#{q}%'"
+      queries.push "contacts.name ilike '%#{q}%' or LOWER(CAST(avals(contacts.data) AS text)) ilike '%#{q}%'"
     end
     
     requirements.each do |field, matcher, search, args|
@@ -129,34 +157,6 @@ class Contact < ActiveRecord::Base
       where(queries.join(" and ")).order("#{order} #{direction}")
     else
       order("#{order} #{direction}")
-    end
-  end
-  
-  def create_followup_tasks
-    user.followups.map { |f| f.sidekiq_create_tasks(id) }
-  end
-  
-  def overwrite?
-    overwrite
-  end
-  
-  def pending?
-    self.pending_data != nil
-  end
-  
-  def d
-    data ? data : {}
-  end
-  
-  def self.to_csv(user_id)
-    require 'csv'
-    CSV.generate do |csv|
-      fields = User.find(user_id).fields
-      
-      csv << ["Name"] + fields.pluck(:title)
-      all.each do |contact|
-        csv << [contact.name] + fields.map{ |f| contact.d[f.permalink] }
-      end
     end
   end
 end

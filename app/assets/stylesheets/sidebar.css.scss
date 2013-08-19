@@ -1,5 +1,6 @@
 #contacts_index {
   .container {
+    margin: 10px 0 10px 0;
     width: auto;
     max-width: none;
     left: 222px;
@@ -37,6 +38,10 @@
       color: #005782;
       font-weight: bold;
     }
+  }
+  
+  .advanced {
+    margin: 10px 0;
   }
   
   .filter_field {
