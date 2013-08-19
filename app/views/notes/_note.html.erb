@@ -1,0 +1,11 @@
+<% cache note do %>
+  <%= content_tag_for :tr, note, data: { url: contact_note_path(note.contact_id, note), date: note.date.to_i } do %>
+    <td class="date"><%= note.date.strftime("%b %-d, %Y") %></td>
+    <td class="description">
+      <%= note.description.html_safe %>
+      <%= note.description.html_safe %>
+      <%= note.description.html_safe %>
+      <%= link_to "Edit", edit_contact_note_path(note.contact_id, note), class: "small_link" %>
+    </td>
+  <% end %>
+<% end %>

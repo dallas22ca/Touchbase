@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
      
   has_many :contacts
+  has_many :notes, through: :contacts
   has_many :fields
   has_many :followups
   has_many :tasks, through: :followups

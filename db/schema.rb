@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130809142917) do
+ActiveRecord::Schema.define(version: 20130819171218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,16 @@ ActiveRecord::Schema.define(version: 20130809142917) do
 
   add_index "followups", ["field_id"], name: "index_followups_on_field_id", using: :btree
   add_index "followups", ["user_id"], name: "index_followups_on_user_id", using: :btree
+
+  create_table "notes", force: true do |t|
+    t.integer  "contact_id"
+    t.text     "description"
+    t.datetime "date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "notes", ["contact_id"], name: "index_notes_on_contact_id", using: :btree
 
   create_table "tasks", force: true do |t|
     t.integer  "followup_id"

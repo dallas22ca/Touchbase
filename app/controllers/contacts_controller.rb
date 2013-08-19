@@ -38,6 +38,7 @@ class ContactsController < ApplicationController
   # GET /contacts/1.json
   def show
     @tasks = @contact.tasks
+    @note = Note.new
   end
 
   # GET /contacts/new
