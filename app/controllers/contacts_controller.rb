@@ -10,13 +10,14 @@ class ContactsController < ApplicationController
     params[:order] ||= "name"
     params[:direction] ||= "asc"
     
-    @contacts = current_user.contacts.filter(search, params[:q], params[:order], params[:direction], params[:data_type]).page(params[:page]).per_page(50)
+    @all_contacts = current_user.contacts.filter(search, params[:q], params[:order], params[:direction], params[:data_type])
+    @contacts = @all_contacts.page(params[:page]).per_page(50)
     @pending_count = current_user.contacts.pending.count
     
     respond_to do |format|
       format.html
       format.json
-      format.csv { send_data @contacts.to_csv(current_user.id) }
+      format.csv { send_data @all_contacts.to_csv(current_user.id) }
       format.js
     end
   end
