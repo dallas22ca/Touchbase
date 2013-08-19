@@ -16,6 +16,7 @@ class ContactsController < ApplicationController
     respond_to do |format|
       format.html
       format.json
+      format.csv { send_data @contacts.to_csv(current_user.id) }
       format.js
     end
   end
