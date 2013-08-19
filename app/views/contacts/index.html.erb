@@ -6,9 +6,9 @@
 <table id="contacts" data-order="name" data-direction="asc" data-data_type="string">
   <thead>
     <tr>
-      <th class="name" data-permalink="name" data-data_type="string">Name</th>
+      <th data-permalink="name" data-data_type="string">Name</th>
       <% @fields.each do |field| %>
-        <th data-permalink="<%= field.permalink %>" data-data_type="<%= field.data_type %>"><%= field.title %></th>
+        <th style="<%= "text-align: center; " if field.data_type == "boolean" %>" data-permalink="<%= field.permalink %>" data-data_type="<%= field.data_type %>"><%= field.title %></th>
       <% end %>
     </tr>
   </thead>
