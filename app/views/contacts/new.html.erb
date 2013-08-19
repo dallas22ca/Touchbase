@@ -1,3 +1,7 @@
+<%= link_to "&larr; Back".html_safe, :back, class: "small_link back" %>
+
+<h1>Add Contacts</h1>
+
 <% if @user.errors.any? %>
   <p class="errors">
     <%= @user.errors.full_messages.map{|m|m}.join("<br>").html_safe %>
