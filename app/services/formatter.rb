@@ -36,6 +36,12 @@ class Formatter
       else
         content = false.to_s
       end
+    elsif data_type == "boolean_icon"
+      if ["true", "1", "t", "y", "yes"].include? content.to_s
+        content = "<i class=\"icon-ok\"></i>"
+      else
+        content = "<i class=\"icon-remove\"></i>"
+      end
     elsif data_type == "datetime"
       if content.class == ActiveSupport::TimeWithZone || content.class == Time
         content = content
@@ -43,6 +49,14 @@ class Formatter
         time = Chronic.parse(content)
         content = time if time
       end
+    elsif data_type == "date"
+      if content.class == ActiveSupport::TimeWithZone || content.class == Time
+        time = content
+      else
+        time = Chronic.parse(content)
+      end
+      
+      content = time.strftime("%b %-d, %Y")
     elsif data_type == "integer"
       content = content.to_s.to_f.to_s.gsub(".0", "")
     else
