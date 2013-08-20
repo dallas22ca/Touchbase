@@ -1,55 +1,136 @@
-<h1>What has your business been missing?</h1>
+<style type="text/css">
+  h1 {
+    line-height: 40px;
+    margin: 50px 0;
+  }
+  
+  h3 {
+    font-weight: bold;
+    font-size: 22px;
+    text-align: center;
+    margin: 30px;
+    line-height: 30px;
+  }
+  
+  em {
+    font-style: oblique;
+  }
+  
+  .red {
+    color: red;
+  }
+  
+  p {
+    margin: 20px 0;
+    font-size: 15px;
+    line-height: 22px;
+  }
+  
+  form {
+    background: #eee;
+    border: 1px solid #aaa;
+    padding: 20px;
+    border-radius: 3px;
+  }
+  
+  body {
+    background: #fff;
+  }
+  
+  .container {
+    box-shadow: 0 0 0 #fff;
+  }
+  
+  form .field {
+    
+  }
+</style>
 
-End Result Customer Wants + Specific Period Of Time + Address The Objections
-With you
+<div style="position: fixed; top: 0; right: 0; ">
+  Free Book
+  
+</div>
 
-Would anyone say the opposite? If no, you're not saying anything. 
+<p>
+  No matter what size or stage a business is at, there is always one burning question on the mind of an entrepreneur:
+</p>
 
-Make save, do ______ In 3 months, without ________
+<h1>How do I grow my business?</h1>
 
-1. Establish necessity of follow up. 
-2. Show the costs associated. 
-3. Say how touchbase helps. 
+<p>
+  We're glad you've asked - and you've come to the right place.
+</p>
 
-Follow ups are a cinch with touchbasenow.
+<p>
+  Marketing and growing a business have been made complex at best, with companies promising a magic formula...
+  But it's not as complicated as its been made out to be.
+  So, what do you really need to know about growing your business?
+</p>
 
-After using touchbase, you won't know how you lived without it. Your customers will notice too. 
+<h3 class="red">R.P.F. is the most important part of a growing business.</h3>
 
-Staying in touch with your sphere of influence is your most important tool.
+<p>
+  "<strong>R</strong>egular, <strong>P</strong>lanned <strong>F</strong>ollowup" is an easy concept to grasp, but difficult in practice (without the right tools).
+</p>
 
-Sending personal notes, birthday cards is the best way to earn your referrals. 
+<p>
+  Borrow credibility
+  BUFFINI: Sending personal notes, birthday cards is the best way to earn your referrals.
+</p>
 
-Touchbase is for the one man show (aka self employed) businesses that know they must stay in touch with their contacts. 
+<p>
+  Let's say you're a <s>self-employed mortgage broker</s> baker. You could open the doors every morning hoping for customers to walk through the door. Sometimes you'll sell it out, sometimes you won't. <strong>By why leave it to chance?</strong>
+</p>
 
-If you're already following up with clients, you're probably spending hours a week. 
+<p>
+  With a Regular, Planned Followup, you'll have connected with customers individually this past month through SMS (text message), email, or in person - offering special deals or just getting to know them. You'll become known as the friendly baker that goes out of his way to keep his customers happy. <strong>People will tell their friends and you'll actually accumulate a following.</strong> You're cookies will be sold out every day.
+</p>
 
+<h3>So what can TouchBase do for me?</h3>
+
+<p>
+  Touchbase is a lean, mean, lead-generating machine. Every morning, it sends you a list of RPFs, people you need to connect with to keep your business growing. You'll never have to worry about customers slipping through the cracks and going unnoticed.
+</p>
+
+<p>
+  Have a peak at this video for a quick, 49-second overview:
+</p>
+
+<iframe style="width: 100%; height: 325px; " src="//www.youtube.com/embed/p173EcrYcCk?rel=0&showinfo=0" frameborder="0" allowfullscreen></iframe>
+
+<p>
+  If you already have a contact list that you regularly follow up with, you're probably spending several hours a week sifting through a disorganized spreadsheet or piles of papers on your desk - just trying to figure out who to call.
+</p>
+
+<p>
+  <strong>At a basic hourly rate of $50, you could be losing $1000 every month (1 hour x 20 days per month)!</strong>
+</p>
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
+  <span class="cancel">Form is disabled</span>
 
   <div class="field">
     <%= f.label :name %><br />
-    <%= f.text_field :name %>
+    <%= f.text_field :name, class: "full_width" %>
   </div>
   
   <div class="field">
     <%= f.label :email %><br />
-    <%= f.email_field :email %>
+    <%= f.email_field :email, class: "full_width" %>
   </div>
 
   <div class="field">
     <%= f.label :password %><br />
-    <%= f.password_field :password %>
+    <%= f.password_field :password, class: "full_width" %>
   </div>
   
   <div class="field">
     <%= f.label :time_zone %><br />
-    <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone.all.map { |t| [t, t.tzinfo.name] }), default: "Atlantic Time (US & Canada)" %>
+    <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone.all.map { |t| [t, t.tzinfo.name] }), {}, class: "full_width" %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Sign up", class: "blue button" %>
+    <%= f.submit "Sign up", class: "blue button", disabled: true %>
   </div>
 <% end %>
-
-<%= render "devise/shared/links" %>
