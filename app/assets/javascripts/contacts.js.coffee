@@ -1,3 +1,7 @@
+$(document).on "click", "#new_note .cancel", ->
+  $("#new_note").hide()
+  false
+
 $(document).on "click", ".show_advanced", ->
   $(".advanced").toggle 150
   false

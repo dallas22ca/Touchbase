@@ -7,8 +7,9 @@
   <div class="actions">
     <%= f.submit "Add Note", class: "blue button #{"right" if @note.new_record?}" %>
     
+    <%= link_to "Cancel", @contact, class: "cancel #{"right" if @note.new_record?}", style: "#{"margin: 10px 30px 10px 10px; " if @note.new_record?}" %>
+    
     <% unless @note.new_record? %>
-      <%= link_to "Cancel", @contact, class: "cancel" %>
       <%= link_to "Delete", contact_note_path(@contact, @note), method: :delete, data: { confirm: "Are you sure you want to delete this note?" }, class: "delete" %>
     <% end %>
   </div>
