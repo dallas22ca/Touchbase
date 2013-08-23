@@ -12,7 +12,9 @@ module Api
       end
 
       def create
-        respond_with @user.import_from_array(params[:contacts])
+        overwrite = params[:overwrite]
+        overwrite ||= false
+        respond_with @user.import_array(params[:contacts], { overwrite: overwrite })
       end
 
       def update
