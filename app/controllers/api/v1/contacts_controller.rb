@@ -14,7 +14,7 @@ module Api
       def create
         overwrite = params[:overwrite]
         overwrite ||= false
-        respond_with @user.import_array(params[:contacts], { overwrite: overwrite })
+        render json: @user.import_array(params[:contacts], { overwrite: overwrite })
       end
 
       def update
