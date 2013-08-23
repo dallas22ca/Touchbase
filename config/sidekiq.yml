@@ -3,3 +3,4 @@
 :pidfile: tmp/pids/sidekiq.pid
 :queues:
   - [ImportWorker, 1]
+  - [EmailWorker, 1]
