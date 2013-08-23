@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
   end
   
   after_create :add_to_dallas
-  before_create :generate_token
+  before_create :generate_api_token
   before_save :set_step
   after_save :sidekiq_blob_import, if: Proc.new { |u| u.upload && !u.blob.blank? }
   after_save :sidekiq_file_import, if: Proc.new { |u| u.upload && u.file.exists? }
