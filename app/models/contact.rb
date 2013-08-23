@@ -16,6 +16,7 @@ class Contact < ActiveRecord::Base
   before_validation :move_data_to_pending, unless: Proc.new { |c| c.overwrite? || c.new_record? || (c.name_changed? && !c.data_changed?) }
   before_validation :set_defaults
   validate :not_duplicate_data, unless: :name_changed?
+  before_create :generate_token
   before_save :format_data, unless: Proc.new { |c| c.ignore_formatting }
   after_save :create_followup_tasks, if: Proc.new { |c| [0, 100].include?(c.user.import_progress) }
     
@@ -163,5 +164,9 @@ class Contact < ActiveRecord::Base
   
   def has_email?
     self.d.has_key?("email") && !self.d["email"].blank? && self.d["email"].include?("@")
+  end
+  
+  def generate_token
+    self.token = SecureRandom.hex
   end
 end

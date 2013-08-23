@@ -25,13 +25,14 @@ Touchbase::Application.routes.draw do
     
     get "/fields" => "fields#index", as: :fields
     patch "/fields" => "fields#update"
-    
+
     mount Sidekiq::Web => "/sidekiq"
     
     get "/:permalink" => "protected_pages#show", as: :protected_page
     get "/" => "protected_pages#show"
   end
   
+  get "/subscriptions/:token" => "contacts#subscriptions", as: :subscription
   get "/:permalink" => "pages#show", as: :page
   
   unauthenticated :user do

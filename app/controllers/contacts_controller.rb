@@ -1,5 +1,5 @@
 class ContactsController < ApplicationController
-  before_action :set_fields
+  before_action :set_fields, except: [:subscriptions]
   before_action :set_contact, only: [:show, :edit, :update, :destroy]
 
   # GET /contacts
@@ -107,6 +107,23 @@ class ContactsController < ApplicationController
         format.json { render json: @contact.errors, status: :unprocessable_entity }
         format.js
       end
+    end
+  end
+  
+  # GET /subscriptions/:token
+  def subscriptions
+    contact = Contact.where(token: params[:token]).first
+    
+    if contact
+      if contact.emailable
+        contact.update_column :emailable, false
+        render text: "You have successfully unsubscribed."
+      else
+        contact.update_column :emailable, true
+        render text: "You have successfully re-subscribed."
+      end
+    else
+      render text: "We can't identify you."
     end
   end
 
