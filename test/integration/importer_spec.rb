@@ -89,4 +89,15 @@ Melanie, Read, melaniegood@gmail.com, 61 Westfield Crescent
     joe.contacts.count.should == 2
     joe.contacts.last.name.should == "Melanie Read"
   end
+  
+  it "adds contacts via array" do
+    joe = users(:joe)
+    array = [{ name: "Awesome", email: "awesome@test.com" }, { name: "Sweet", email: "sweet@test.com" }]
+    import = joe.import_array(array)
+    joe.contacts.count.should == 2
+    joe.contacts.last.name.should == "Sweet"
+    joe.contacts.last.d["email"].should == "sweet@test.com"
+    import.to_s.should include "Sweet"
+    import.to_s.should include "sweet@test.com"
+  end
 end
