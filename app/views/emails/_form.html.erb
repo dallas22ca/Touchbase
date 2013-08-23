@@ -1,4 +1,6 @@
-<%= form_for(@email) do |f| %>
+ <p class="normal" style="margin: 20px 0; ">Using {{contact.name}} or {{contact.birthday}} in the subject or body will substitute the recipient's respective information when the email is sent.</p>
+ 
+ <%= form_for(@email) do |f| %>
   <% if @email.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@email.errors.count, "error") %> prohibited this email from being saved:</h2>
@@ -10,13 +12,25 @@
       </ul>
     </div>
   <% end %>
+
+  <div class="field">
+    <%= label_tag :who, "To" %><br>
+    <%= select_tag :who, options_for_select([["Everyone", "everyone"], ["Filter my contacts...", "filter"]]), class: "full_width" %>
+    
+    <div class="filter_options">
+      <table id="filters_container"></table>
+      <%= link_to "+ Add Another Filter", "#", class: "add_filter small_link" %>
+    </div>
+  </div>
+  
+  <%= render "filterpicker" %>
   
   <div class="field">
     <%= f.label :subject %><br>
     <%= f.text_field :subject, class: "full_width" %>
   </div>
   <div class="field">
-    <%= f.label :plain, "Message" %><br>
+    <%= f.label :plain, "Message".html_safe %><br>
     <%= f.text_area :plain, class: "full_width", rows: 13 %>
   </div>
   <div class="actions">

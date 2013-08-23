@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   has_many :notes, through: :contacts
   has_many :fields
   has_many :followups
-  has_many :tasks, through: :followups
+  has_many :tasks
   has_many :emails
   
   accepts_nested_attributes_for :fields, allow_destroy: true, reject_if: Proc.new { |f| f[:title].blank? }
@@ -223,7 +223,7 @@ class User < ActiveRecord::Base
     router = Rails.application.routes.url_helpers
     
     if step <= 2
-      router.root_path
+      router.protected_page_path("welcome")
     elsif step <= 3
       router.fields_path
     elsif step <= 4

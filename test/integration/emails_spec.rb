@@ -23,7 +23,7 @@ describe Email do
     mail.from.to_s.should include simple.user.email
     mail.body.to_s.should include "body"
     mail.body.to_s.should include simple.user.contacts.last.name
+    simple.tasks.complete.count.should == 4
+    simple.user.tasks.complete.count.should == 4
   end
-  
-  # BELONGS TO TASK
 end

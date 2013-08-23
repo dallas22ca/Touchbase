@@ -14,7 +14,7 @@
   <%= f.hidden_field :offset %>
 
   <div class="field">
-    <%= f.label :description, "What action will you need to take? <span style=\"color: #aaa; font-size: 13px; \">eg. Say Hi to {{name}}</span>".html_safe %><br>
+    <%= f.label :description, "What action will you need to take? <span style=\"color: #aaa; font-size: 13px; \">eg. Say Hi to {{contact.name}}</span>".html_safe %><br>
     <%= f.text_field :description, class: "full_width" %>
   </div>
   
@@ -28,19 +28,7 @@
     </div>
   </div>
   
-  <table style="display: none; ">
-    <tr id="filter_template" data-criteria="<%= @followup.criteria %>" data-filters="<%= current_user.fields.for_filters.to_json %>" class="filter">
-
-      <td><%= select_tag "filter_permalink[]", options_for_select([["Name", "name"]] + current_user.fields.where("data_type != ?", "datetime").map{ |f| [f.title, f.permalink] }), id: nil, class: "filter_permalink filter_field" %></td>
-      <td><%= select_tag "filter_matcher[]", options_for_select([]), id: nil, class: "filter_matcher filter_field" %></td>
-      <td>
-        <%= select_tag "filter_boolean_matcher[]", options_for_select([["Yes", "true"], ["No", "false"]]), id: nil, class: "filter_boolean filter_field" %>
-        <%= text_field_tag "filter_search_string[]", "", id: nil, class: "filter_integer filter_string filter_field" %>
-        <%= hidden_field_tag "filter_search[]", "", id: nil, class: "filter_search filter_field" %>
-      </td>
-      <td><%= link_to "", "#", class: "icon-trash delete_filter", data: { confirm: "Are you sure you want to delete this filter?" } %></td>
-    </tr>
-  </table>
+  <%= render "filterpicker" %>
   
   <div class="field">
     <%= label_tag :offset_word, "When will you take action?" %><br>

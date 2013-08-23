@@ -1,6 +1,10 @@
-<%= link_to "&larr; Back".html_safe, :back, class: "small_link back" %>
+<% if current_user.step >= 5 %>
+  <%= link_to "&larr; Back".html_safe, :back, class: "small_link back" %>
+<% end %>
 
 <h1>Add Contacts</h1>
+
+<br><br>
 
 <% if @user.errors.any? %>
   <p class="errors">

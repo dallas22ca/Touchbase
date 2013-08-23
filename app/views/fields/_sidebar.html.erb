@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="sidebar" class="desktop_only">
   <ul id="suggested_fields">
     <% current_user.suggested_fields.each do |field| %>
       <%= field.html_safe %>
