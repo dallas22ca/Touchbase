@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   has_many :fields
   has_many :followups
   has_many :tasks, through: :followups
+  has_many :emails
   
   accepts_nested_attributes_for :fields, allow_destroy: true, reject_if: Proc.new { |f| f[:title].blank? }
   

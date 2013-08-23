@@ -34,6 +34,7 @@ end
 
 group :development do
   gem 'capistrano'
+  gem 'letter_opener'
 end
 
 group :test do

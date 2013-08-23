@@ -29,4 +29,6 @@ Touchbase::Application.configure do
   
   default_url_options[:host] = "localhost"
   default_url_options[:port] = 3000
+  
+  config.action_mailer.delivery_method = :letter_opener
 end
