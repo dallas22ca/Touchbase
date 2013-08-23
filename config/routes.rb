@@ -2,7 +2,11 @@ require "sidekiq/web"
 
 Touchbase::Application.routes.draw do
   
-  resources :emails
+  namespace :api, defaults: { format: :json } do
+    scope module: :v1 do
+      resources :contacts
+    end
+  end
 
   devise_for :users
   
@@ -13,6 +17,7 @@ Touchbase::Application.routes.draw do
     resources :tasks
     resources :users
     resources :followups
+    resources :emails
     
     resources :contacts do 
       resources :notes

@@ -57,7 +57,7 @@ describe Followup do
     followup = followups(:two_weeks_before_birthday)
     followup.create_tasks
     followup.tasks.count.should == 1
-    contact = joe.save_contact name: Faker::Name.name, data: { birthday: 1.week.from_now - 55.years }
+    contact = joe.save_contact name: Faker::Name.name, birthday: 1.week.from_now - 55.years
     ImportWorker.drain
     followup.tasks.count.should == 2
   end

@@ -25,6 +25,7 @@ class User < ActiveRecord::Base
   end
   
   after_create :add_to_dallas
+  before_create :generate_token
   before_save :set_step
   after_save :sidekiq_blob_import, if: Proc.new { |u| u.upload && !u.blob.blank? }
   after_save :sidekiq_file_import, if: Proc.new { |u| u.upload && u.file.exists? }
@@ -44,6 +45,19 @@ class User < ActiveRecord::Base
     if self.update_column :import_progress, 0
       ImportWorker.perform_async id, "file", overwrite
     end
+  end
+  
+  def import_array(array = [], args = {})
+    saved_contacts = []
+    args[:overwrite] ||= false
+    
+    array.each do |contact|
+      c = save_contact contact.merge({ overwrite: args[:overwrite] })
+      details = { "name" => c.name }.merge(c.d)
+      saved_contacts.push details
+    end
+    
+    { success: true, contacts: saved_contacts }
   end
   
   def import_blob(overwrite)
@@ -72,13 +86,20 @@ class User < ActiveRecord::Base
   end
   
   def save_contact(args = {})
-    name = args.delete(:name)
+    args = args.stringify_keys.each_with_object({}) do |(k, v), h|
+      h[k.downcase] = v
+    end
+    
+    overwrite = args.delete("overwrite")
+    overwrite ||= false
+    name = args.delete("name")
+    name = "#{args["first-name"]} #{args["last-name"]}" if name.blank?
     c = contacts.where(name: name).first
     
     if c
-      c.update_attributes args
+      c.update_attributes data: args, overwrite: overwrite
     else
-      c = contacts.create name: name, data: args[:data]
+      c = contacts.create name: name, data: args
     end
 
     c
@@ -231,5 +252,9 @@ class User < ActiveRecord::Base
     elsif step <= 5
       router.tasks_path
     end
+  end
+  
+  def generate_api_token
+    self.api_token = SecureRandom.urlsafe_base64(24)
   end
 end

@@ -8,8 +8,6 @@ describe User do
   end
   
   it "can sign up when visiting the root path" do
-    joe = users(:joe)
-    logout joe
     visit root_path
     page.should have_content "Email"
   end

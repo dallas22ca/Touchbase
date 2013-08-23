@@ -16,10 +16,10 @@ describe "Filters" do
       joe.fields.create title: field[:title], permalink: field[:permalink], data_type: field[:data_type]
     end
     
-    don   = { name: "Don Draper",     data: { "email" => "don@madmen.com",    "paid" => 1,         "number" => 54,   "birthday" => 1.minute.ago - 3.hours } }
-    betty = { name: "Betty Draper",   data: { "email" => "betty@madmen.com",  "paid" => false,     "number" => 84,   "birthday" => 25.years.ago + 7.months } }
-    joan  = { name: "Joan Hollaway",  data: { "email" => "joan@madmen.com",   "paid" => "yes",     "number" => 14,   "birthday" => 5.months.ago } }
-    peggy = { name: "Peggy Olson",    data: { "email" => "peggy@madmen.com",  "paid" => "f",       "number" => 34,   "birthday" => 365.days.ago - 3.hours } }
+    don   = { name: "Don Draper",     email: "don@madmen.com",    paid: 1,       number: 54,      birthday: 1.minute.ago - 3.hours }
+    betty = { name: "Betty Draper",   email: "betty@madmen.com",  paid: false,   number: 84,      birthday: 25.years.ago + 7.months }
+    joan  = { name: "Joan Hollaway",  email: "joan@madmen.com",   paid: "yes",   number: "-14",   birthday: 5.months.ago }
+    peggy = { name: "Peggy Olson",    email: "peggy@madmen.com",  paid: "f",     number: 34,      birthday: 365.days.ago - 3.hours }
     
     [don, betty, joan, peggy].each do |character|
       joe.save_contact character
@@ -35,7 +35,7 @@ describe "Filters" do
     Contact.filter([["paid", "is", false]]).count.should == 2
     
     Contact.filter([["number", "greater_than", 80]]).count.should == 1
-    Contact.filter([["number", "less_than", 20]]).count.should == 1
+    Contact.filter([["number", "less_than", 0]]).count.should == 1
     
     Contact.filter([["number", "greater_than", 80]]).count.should == 1
   end
