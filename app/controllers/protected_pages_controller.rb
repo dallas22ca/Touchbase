@@ -9,7 +9,11 @@ class ProtectedPagesController < ApplicationController
     end
     
     if request.path == root_path
-      redirect_to protected_page_path("welcome")
+      if current_user.step >= 4
+        redirect_to tasks_path
+      else
+        redirect_to protected_page_path(permalink)
+      end
     else
       render permalink
     end
