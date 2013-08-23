@@ -8,6 +8,7 @@
 </div>
 
 <table id="contact_show">
+  
   <% current_user.fields.each do |field| %>
     <tr>
       <td class="label">
@@ -28,6 +29,16 @@
       </td>
     </tr>
   <% end %>
+  
+  <tr>
+    <td class="label">
+      Subscribed:
+    </td>
+    <td class="detail">
+      <%= @contact.emailable ? "<i class=\"icon-ok\"></i>".html_safe : "<i class=\"icon-remove\"></i>".html_safe %>
+    </td>
+  </tr>
+  
 </table>
 
 <div class="clear"></div>
