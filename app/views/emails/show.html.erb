@@ -3,7 +3,7 @@
 <h1><%= @email.subject %></h1>
 
 <div class="center" style="margin: 20px 0; ">
-  <p class="small_link"><%= pluralize @email.tasks.count, "recipient" %></p>
+  <p class="small_link"><%= pluralize @email.tasks.count, "person" %> received this message.</p>
 </div>
 
 <hr style="margin-bottom: 30px; " />

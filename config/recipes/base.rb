@@ -25,5 +25,5 @@ namespace :deploy do
 end
 
 task :ip do
-  puts "ssh deployer@#{server_name} -#{rails_env}"
+  p "ssh deployer@#{server_name} -#{rails_env}"
 end
