@@ -20,7 +20,7 @@ describe Email do
     ActionMailer::Base.deliveries.should == []
     
     EmailWorker.drain
-    ActionMailer::Base.deliveries.size.should == 4
+    ActionMailer::Base.deliveries.size.should == 3
     
     mail = ActionMailer::Base.deliveries.last
     last_contact = simple.user.contacts.last
@@ -29,8 +29,8 @@ describe Email do
     mail.body.to_s.should include last_contact.name
     mail.body.to_s.should include "/subscriptions/#{last_contact.token}"
     
-    simple.tasks.complete.count.should == 4
-    simple.user.tasks.complete.count.should == 4
+    simple.tasks.complete.count.should == 3
+    simple.user.tasks.complete.count.should == 3
   end
   
   it "can be unsubscribed" do

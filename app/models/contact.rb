@@ -11,6 +11,7 @@ class Contact < ActiveRecord::Base
   validates_uniqueness_of :name, scope: :user_id
   
   scope :pending, -> { where("pending_data is not ?", nil) }
+  scope :emailable, -> { where(emailable: true) }
   
   before_validation :write_pending, if: :use_pending
   before_validation :move_data_to_pending, unless: Proc.new { |c| c.overwrite? || c.new_record? || (c.name_changed? && !c.data_changed?) }
