@@ -21,6 +21,7 @@ birthday_a_week_ago:
 
 birthday_in_a_week:
   user: joe
+  emailable: false
   token: <%= SecureRandom.hex %>
   name: <%= Faker::Name.name %>
   data:

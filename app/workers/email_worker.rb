@@ -7,7 +7,7 @@ class EmailWorker
     if type == "prepare"
       email = Email.find id
       
-      email.user.contacts.filter(email.criteria).find_each do |contact|
+      email.user.contacts.emailable.filter(email.criteria).find_each do |contact|
         if contact && contact.has_email?
           EmailWorker.perform_async "send", id, { "contact_id" => contact.id }
         end
