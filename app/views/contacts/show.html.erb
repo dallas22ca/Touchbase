@@ -68,7 +68,7 @@
   <hr />
   <h4>Completed Tasks</h4>
   <ul id="complete_tasks" class="task_list">
-    <%= render @tasks.complete %>
+    <%= render @tasks.complete.order("tasks.date desc") %>
   </ul>
   <div class="clear"></div>
 </div>

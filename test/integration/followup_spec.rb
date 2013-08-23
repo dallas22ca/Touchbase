@@ -18,7 +18,7 @@ describe Followup do
       description: "Send a birthday card",
       field: fields(:birthday)
     )
-    followup.description.should include("{{name}}")
+    followup.description.should include("{{contact.name}}")
   end
   
   it "substitutes birthday shortcode" do
@@ -153,7 +153,7 @@ describe Followup do
     followup.create_tasks
     c.update_attributes! name: "Super Man"
     ImportWorker.drain
-    followup.tasks.first.reload.content_with_links("/path").should include("Super Man")
+    followup.tasks.first.reload.content_with_links.should include("Super Man")
   end
   
   it "creates followups with criteria (awesome: true)" do
@@ -162,7 +162,7 @@ describe Followup do
     followup = followups(:awesome)
     followup.create_tasks
     followup.contacts.count.should == 1
-    followup.tasks.first.reload.content_with_links("/path").should include(c.name)
+    followup.tasks.first.reload.content_with_links.should include(c.name)
   end
   
   it "creates followups with criteria (awesome: false)" do

@@ -13,6 +13,13 @@ describe "Steps" do
     page.current_path.should == new_contact_path
   end
   
+  it !2 do
+    vlad = users(:vlad)
+    login_as vlad
+    vlad.update_attributes blob: "Name, Email\nSuper Name, email@test.com"
+    vlad.step.should == 3
+  end
+  
   it 3 do
     vlad = users(:vlad)
     login_as vlad

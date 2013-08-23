@@ -1,62 +1,62 @@
 on_birthday:
   user: joe
-  description: Say Happy Birthday to {{name}} ({{birthday}})
+  description: Say Happy Birthday to {{contact.name}} ({{birthday}})
   field: birthday
   offset: 0
 
 two_weeks_before_birthday:
   user: joe
-  description: Send a birthday card to {{name}} ({{birthday}})
+  description: Send a birthday card to {{contact.name}} ({{birthday}})
   field: birthday
   offset: <%= 2.weeks * -1 %>
   
 two_weeks_after_birthday:
   user: joe
-  description: Ask {{name}} if they received their birthday card ({{birthday}})
+  description: Ask {{contact.name}} if they received their birthday card ({{birthday}})
   field: birthday
   offset: <%= 2.weeks * 1 %>
   
 every_three_weeks:
   user: joe
-  description: Pop by {{name}}
+  description: Pop by {{contact.name}}
   recurrence: <%= 3.weeks.to_i %>
   starting_at: <%= Time.now %>
   
 every_five_weeks:
   user: joe
-  description: Pop by {{name}}
+  description: Pop by {{contact.name}}
   recurrence: <%= 5.weeks.to_i %>
   starting_at: <%= Time.now %>
   
 every_three_weeks_starting_on_birthday:
   user: joe
-  description: Pop by {{name}}
+  description: Pop by {{contact.name}}
   recurrence: <%= 3.weeks.to_i %>
   field: birthday
   
 every_five_weeks_starting_on_birthday:
   user: joe
-  description: Pop by {{name}}
+  description: Pop by {{contact.name}}
   recurrence: <%= 5.weeks.to_i %>
   field: birthday
 
 every_three_months:
   user: joe
-  description: Say yo to {{name}}
+  description: Say yo to {{contact.name}}
   criteria: [["awesome", "is", "true"]]
   recurrence: <%= 3.months.to_i %>
   starting_at: <%= Time.now %>
 
 awesome:
   user: joe
-  description: Say Hi to awesome people {{name}}
+  description: Say Hi to awesome people {{contact.name}}
   recurrence: <%= 3.months %>
   starting_at: <%= Time.now %>
   criteria: [["awesome", "is", "true"]]
 
 not_awesome:
   user: joe
-  description: Say Hi to awesome people {{name}}
+  description: Say Hi to awesome people {{contact.name}}
   recurrence: <%= 3.months %>
   starting_at: <%= Time.now %>
   criteria: [["awesome", "is_not", "true"]]

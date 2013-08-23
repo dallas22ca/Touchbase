@@ -1,0 +1,3 @@
+<% if @task.errors.any? %>
+  alert("<%= @task.errors.full_messages.map{ |m| m }.to_sentence %>")
+<% end %>

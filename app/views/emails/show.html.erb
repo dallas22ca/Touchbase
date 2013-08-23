@@ -1,24 +1,13 @@
-<p id="notice"><%= notice %></p>
+<%= link_to "&larr; Back".html_safe, :back, class: "small_link back" %>
 
-<p>
-  <strong>User:</strong>
-  <%= @email.user %>
+<h1><%= @email.subject %></h1>
+
+<div class="center" style="margin: 20px 0; ">
+  <p class="small_link"><%= pluralize @email.tasks.count, "recipient" %></p>
+</div>
+
+<hr style="margin-bottom: 30px; " />
+
+<p class="normal">
+  <%= @email.plain.gsub("\n", "<br>").html_safe %>
 </p>
-
-<p>
-  <strong>Criteria:</strong>
-  <%= @email.criteria %>
-</p>
-
-<p>
-  <strong>Subject:</strong>
-  <%= @email.subject %>
-</p>
-
-<p>
-  <strong>Plain:</strong>
-  <%= @email.plain %>
-</p>
-
-<%= link_to 'Edit', edit_email_path(@email) %> |
-<%= link_to 'Back', emails_path %>

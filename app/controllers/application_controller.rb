@@ -42,5 +42,21 @@ protected
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:name, :email, :password, :time_zone) }
     devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:name, :email, :password, :password_confirmation, :current_password, :time_zone) }
   end
+  
+  def parse_criteria(resource)
+    criteria = []
+    
+    if params[:filter_permalink]
+      params[:filter_permalink].each_with_index do |permalink, index|
+        search = params[:filter_search][index]
+        
+        unless search.blank?
+          criteria.push [permalink, params[:filter_matcher][index], search]
+        end
+      end
+    end
+  
+    @criteria = resource.criteria = criteria
+  end
 
 end

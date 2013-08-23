@@ -42,23 +42,14 @@ $(document).on "click", ".filter_checkbox", ->
   $("#contacts_search").submit()
 
 $(document).on "submit", "#contacts_search", ->
-  args = []
   url = $(this).attr("action")
   q = $("#q").val()
   direction = $("#contacts").data("direction")
   order = $("#contacts").data("order")
   data_type = $("#contacts").data("data_type")
   
-  $(".filter_field:not(.inactive) .search_field").each ->
-    matcher = $(this).data("matcher")
-    field = $(this).attr("name")
-    search = $(this).val()
-    
-    unless $(this).is(":radio") && !$(this).is(":checked")
-      args.push [field, matcher, search]
-
   params =
-    search: args
+    search: Contacts.filterArgs()
     order: order
     direction: direction
     data_type: data_type
@@ -78,6 +69,19 @@ $(document).on "submit", "#contacts_search", ->
       $.getScript url
 
 @Contacts =
+  filterArgs: ->
+    args = []
+    
+    $(".filter_field:not(.inactive) .search_field").each ->
+      matcher = $(this).data("matcher")
+      field = $(this).attr("name")
+      search = $(this).val()
+    
+      unless $(this).is(":radio") && !$(this).is(":checked")
+        args.push [field, matcher, search]
+      
+    args
+
   paginate: ->
     if $(".pagination").length
       $(window).scroll ->

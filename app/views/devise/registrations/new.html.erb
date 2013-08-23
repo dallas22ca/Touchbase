@@ -102,7 +102,6 @@
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
-  <span class="cancel">Form is disabled</span>
 
   <div class="field">
     <%= f.label :name %><br />
@@ -125,6 +124,6 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "Sign up", class: "blue button", disabled: true %>
+    <%= f.submit "Sign up", class: "blue button" %>
   </div>
 <% end %>

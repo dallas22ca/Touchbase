@@ -13,7 +13,7 @@ class Followup < ActiveRecord::Base
   before_validation :set_starting_at
   before_validation :set_criteria
   validates_presence_of :user_id, :description
-  before_save :add_name_to_description, unless: Proc.new { |f| f.description.match(/\{\{name\}\}/) }
+  before_save :add_name_to_description, unless: Proc.new { |f| f.description.match(/\{\{contact.name\}\}/) }
   after_save :invite_user_to_step, :sidekiq_create_tasks
   
   def set_starting_at
@@ -34,7 +34,7 @@ class Followup < ActiveRecord::Base
   end
   
   def add_name_to_description
-    self.description = "#{self.description} to {{name}}"
+    self.description = "#{self.description} to {{contact.name}}"
   end
   
   def sidekiq_create_tasks(contact_id = false)
@@ -83,7 +83,8 @@ class Followup < ActiveRecord::Base
                 contact_id: contact.id, 
                 complete: false,
                 date: date,
-                content: description
+                content: description,
+                user_id: user_id
               )
             end
           end
