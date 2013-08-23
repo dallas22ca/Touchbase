@@ -160,4 +160,8 @@ class Contact < ActiveRecord::Base
       order("#{order} #{direction}")
     end
   end
+  
+  def has_email?
+    self.d.has_key?("email") && !self.d["email"].blank? && self.d["email"].include?("@")
+  end
 end
