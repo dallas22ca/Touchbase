@@ -25,8 +25,7 @@ class Email < ActiveRecord::Base
     end
   end
   
-  def contactify(content, contact_id)
-    contact = user.contacts.find(contact_id)
+  def contactify(content, contact)
     content = content.gsub("{{contact.name}}", contact.name)
   
     user.fields.each do |f|
