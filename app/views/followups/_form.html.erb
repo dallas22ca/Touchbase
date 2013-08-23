@@ -34,7 +34,7 @@
     <%= label_tag :offset_word, "When will you take action?" %><br>
     <%= text_field_tag :offset_amount, "", placeholder: "23", style: "width: 50px; text-align: center; ", class: "offset_field offset_toggle offset_every offset_before offset_after" %>
     <%= select_tag :offset_unit, options_for_select([["Days", "day"], ["Weeks", "week"], ["Months", "month"]], @followup.offset_word), class: "offset_field offset_toggle offset_every offset_before offset_after" %>
-    <%= select_tag :offset_word, options_for_select([["On", "on"], ["Before", "before"], ["After", "after"], ["Every", "every"]]), class: "offset_field" %> 
+    <%= select_tag :offset_word, options_for_select([["Every", "every"], ["On", "on"], ["Before", "before"], ["After", "after"]]), class: "offset_field" %> 
     <%= f.hidden_field :field_id %>
     <%= select_tag :fake_field_id, options_for_select(current_user.fields.where(data_type: "datetime").map{ |f| [f.title, f.id] }, @followup.field_id), class: "offset_field offset_toggle offset_on offset_before offset_after" %>
     <%= f.hidden_field :recurrence %>
