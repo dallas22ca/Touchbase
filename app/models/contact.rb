@@ -168,6 +168,6 @@ class Contact < ActiveRecord::Base
   end
   
   def generate_token
-    self.token = SecureRandom.hex
+    self.token = SecureRandom.hex(8)
   end
 end
