@@ -88,6 +88,6 @@ $(document).on "click", ".delete_filter", ->
     if type == "boolean"
       [["is", "is"], ["is not", "is_not"]]
     else if type == "integer"
-      [["is", "like"], ["is not", "is_not"], ["is exactly", "is"], ["greater than", "greater_than"], ["less than", "less_than"]]
+      [["contains", "like"], ["is not", "is_not"], ["is exactly", "is"], ["greater than", "greater_than"], ["less than", "less_than"]]
     else
-      [["is", "like"], ["is not", "is_not"], ["is exactly", "is"]]
+      [["contains", "like"], ["is not", "is_not"], ["is exactly", "is"]]
