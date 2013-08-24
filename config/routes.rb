@@ -32,7 +32,7 @@ Touchbase::Application.routes.draw do
     get "/" => "protected_pages#show"
   end
   
-  get "/subscriptions/:token" => "contacts#subscriptions", as: :subscription
+  get "/s/:token" => "contacts#subscriptions", as: :subscription
   get "/:permalink" => "pages#show", as: :page
   
   unauthenticated :user do

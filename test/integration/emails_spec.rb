@@ -27,7 +27,7 @@ describe Email do
     mail.from.to_s.should include simple.user.email
     mail.body.to_s.should include "body"
     mail.body.to_s.should include last_contact.name
-    mail.body.to_s.should include "/subscriptions/#{last_contact.token}"
+    mail.body.to_s.should include subscription_path(last_contact.token)
     
     simple.tasks.complete.count.should == 3
     simple.user.tasks.complete.count.should == 3
