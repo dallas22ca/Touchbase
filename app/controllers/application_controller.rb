@@ -27,7 +27,7 @@ protected
   end
   
   def choose_layout
-    if !user_signed_in?
+    if !user_signed_in? || ["contacts#subscriptions"].include?("#{controller_name}##{action_name}")
       "public"
     elsif ["contacts#index"].include?("#{controller_name}##{action_name}")
       @no_container = true
