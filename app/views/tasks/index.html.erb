@@ -5,12 +5,14 @@
 
 <h1>Tasks</h1>
 
-<p id="date"><%= @date %></p>
+<p id="date">
+  <%= @date %><br><br>
+</p>
 
 <div id="tasks">
 
   <ul id="incomplete_tasks" class="task_list">
-    <li class="placeholder" style="<%= "display: block; " if @tasks.incomplete.empty? %>">There is nothing left on your list!</li>
+    <li class="placeholder" style="margin: 10px 0; <%= "display: block; " if @tasks.incomplete.empty? %>">There is nothing left on your list!</li>
   
     <ul class="tasks_for_date overdue_list" style="display: none; ">
       <li class="date_heading" style="color: red; ">Overdue</li>
@@ -20,7 +22,7 @@
       <% date = date.utc %>
       <ul class="tasks_for_date <%= "late" if @start > date %>" data-start="<%= date.beginning_of_day.to_i %>" data-finish="<%= date.end_of_day.to_i %>">
         <% if @start <= date %>
-          <% if date > Time.zone.now.beginning_of_day && date < Time.zone.now.end_of_day %>
+          <% if date >= Time.zone.now.beginning_of_day && date <= Time.zone.now.end_of_day %>
             <li class="date_heading">Today</li>
           <% else %>
             <li class="date_heading"><%= date.strftime("%a, %b %-d") %></li>
@@ -32,6 +34,10 @@
       </ul>
       <div class="clear"></div>
     <% end %>
+    
+    <ul class="tasks_for_date">
+      <li><%= link_to "Add Another Task", new_task_path, class: "small_link" %></li>
+    </ul>
   </ul>
 
   <div id="completed_tasks_wrapper" style="<%= "display: none; " if @tasks.complete.empty? %>">

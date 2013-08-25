@@ -3,10 +3,7 @@ class FollowupsController < ApplicationController
   
   def index
     @followups = current_user.followups
-    
-    if @followups.empty?
-      redirect_to new_followup_path
-    end
+    redirect_to new_followup_path if @followups.empty?
   end
   
   # GET /followups/1
@@ -16,7 +13,11 @@ class FollowupsController < ApplicationController
 
   # GET /followups/new
   def new
-    @followup = Followup.new
+    if current_user.followups.any?
+      @followup = Followup.new
+    else
+      @followup = Followup.new(recurrence: 3.months, description: "Touch base with {{contact.name}}")
+    end
   end
 
   # GET /followups/1/edit

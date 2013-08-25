@@ -6,9 +6,13 @@ class Email < ActiveRecord::Base
   belongs_to :user
   
   validates_presence_of :subject, :plain, :user_id
-  validates_associated :user
+  validate :user_has_address, if: Proc.new { |e| e.user.address.blank? }
   
   after_save :prepare_to_deliver
+  
+  def user_has_address
+    self.errors.add :base, "Spam laws (CAN-SPAM) require you to include your address in your email. Visit the \"My Account\" page to update your address."
+  end
   
   def prepare_to_deliver
     EmailWorker.perform_async "prepare", id
