@@ -24,7 +24,7 @@
   
   <div class="field">
     <%= f.label :time_zone %><br />
-    <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone.all.map { |t| [t, t.tzinfo.name] }, resource.time_zone), default: "Atlantic Time (US & Canada)", class: "full_width" %>
+    <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone.all.map { |t| [t, t.tzinfo.name] }, resource.time_zone), { default: "Atlantic Time (US & Canada)" }, { class: "full_width" } %>
   </div>
   
   <div class="field">
@@ -52,7 +52,7 @@
 
   <div class="field">
     <%= f.label :current_password, "Current Password (required to save your changes)" %><br />
-    <%= f.password_field :current_password %>
+    <%= f.password_field :current_password, class: "full_width" %>
   </div>
 
   <div class="action">
