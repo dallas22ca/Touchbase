@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
     file.instance.id
   end
   
+  validates_presence_of :address, if: Proc.new { |u| u.emails.any? }
   after_create :add_to_dallas
   before_create :generate_api_token
   before_save :set_step

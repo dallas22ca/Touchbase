@@ -6,6 +6,9 @@ class Email < ActiveRecord::Base
   belongs_to :user
   
   validates_presence_of :subject, :plain, :user_id
+  validates_associated :user
+  
+  after_save :prepare_to_deliver
   
   def prepare_to_deliver
     EmailWorker.perform_async "prepare", id

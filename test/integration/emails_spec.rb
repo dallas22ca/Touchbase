@@ -9,6 +9,7 @@ describe Email do
 
   it "requires a subject and body" do
     Email.new.valid?.should == false
+    users(:joe).update_attributes address: "yo"
     users(:joe).emails.new(subject: "Subject", plain: "Body", criteria: []).valid?.should == true
   end
   

@@ -2,6 +2,7 @@ class FieldsController < ApplicationController
   before_action :set_fields 
   
   def index
+    current_user.fields.new(permalink: "birthday", title: "Birthday", data_type: "datetime") if @fields.empty?
   end
   
   def update
