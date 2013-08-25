@@ -21,4 +21,10 @@ describe User do
     visit contacts_path
     page.should have_content @name
   end
+  
+  it "requires address for emails" do
+    joe = users(:joe)
+    joe.update_column :address, nil
+    joe.emails.create(subject: "Yo", plain: "plain").valid?.should == false
+  end
 end

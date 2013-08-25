@@ -25,7 +25,6 @@ class EmailsController < ApplicationController
 
     respond_to do |format|
       if @email.save
-        @email.prepare_to_deliver
         format.html { redirect_to contacts_path, notice: 'Email is sending.' }
         format.json { render action: 'show', status: :created, location: @email }
       else
