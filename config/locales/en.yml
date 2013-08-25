@@ -1,8 +1,1 @@
 en:
-  activerecord:
-    errors:
-      models:
-        email:
-          attributes:
-            user:
-              invalid: is missing an address. The CAN-SPAM Act requires your address to be on the bottom of your email. Visit the "My Account" page to update your address.
