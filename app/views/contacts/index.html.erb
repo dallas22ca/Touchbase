@@ -3,12 +3,9 @@
 <%= render "has_pending" if @pending_count > 0 %>
 <%= render "is_importing" if current_user.has_pending_import? && current_user.import_progress != 100 %>
 
-<%= link_to "Edit Checked Contacts", edit_contact_path(current_user.contacts.first), class: "small_link" %>
-
 <table id="contacts" data-order="name" data-direction="asc" data-data_type="string">
   <thead>
     <tr>
-      <th style="width: 5%; " class="no_sort"><%= check_box_tag :check_all %></th>
       <th data-permalink="name" data-data_type="string">Name</th>
       <% @fields.each do |field| %>
         <th style="<%= "text-align: center; " if field.data_type == "boolean" %>" data-permalink="<%= field.permalink %>" data-data_type="<%= field.data_type %>"><%= field.title %></th>
