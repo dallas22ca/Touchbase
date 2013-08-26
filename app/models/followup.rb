@@ -63,59 +63,44 @@ class Followup < ActiveRecord::Base
         rescue
         end
       else
-        start = starting_at
+        start = starting_at.beginning_of_day
       end
       
       if start
         if remind_every?
           how_often = recurrence.seconds
+          date = start
+          end_date = date
+          
+          if !field
+            max_days = how_often / 60 / 60 / 24
+            date += Random.rand(0..max_days - 2).days
+            end_date = (date + how_often.seconds).end_of_day
+          end
         else
           how_often = 1.year.to_i
           start = start + offset.seconds
-        end
-      
-        if remind_every? && !field_id
-          
-          max_days = (how_often / 60 / 60 / 24)
-          date = start + Random.rand(0..max_days).days
-          p "Date: #{date}"
-          p "Max: #{max_days}"
-          
-          while date <= query_finish
-            if date >= query_start
-              if tasks.where(contact_id: contact.id, date: date..date + how_often).empty?
-                task = tasks.create(
-                  contact_id: contact.id, 
-                  complete: false,
-                  date: date,
-                  content: description,
-                  user_id: user_id
-                )
-              end
-            end
-        
-            date = date + how_often
-          end
-            
-        else
           date = start
-          
-          while date <= query_finish
-            if date >= query_start
-              if tasks.where(contact_id: contact.id, date: date).empty?
-                task = tasks.create(
-                  contact_id: contact.id, 
-                  complete: false,
-                  date: date,
-                  content: description,
-                  user_id: user_id
-                )
-              end
-            end
-          
-            date = date + how_often
-          end
+          end_date = date
         end
+        
+        while date <= query_finish
+          if date >= query_start
+            if tasks.where(contact_id: contact.id, date: date..end_date).empty?
+              task = tasks.create(
+                contact_id: contact.id, 
+                complete: false,
+                date: date,
+                content: description,
+                user_id: user_id
+              )
+            end
+          end
+        
+          date += how_often.seconds
+          end_date += how_often.seconds
+        end
+        
       end
     end
   end

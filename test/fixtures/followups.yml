@@ -21,6 +21,12 @@ every_three_weeks:
   description: Pop by {{contact.name}}
   recurrence: <%= 3.weeks.to_i %>
   starting_at: <%= Time.now %>
+
+every_two_days:
+  user: joe
+  description: Pop by {{contact.name}}
+  recurrence: <%= 2.days.to_i %>
+  starting_at: <%= Time.now %>
   
 every_five_weeks:
   user: joe
