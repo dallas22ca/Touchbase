@@ -16,7 +16,7 @@ Touchbase::Application.routes.draw do
     
     resources :tasks
     resources :users
-    resources :followups
+    resources :followups, path: :templates
     resources :emails
     
     resources :contacts do 

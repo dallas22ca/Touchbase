@@ -14,7 +14,7 @@
   <%= f.hidden_field :offset %>
 
   <div class="field">
-    <%= f.label :description, "What action will you need to take? <span style=\"color: #aaa; font-size: 13px; \">eg. Say Hi to {{contact.name}}</span>".html_safe %><br>
+    <%= f.label :description, "What needs to be done? <span style=\"color: #aaa; font-size: 13px; \">eg. Send a birthday card to {{contact.name}}</span>".html_safe %><br>
     <%= f.text_field :description, class: "full_width" %>
   </div>
   
@@ -31,7 +31,7 @@
   <%= render "filterpicker" %>
   
   <div class="field">
-    <%= label_tag :offset_word, "When will you take action?" %><br>
+    <%= label_tag :offset_word, "When should this take place? <span style=\"color: #aaa; font-size: 13px; \">eg. 3 Days Before Birthday, Every 3 Months</span>".html_safe %><br>
     <%= text_field_tag :offset_amount, "", placeholder: "23", style: "width: 50px; text-align: center; ", class: "offset_field offset_toggle offset_every offset_before offset_after" %>
     <%= select_tag :offset_unit, options_for_select([["Days", "day"], ["Weeks", "week"], ["Months", "month"]], @followup.offset_word), class: "offset_field offset_toggle offset_every offset_before offset_after" %>
     <%= select_tag :offset_word, options_for_select([["Every", "every"], ["On", "on"], ["Before", "before"], ["After", "after"]]), class: "offset_field" %> 
