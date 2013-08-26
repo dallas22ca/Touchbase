@@ -13,11 +13,7 @@ class FollowupsController < ApplicationController
 
   # GET /followups/new
   def new
-    if current_user.followups.any?
-      @followup = Followup.new
-    else
-      @followup = Followup.new(recurrence: 3.months, description: "Touch base with {{contact.name}}")
-    end
+    @followup = Followup.new(recurrence: 3.months, description: "Touch base with {{contact.name}}")
   end
 
   # GET /followups/1/edit

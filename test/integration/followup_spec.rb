@@ -65,14 +65,14 @@ describe Followup do
   it "every 3 weeks starting now" do
     joe = users(:joe)
     followup = followups(:every_three_weeks)
-    followup.create_tasks
+    followup.create_tasks false, 30.days + 3.weeks - 1.day
     followup.tasks.count.should == 8
   end
   
   it "every 5 weeks starting now" do
     joe = users(:joe)
     followup = followups(:every_five_weeks)
-    followup.create_tasks
+    followup.create_tasks false, 30.days + 5.weeks - 1.day
     followup.tasks.count.should == 4
   end
   
@@ -153,13 +153,14 @@ describe Followup do
     followup.create_tasks
     c.update_attributes! name: "Super Man"
     ImportWorker.drain
-    followup.tasks.first.reload.content_with_links.should include("Super Man")
+    followup.tasks.first.reload.content_with_links.should include(c.name)
   end
   
   it "creates followups with criteria (awesome: true)" do
     joe = users(:joe)
     c = contacts(:birthday_a_week_ago)
     followup = followups(:awesome)
+    p followup.remind_every?
     followup.create_tasks
     followup.contacts.count.should == 1
     followup.tasks.first.reload.content_with_links.should include(c.name)
