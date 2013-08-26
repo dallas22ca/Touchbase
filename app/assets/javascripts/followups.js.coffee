@@ -10,6 +10,7 @@ $(document).on "change keyup", ".offset_field", ->
       re_val = parseFloat(recurrence.val())
       value = parseFloat(offset.val())
       field = $("#fake_field_id")
+      start = $("#start")
       
       if re_val != 0
         abs = Math.abs(re_val)
@@ -84,14 +85,6 @@ $(document).on "change keyup", ".offset_field", ->
         offset.val 0
         recurrence.val value * unit_multiplier
         $("#followup_field_id").val start.val()
-        
-        if start.val().length
-          $(".when_explanation").hide()
-        else
-          $(".when_explanation").show()
-        
-        $(".offset_amount").text $("#offset_amount").val()
-        $(".offset_unit").text $("#offset_unit").val().toLowerCase()
         
     $(".offset_toggle").hide()
     $(".offset_#{w}").show()

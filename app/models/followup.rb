@@ -41,7 +41,7 @@ class Followup < ActiveRecord::Base
     ImportWorker.perform_async id, "followup", contact_id
   end
   
-  def create_tasks(contact_id = false, query_duration = 30.days, query_start = nil)
+  def create_tasks(contact_id = false, query_duration = 30.days.to_i, query_start = nil)
     query_start ||= Time.now.beginning_of_day
     query_start += offset
     query_finish = query_start.end_of_day + query_duration.seconds
@@ -74,47 +74,22 @@ class Followup < ActiveRecord::Base
           start = start + offset.seconds
         end
       
-        if remind_every? && !field_id
-          
-          max_days = (how_often / 60 / 60 / 24)
-          date = start + Random.rand(0..max_days).days
-          p "Date: #{date}"
-          p "Max: #{max_days}"
-          
-          while date <= query_finish
-            if date >= query_start
-              if tasks.where(contact_id: contact.id, date: date..date + how_often).empty?
-                task = tasks.create(
-                  contact_id: contact.id, 
-                  complete: false,
-                  date: date,
-                  content: description,
-                  user_id: user_id
-                )
-              end
+        date = start
+      
+        while date <= query_finish
+          if date >= query_start
+            if tasks.where(contact_id: contact.id, date: date).empty?
+              task = tasks.create(
+                contact_id: contact.id, 
+                complete: false,
+                date: date,
+                content: description,
+                user_id: user_id
+              )
             end
+          end
         
-            date = date + how_often
-          end
-            
-        else
-          date = start
-          
-          while date <= query_finish
-            if date >= query_start
-              if tasks.where(contact_id: contact.id, date: date).empty?
-                task = tasks.create(
-                  contact_id: contact.id, 
-                  complete: false,
-                  date: date,
-                  content: description,
-                  user_id: user_id
-                )
-              end
-            end
-          
-            date = date + how_often
-          end
+          date = date + how_often
         end
       end
     end
@@ -159,7 +134,7 @@ class Followup < ActiveRecord::Base
         output.push "starting on their #{field.title}"
       else
         output.push "#{offset_word.capitalize} #{timing}"
-        output.push "starting from #{starting_at.strftime("%b %-d, %Y")}"
+        output.push "starting on #{starting_at.strftime("%b %-d, %Y")}"
       end
     else
       timing = distance_of_time_in_words(offset.seconds)
