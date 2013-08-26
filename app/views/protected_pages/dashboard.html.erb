@@ -1,9 +1,22 @@
-Contacts: <%= current_user.contacts.count %><br><br>
+<div class="dashboard_widget">
+  <h1><%= current_user.contacts.count %></h1>
+  <p class="small_link">Contacts</p>
+</div>
 
-Followups: <%= current_user.followups.count %><br><br>
-
-This Week's Tasks: <%= current_user.tasks_for(Time.now + 7.days).count %><br><br>
+<div class="dashboard_widget">
+  <h1><%= current_user.tasks_for(Time.now + 7.days).count %></h1>
+  <p class="small_link">
+    This Week's Tasks
+  </p>
+</div>
 
 <% if current_user.emailer? %>
-  Subscribed Contacts: <%= current_user.contacts.emailable.count %>
+  <div class="dashboard_widget">
+    <h1><%= current_user.contacts.emailable.count %></h1>
+    <p class="small_link">
+      Subscribed Contacts
+    </p>
+  </div>
 <% end %>
+
+<div class="clear"></div>
