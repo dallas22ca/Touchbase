@@ -20,7 +20,7 @@
   
   <div class="field">
     <%= label_tag :who, "Who do you need to follow up with?" %><br>
-    <%= select_tag :who, options_for_select([["All my contacts", "everyone"], ["Only some of my contacts...", "filter"]]), class: "full_width" %>
+    <%= select_tag :who, options_for_select([["Everyone", "everyone"], ["Filter my contacts...", "filter"]]), class: "full_width" %>
     
     <div class="filter_options">
       <table id="filters_container"></table>
@@ -42,8 +42,7 @@
   
   <div class="field offset_toggle offset_every">
     <%= label_tag :start, "When should this start?" %><br>
-    <%= select_tag :start, options_for_select([["Now", ""]] + current_user.fields.where(data_type: "datetime").map{ |f| ["On the contact's #{f.title}", f.id] }, @followup.field_id), class: "offset_field" %>
-    <p class="when_explanation small_link">* To avoid putting <%= pluralize current_user.contacts_count, "task" %> on today's todo list (one per contact), your tasks will have a randomized due date over the next <span class="offset_amount">0</span> <span class="offset_unit">day</span>s.</p>
+    <%= select_tag :start, options_for_select([["Now", ""]] + current_user.fields.where(data_type: "datetime").map{ |f| ["On their #{f.title}", f.id] }, @followup.field_id), class: "offset_field" %>
   </div>
   
   <div class="actions">
