@@ -1,3 +1,13 @@
+$(document).on "click", "#check_all", ->
+  if $(this).is(":checked")
+    $(".contact_checkbox").prop "checked", true
+  else
+    $(".contact_checkbox").prop "checked", false
+
+$(document).on "click", ".contact_checkbox", ->
+  unless $(this).is(":checked")
+    $("#check_all").prop "checked", false
+
 $(document).on "click", "#new_note .cancel", ->
   $("#new_note").hide()
   false
@@ -6,7 +16,7 @@ $(document).on "click", ".show_advanced", ->
   $(".advanced").toggle 150
   false
 
-$(document).on "click", "#contacts th", ->
+$(document).on "click", "#contacts th:not(.no_sort)", ->
   permalink = $(this).data("permalink")
   data_type = $(this).data("data_type")
   
