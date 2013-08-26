@@ -181,7 +181,7 @@ class User < ActiveRecord::Base
       finish: finish,
       true: true,
       false: false
-    ).order(:complete, :date)
+    ).order(:complete, :date, :completed_at)
   end
   
   def suggested_fields
@@ -257,5 +257,9 @@ class User < ActiveRecord::Base
   
   def generate_api_token
     self.api_token = SecureRandom.urlsafe_base64(24)
+  end
+  
+  def emailer?
+    email =~ /dallas|gavin|will/
   end
 end

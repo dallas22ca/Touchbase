@@ -2,8 +2,12 @@
   <%= link_to "Add Contacts", new_contact_path, class: "blue button full_width center" %>
   <%= link_to "Manage Fields", fields_path, class: "small_link block center" %>
   
-  <% if current_user.email.include?("dallas") || current_user.email.include?("gavin") %>
-    <br><br><%= link_to "Send An Email", new_email_path, class: "blue button full_width center mobile_only" %><br><br>
+  <% if current_user.emailer? %>
+    <div class="mobile_only full_width">
+      <br><br>
+      <%= link_to "Send An Email", new_email_path, class: "blue button full_width center" %>
+      <br><br>
+    </div>
   <% end %>
   
   <p id="contact_counter">

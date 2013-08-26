@@ -6,7 +6,7 @@
     <li><%= link_to "<i class=\"icon icon-group\"></i><span class=\"word\"> Contacts</span>".html_safe, contacts_path, class: "#{"selected" if request.path.include?(contacts_path) || request.path.include?(multicreate_contacts_path)}" %></li>
     <li><%= link_to "<i class=\"icon icon-comments\"></i><span class=\"word\"> Followups</span>".html_safe, followups_path, class: "#{"selected" if request.path.include? followups_path}" %></li>
     
-    <% if current_user.email.include?("dallas") || current_user.email.include?("gavin") %>
+    <% if current_user.emailer? %>
       <li class="desktop_only"><%= link_to "<i class=\"icon icon-envelope\"></i><span class=\"word\"> Send Email</span>".html_safe, new_email_path, class: "#{"selected" if request.path.include? new_email_path}" %></li>
     <% end %>
   <% else %>
