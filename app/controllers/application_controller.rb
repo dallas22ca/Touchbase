@@ -23,7 +23,7 @@ protected
   end
   
   def public?
-    ["pages#show", "users#timezone", "contacts#subscriptions"].include? "#{controller_name}##{action_name}"
+    ["pages#show", "pages#submit", "pages#option", "users#timezone", "contacts#subscriptions"].include? "#{controller_name}##{action_name}"
   end
   
   def choose_layout

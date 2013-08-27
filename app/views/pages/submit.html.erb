@@ -1,0 +1,16 @@
+<% if @permalink == "book" %>
+
+  <h1>Thanks For Your Support!</h1>
+
+  <h4 class="normal">
+    To download your book, <%= link_to "click here", page_path("book/download") %>
+  </h4>
+  
+  <% unless user_signed_in? %>
+    <p class="normal">
+      Good software can save (and make) you thousands of dollars per year!
+      Have a peek at <%= link_to "Touch Base", root_path %> to really start reaching business goals.
+    </p>
+  <% end %>
+  
+<% end %>

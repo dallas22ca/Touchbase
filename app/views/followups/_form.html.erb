@@ -1,4 +1,12 @@
 <%= form_for(@followup) do |f| %>
+  <p class="info">A "task template" builds recurring tasks that are specific to each of your contacts.</p>
+  
+  <% if current_user.fields.where(data_type: "datetime").empty? %>
+    <p id="error_explanation">
+      You don't have any "date" fields set up yet. For a bigger benefit, we recommend adding one on the <%= link_to "fields page", fields_path %>.
+    </p>
+  <% end %>
+  
   <% if @followup.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@followup.errors.count, "error") %> prohibited this followup from being saved:</h2>
@@ -41,7 +49,7 @@
   </div>
   
   <div class="field offset_toggle offset_every">
-    <%= label_tag :start, "When should this start?" %><br>
+    <%= label_tag :start, "When should this start?<span class=\"when_explanation\">*</span>".html_safe %><br>
     <%= select_tag :start, options_for_select([["Now", ""]] + current_user.fields.where(data_type: "datetime").map{ |f| ["On the contact's #{f.title}", f.id] }, @followup.field_id), class: "offset_field" %>
     <p class="when_explanation small_link">* To avoid putting <%= pluralize current_user.contacts_count, "task" %> on today's todo list (one per contact), your tasks will have a randomized due date over the next <span class="offset_amount">0</span> <span class="offset_unit">day</span>s.</p>
   </div>

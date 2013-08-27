@@ -1,0 +1,25 @@
+<h1>Free Book Download</h1>
+
+<center>
+  <% image_tag "logo.png", style: "margin: 20px 0; " %>
+</center>
+
+<p class="normal">
+  Download our free e-book gives you solutions to get more out of your business.
+</p>
+
+<%= form_tag submit_path do |f| %>
+  <%= hidden_field_tag :book, true, name: "contact[book]" %>
+  
+  <div class="field">
+    <%= label_tag :name %><br>
+    <%= text_field_tag :name, "", name: "contact[name]" %>
+  </div>
+  <div class="field">
+    <%= label_tag :email %><br>
+    <%= text_field_tag :email, "", name: "contact[email]" %>
+  </div>
+  <div class="actions">
+    <%= submit_tag "Claim My Book!", class: "small blue button" %>
+  </div>
+<% end %>

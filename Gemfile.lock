@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/dallas22ca/tb.git
+  revision: 72ad6198b8efb2ec51c99049b1fa8c7cc3c0d5df
+  specs:
+    tb (0.0.1)
+
+GIT
   remote: git://github.com/plataformatec/devise.git
   revision: 6b5988d756d780903bf8c9ccb3e2b3b724ccebe8
   branch: rails4
@@ -146,6 +152,8 @@ GEM
     redis (3.0.4)
     redis-namespace (1.3.1)
       redis (~> 3.0.0)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     roo (1.11.2)
       nokogiri
       rubyzip
@@ -247,6 +255,7 @@ DEPENDENCIES
   paperclip (= 3.4.2)
   pg
   rails (= 4.0.0)
+  rest-client
   roo
   rspec-rails
   sass-rails (~> 4.0.0)
@@ -255,6 +264,7 @@ DEPENDENCIES
   sidekiq-failures
   sinatra
   slim
+  tb!
   thin
   turbolinks
   uglifier (>= 1.3.0)

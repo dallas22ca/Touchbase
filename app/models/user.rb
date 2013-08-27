@@ -98,7 +98,7 @@ class User < ActiveRecord::Base
     c = contacts.where(name: name).first
     
     if c
-      c.update_attributes data: args, overwrite: overwrite
+      c.update_attributes data: c.data.merge(args), overwrite: overwrite
     else
       c = contacts.create name: name, data: args
     end
@@ -245,7 +245,7 @@ class User < ActiveRecord::Base
     router = Rails.application.routes.url_helpers
     
     if step <= 2
-      router.protected_page_path("welcome")
+      router.root_path
     elsif step <= 3
       router.fields_path
     elsif step <= 4
