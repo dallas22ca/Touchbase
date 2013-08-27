@@ -32,8 +32,14 @@ class User < ActiveRecord::Base
   after_save :sidekiq_file_import, if: Proc.new { |u| u.upload && u.file.exists? }
   
   def add_to_dallas
-    dallas = User.where(email: "dallasgood@gmail.com").first
-    dallas.contacts.create name: name, data: { email: email, signed_up_at: created_at } if dallas
+    if Rails.env.production?
+      tb = Tb.new(CONFIG["api_token"])
+      @response = tb.add_contacts({
+        "name" => name,
+        "email" => email, 
+        "signed-up-at" => created_at
+      }, { overwrite: true })
+    end
   end
   
   def sidekiq_blob_import
