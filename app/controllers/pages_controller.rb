@@ -16,8 +16,8 @@ class PagesController < ApplicationController
   def submit
     @permalink = params[:permalink]
     tb = Tb.new(CONFIG["api_token"])
-    contacts = tb.add_contacts([params[:contact]], { overwrite: true })
-    p contacts
+    response = tb.add_contacts([params[:contact]], { overwrite: true })
+    logger.warn response
   end
   
   def option
