@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/dallas22ca/tb.git
-  revision: 72ad6198b8efb2ec51c99049b1fa8c7cc3c0d5df
+  revision: f3631724c43fa1711e95a11a0080d353b4d805bd
   specs:
-    tb (0.0.1)
+    tb (0.0.2)
 
 GIT
   remote: git://github.com/plataformatec/devise.git
