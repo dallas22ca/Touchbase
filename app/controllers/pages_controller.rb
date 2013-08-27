@@ -24,7 +24,7 @@ class PagesController < ApplicationController
     
     if @permalink == "book"
       if params[:option] == "download"
-        send_data "hi"
+        send_data "This is the book."
       end
     end
   end
