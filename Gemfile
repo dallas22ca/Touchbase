@@ -17,6 +17,8 @@ gem 'chronic'
 gem 'paperclip', '3.4.2'
 gem 'whenever', require: false
 gem 'will_paginate'
+gem 'rest-client'
+gem 'tb', github: "dallas22ca/tb"
 
 gem 'sidekiq'
 gem 'sidekiq-failures'

@@ -144,7 +144,7 @@ class Followup < ActiveRecord::Base
         output.push "starting on their #{field.title}"
       else
         output.push "#{offset_word.capitalize} #{timing}"
-        output.push "starting from #{starting_at.strftime("%b %-d, %Y")}"
+        # output.push "starting from #{starting_at.strftime("%b %-d, %Y")}"
       end
     else
       timing = distance_of_time_in_words(offset.seconds)

@@ -10,6 +10,8 @@ Touchbase::Application.routes.draw do
 
   devise_for :users
   
+  get "/s/:token" => "contacts#subscriptions", as: :subscription
+  
   authenticated :user do
     get "/pending" => "contacts#pending", as: :pending
     post "/multicreate" => "contacts#multicreate", as: :multicreate_contacts
@@ -28,11 +30,11 @@ Touchbase::Application.routes.draw do
 
     mount Sidekiq::Web => "/sidekiq"
     
-    get "/:permalink" => "protected_pages#show", as: :protected_page
-    get "/" => "protected_pages#show"
+    get "/" => "pages#show"
   end
-  
-  get "/s/:token" => "contacts#subscriptions", as: :subscription
+
+  post "/:permalink/submit" => "pages#submit", as: :submit
+  get "/:permalink/:option" => "pages#option", as: :option
   get "/:permalink" => "pages#show", as: :page
   
   unauthenticated :user do
