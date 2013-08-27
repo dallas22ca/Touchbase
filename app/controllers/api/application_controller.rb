@@ -14,9 +14,7 @@ module Api
       else
         authenticate_or_request_with_http_basic do |email, password|
           @user = User.where(email: email).first
-          if @user && @user.valid_password?(password)
-            sign_in :user, @user
-          end
+          @user && @user.valid_password?(password)
         end
       end
     end
