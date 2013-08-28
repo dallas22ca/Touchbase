@@ -6,15 +6,19 @@ module Api
   private
   
     def restrict_access
-      if request.authorization.to_s[/^Token /]
-        authenticate_or_request_with_http_token do |api_token, options|
+      if request.authorization.to_s =~ /token\=/
+        authenticate_or_request_with_http_token do |api_token|
           @user = User.where(api_token: api_token).first
           @user
         end
-      else
-        authenticate_or_request_with_http_basic do |email, password|
-          @user = User.where(email: email).first
-          @user && @user.valid_password?(password)
+      elsif request.authorization.to_s
+        begin
+          authenticate_or_request_with_http_basic do |email, password|
+            @user = User.where(email: email).first
+            @user && @user.valid_password?(password)
+          end
+        rescue
+          render text: "404 Unauthenticated"
         end
       end
     end

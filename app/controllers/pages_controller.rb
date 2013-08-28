@@ -15,8 +15,11 @@ class PagesController < ApplicationController
   
   def submit
     @permalink = params[:permalink]
-    tb = Tb.new(CONFIG["api_token"])
-    response = tb.add_contacts(params[:contact], { overwrite: true })
+
+    if @permalink == "book"
+      dallas = User.where(email: "dallas@excitecreative.ca").first
+      dallas.save_contact(params[:contact].merge({ overwrite: true })) if dallas
+    end
   end
   
   def option

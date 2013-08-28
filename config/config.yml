@@ -1,12 +1,12 @@
 development:
-  api_token: LHBaEIWbRYOE7tRRj67KkQiuXKToKSRA
+  api_token: mc7Voj9EbYb0Moip9CPLGaCZoLc0vD4Y
   amazon_access_key_id: AKIAI3HSST3DECH2MAJQ
   amazon_secret_access_key: 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
   amazon_bucket: assets-dev.touchbasenow.com
   secret: FollowUpCentralS3cret34kjj3ldsf09elkdwfpowepokw32rk34nrkdfl32
 
 test:
-  api_token: tVNssFx7SJLKmfoZ-d9SseqMJh77Tffe
+  api_token: mc7Voj9EbYb0Moip9CPLGaCZoLc0vD4Y
   amazon_access_key_id: AKIAI3HSST3DECH2MAJQ
   amazon_secret_access_key: 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
   amazon_bucket: assets-test.touchbasenow.com
