@@ -75,7 +75,7 @@ Touchbase::Application.configure do
   # Disable automatic flushing of the log to improve performance.
   # config.autoflush_log = false
   
-  default_url_options[:host] = "http://66.228.40.130"
+  default_url_options[:host] = "http://touch-base.co"
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
