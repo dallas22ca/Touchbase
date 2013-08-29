@@ -11,7 +11,7 @@
 </head>
 <body>
   
-  <% unless @subscription_notice %>
+  <% unless @subscription_notice || @no_signin %>
     <% if request.path == new_user_session_path %>
       <%= link_to "Sign Up", root_path, class: "sign_in" %>
     <% else %>

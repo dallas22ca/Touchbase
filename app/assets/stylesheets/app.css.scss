@@ -18,10 +18,18 @@ h4 {
   margin-bottom: 10px;
 }
 
-p.normal {
+ul.normal, p.normal {
   font-size: 15px;
   line-height: 22px;
+}
+
+p.normal {
   margin: 20px 0; 
+}
+
+ul.normal {
+  list-style: disc;
+  margin: 0 0 0 25px; 
 }
 
 a {
@@ -156,6 +164,11 @@ textarea, input[type="text"], input[type="email"], input[type="password"], selec
   box-sizing: border-box;
   background: #fff;
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  
+  img {
+    max-width: 100%;
+  }
 }
 
 .field {
