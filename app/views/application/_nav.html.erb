@@ -8,7 +8,7 @@
     <li><%= link_to "<i class=\"icon icon-table\"></i><span class=\"word\"> Fields</span>".html_safe, fields_path, class: "#{"selected" if request.path.include?(fields_path)}" %></li>
     
     <% if current_user.emailer? %>
-      <li class="desktop_only"><%= link_to "<i class=\"icon icon-envelope\"></i><span class=\"word\"> Send Email</span>".html_safe, new_email_path, class: "#{"selected" if request.path.include? new_email_path}" %></li>
+      <li><%= link_to "<i class=\"icon icon-envelope\"></i><span class=\"word\"> Send Email</span>".html_safe, new_email_path, class: "#{"selected" if request.path.include? new_email_path}" %></li>
     <% end %>
   <% else %>
     <li><%= link_to "<span class=\"icon_number\">1</span><span class=\"word\">. Welcome</span>".html_safe, page_path("welcome"), class: "#{"selected" if request.path == page_path("welcome")}" %></li>

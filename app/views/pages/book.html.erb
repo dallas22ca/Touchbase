@@ -1,12 +1,24 @@
-<h1>Free Book Download</h1>
-
-<center>
-  <% image_tag "logo.png", style: "margin: 20px 0; " %>
-</center>
+<h1></h1>
 
 <p class="normal">
-  Download our free e-book gives you solutions to get more out of your business.
+  To download a <strong>$29</strong> book of techniques for growing your business and clientele for <strong>FREE</strong>, enter your name and email address at the bottom of this page:
 </p>
+
+<center style="margin-bottom: 30px; ">
+  <%= image_tag "/tsafcc/cover.png", alt: "The Scientific Art of Finding and Catching Clients", style: "margin: 20px 0; " %>
+  <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Ftouch-base.co%2Fbook&amp;width=100&amp;height=21&amp;colorscheme=light&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;send=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+  <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</center>
+
+<ul class="normal">
+  <li>How do I create an endless supply of clients?</li>
+  <li>As a small company, what should I focus on?</li>
+  <li>Where can I find clients?</li>
+  <li>How can I find clients in my sleep?</li>
+  <li>How can I manage my time better?</li>
+  <li>How do I write a convincing and effective ad?</li>
+</ul>
 
 <%= form_tag submit_path do |f| %>
   <%= hidden_field_tag "downloaded-tsafcc", true, name: "contact[downloaded-tsafcc]" %>
@@ -14,13 +26,19 @@
   
   <div class="field">
     <%= label_tag :name %><br>
-    <%= text_field_tag :name, "", name: "contact[name]" %>
+    <%= text_field_tag :name, "", name: "contact[name]", class: "full_width" %>
   </div>
   <div class="field">
     <%= label_tag :email %><br>
-    <%= text_field_tag :email, "", name: "contact[email]" %>
+    <%= text_field_tag :email, "", name: "contact[email]", class: "full_width" %>
   </div>
   <div class="actions">
-    <%= submit_tag "Claim My Book!", class: "small blue button" %>
+    <%= button_tag(type: "submit", class: "small blue button full_width") do %>
+      Download My <span style="text-decoration: line-through; ">$29</span> FREE Book!
+    <% end %>
   </div>
 <% end %>
+
+<center style="margin-top: 20px;">
+  <%= link_to "Or you can order your physical paperback copy here.", "https://www.createspace.com/4420322", class: "small_link" %>
+</center>

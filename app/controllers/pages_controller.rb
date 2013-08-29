@@ -10,6 +10,10 @@ class PagesController < ApplicationController
       end
     end
     
+    if permalink == "book"
+      @no_signin = true
+    end
+    
     render permalink
   end
   
@@ -27,7 +31,7 @@ class PagesController < ApplicationController
     
     if @permalink == "book"
       if params[:option] == "download"
-        send_data "This is the book."
+        send_file "#{Rails.root}/public/tsafcc/The Scientific Art of Finding & Catching Clients.pdf"
       end
     end
   end
