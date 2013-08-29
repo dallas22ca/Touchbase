@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
       @response = tb.add_contacts({
         "name" => name,
         "email" => email, 
-        "signed-up-at" => created_at
+        "tb-signed-up-at" => created_at
       }, { overwrite: true })
     end
   end
