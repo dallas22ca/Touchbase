@@ -11,7 +11,7 @@ class Field < ActiveRecord::Base
   after_save :sidekiq_update_contacts
   
   def set_permalink
-    self.permalink = self.title.parameterize if self.permalink.blank?
+    self.permalink = self.title.parameterize if self.permalink.blank? || self.title_changed?
     self.permalink = self.permalink.parameterize
   end
   
