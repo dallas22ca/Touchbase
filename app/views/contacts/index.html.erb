@@ -1,5 +1,7 @@
 <%= render "sidebar" %>
 
+<h1>Contacts</h1>
+
 <%= render "has_pending" if @pending_count > 0 %>
 <%= render "is_importing" if current_user.has_pending_import? && current_user.import_progress != 100 %>
 

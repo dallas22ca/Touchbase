@@ -3,11 +3,7 @@
 
 <div class="clear"></div>
 
-<h1>Tasks</h1>
-
-<p id="date">
-  <%= @date %><br><br>
-</p>
+<h1 id="date"><%= @today ? "Today" : @date %></h1>
 
 <div id="tasks">
 

@@ -2,14 +2,6 @@
   <%= link_to "Add Contacts", new_contact_path, class: "blue button full_width center" %>
   <%= link_to "Manage Fields", fields_path, class: "small_link block center" %>
   
-  <% if current_user.emailer? %>
-    <div class="mobile_only full_width">
-      <br><br>
-      <%= link_to "Send An Email", new_email_path, class: "blue button full_width center" %>
-      <br><br>
-    </div>
-  <% end %>
-  
   <p id="contact_counter">
     <span class="contacts_search_count"><%= @all_contacts.count %></span> / <span class="contacts_count"><%= pluralize @all_contacts.count, "Contact" %></span>
   </p>
