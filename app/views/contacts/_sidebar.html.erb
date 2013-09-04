@@ -1,6 +1,5 @@
 <div id="sidebar">
   <%= link_to "Add Contacts", new_contact_path, class: "blue button full_width center" %>
-  <%= link_to "Manage Fields", fields_path, class: "small_link block center" %>
   
   <p id="contact_counter">
     <span class="contacts_search_count"><%= @all_contacts.count %></span> / <span class="contacts_count"><%= pluralize @all_contacts.count, "Contact" %></span>
