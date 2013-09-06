@@ -2,6 +2,10 @@ $(document).on "click", "#new_note .cancel", ->
   $("#new_note").hide()
   false
 
+$(document).on "click", ".show_contacts_filters", ->
+  $("#filters").toggle 150
+  false
+
 $(document).on "click", ".show_advanced", ->
   $(".advanced").toggle 150
   false
@@ -47,15 +51,14 @@ $(document).on "submit", "#contacts_search", ->
   direction = $("#contacts").data("direction")
   order = $("#contacts").data("order")
   data_type = $("#contacts").data("data_type")
-  
+
   params =
     search: Contacts.filterArgs()
     order: order
     direction: direction
     data_type: data_type
     from_sidebar: true
-  
-  params["q"] = q if q.length
+    q: q
   
   $.get url, params, (data) ->
     eval data
