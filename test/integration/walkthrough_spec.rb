@@ -20,7 +20,7 @@ describe User do
     
     page.current_path.should == fields_path
     click_button "Save Fields and Continue to Upload File"
-    page.body.should include "Followups"
+    page.body.should include "Task Templates"
     joe.contacts.count.should == 0
     
     ImportWorker.drain

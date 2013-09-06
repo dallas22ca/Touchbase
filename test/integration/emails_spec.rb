@@ -39,7 +39,7 @@ describe Email do
     john.emailable.should == true
     
     visit subscription_url(john.token)
-    page.should have_content "unsubscribed"
+    page.should have_content "un-subscribed"
     john.reload.emailable.should == false
     
     visit subscription_url(john.token)
