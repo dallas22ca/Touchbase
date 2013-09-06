@@ -117,10 +117,10 @@ class ContactsController < ApplicationController
     if contact
       if contact.emailable
         contact.update_column :emailable, false
-        @subscription_notice = "<strong>You have successfully unsubscribed.</strong><br><br>To re-subscribe, <a href=\"#{request.path}\">click here</a> or re-visit this page."
+        @subscription_notice = "<strong>You have successfully un-subscribed.</strong><br><br>To re-subscribe, <a href=\"#{request.path}\">click here</a> or refresh this page."
       else
         contact.update_column :emailable, true
-        @subscription_notice = "<strong>You have successfully re-subscribe</strong>d.<br><br>To unsubscribe, <a href=\"#{request.path}\">click here</a> or re-visit this page."
+        @subscription_notice = "<strong>You have successfully re-subscribed</strong>.<br><br>To un-subscribe, <a href=\"#{request.path}\">click here</a> or refresh this page."
       end
     else
       @subscription_notice = "<strong>We can't identify you.</strong>"

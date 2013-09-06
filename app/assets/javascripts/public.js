@@ -15,4 +15,4 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require jstimezonedetect
-//= require_tree ./application
+//= require_tree ./public

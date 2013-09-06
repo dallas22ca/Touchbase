@@ -265,6 +265,10 @@ class User < ActiveRecord::Base
     self.api_token = SecureRandom.urlsafe_base64(24)
   end
   
+  def name_and_email
+    "#{name} <#{email}>"
+  end
+  
   def emailer?
     email =~ /dallas|gavin/
   end

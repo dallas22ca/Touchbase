@@ -1,9 +1,9 @@
+<h2 id="date"><%= @today ? "Today" : @date %></h2>
+
 <%= link_to "&larr; #{@prev.strftime("%a, %b %d")}".html_safe, tasks_path(start: @prev.strftime("%m-%d-%y")), class: "small_link left" %>
 <%= link_to "#{@next.strftime("%a, %b %d")} &rarr;".html_safe, tasks_path(start: @next.strftime("%m-%d-%y")), class: "small_link right" %>
 
 <div class="clear"></div>
-
-<h1 id="date"><%= @today ? "Today" : @date %></h1>
 
 <div id="tasks">
 
@@ -11,7 +11,7 @@
     <li class="placeholder" style="margin: 10px 0; <%= "display: block; " if @tasks.incomplete.empty? %>">There is nothing left on your list!</li>
   
     <ul class="tasks_for_date overdue_list" style="display: none; ">
-      <li class="date_heading" style="color: red; ">Overdue</li>
+      <li class="date_heading">Overdue</li>
     </ul>
   
     <% @tasks.non_email.incomplete.group_by(&:date).each do |date, tasks| %>
@@ -21,7 +21,7 @@
           <% if date >= Time.zone.now.beginning_of_day && date <= Time.zone.now.end_of_day %>
             <li class="date_heading">Today</li>
           <% else %>
-            <li class="date_heading"><%= date.strftime("%a, %b %-d") %></li>
+            <li class="date_heading"><%= link_to date.strftime("%a, %b %-d"), tasks_path(start: date.strftime("%m-%d-%y")) %></li>
           <% end %>
         <% else %>
           <li class="date_heading"><%= link_to "Overdue from #{date.strftime("%a, %b %-d")}", tasks_path(start: date.strftime("%m-%d-%y")) %></li>

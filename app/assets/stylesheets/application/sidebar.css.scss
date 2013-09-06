@@ -1,22 +1,5 @@
-#contacts_index {
-  .container {
-    margin: 10px 0 10px 0;
-    width: auto;
-    max-width: none;
-    left: 222px;
-    right: 12px;
-    position: absolute;
-    overflow-x: auto;
-  }
-}
-
-#followups_edit {
-  .container {
-    max-width: 580px;
-  }
-}
-
 #sidebar {
+  display: none;
   position: fixed;
   width: 200px;
   top: 53px;
@@ -32,10 +15,10 @@
     
     font-size: 13px;
     font-weight: normal;
-    color: #19709b;
+    color: #388637;
     
     .contacts_search_count {
-      color: #005782;
+      color: #33823B;
       font-weight: bold;
     }
   }

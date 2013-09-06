@@ -1,10 +1,10 @@
 <% if @permalink == "book" %>
+  
+  <% title "Thanks For Your Support!" %>
 
-  <h1>Thanks For Your Support!</h1>
-
-  <h4 class="normal">
-    To download your book, <%= link_to "click here", page_path("book/download") %>
-  </h4>
+  <p class="normal">
+    To download your book, <%= link_to "click here", page_path("book/download") %>.
+  </p>
   
   <% unless user_signed_in? %>
     <p class="normal">

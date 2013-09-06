@@ -1,7 +1,3 @@
-#date {
-  text-align: center;
-}
-
 #incomplete_tasks {
   margin: 30px 0;
 }
@@ -10,6 +6,12 @@
   .date {
     display: none;
   }
+}
+
+h4 {
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 7px;
 }
 
 .task_list {
@@ -21,6 +23,16 @@
     display: none;
   }
   
+  .overdue_list, .late {
+    .date_heading {
+      color: #E50000;
+      
+      a {
+        color: #E50000;
+      }
+    }
+  }
+  
   .date_heading {
     font-weight: bold;
     margin-bottom: 7px;
@@ -29,7 +41,7 @@
     
     a {
       text-decoration: none;
-      color: red;
+      color: #111;
     }
   }
   
@@ -57,7 +69,7 @@
       
       a {
         font-weight: bold;
-        color: #005782;
+        color: #33823B;
       }
     }
   }

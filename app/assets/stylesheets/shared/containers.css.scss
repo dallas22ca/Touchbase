@@ -1,0 +1,95 @@
+#registrations_create, #sessions_create, #registrations_new, #sessions_new {
+  background: #679C71; /* Old browsers */
+  background: -moz-linear-gradient(top,  #74b080 0%, #377c45 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#74b080), color-stop(100%,#377c45)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #74b080 0%,#377c45 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #74b080 0%,#377c45 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #74b080 0%,#377c45 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #74b080 0%,#377c45 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#74b080', endColorstr='#377c45',GradientType=0 ); /* IE6-9 */
+  color: #F0FFE9;
+  
+  .container {
+    max-width: 900px;
+  }
+}
+
+.container {
+  margin: 60px auto 50px auto;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 3px;
+  
+  img {
+    max-width: 100%;
+  }
+}
+
+#contacts_index.application {
+  background: #fff;
+  
+  #yield.container {
+    max-width: 100%;
+    margin-top: 50px;
+    box-shadow: none;
+  }
+}
+
+.application {
+  #yield.container {
+    background: #fff;
+    box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.2);
+    margin-top: 110px;
+    max-width: 580px;
+  }
+}
+
+.public {
+  .container {
+    margin-top: 150px; 
+  }
+}
+
+.unbranded {
+  .container {
+    margin-top: 70px; 
+    max-width: 540px;
+  }
+}
+
+@media (max-width: 860px) {  
+  .application {
+    background: #fff;
+    
+    #yield.container {
+      box-shadow: none;
+      margin: 40px auto 60px;
+    }
+  }
+  
+  .public {
+    .container {
+      margin-top: 100px;
+      margin-bottom: 0; 
+      
+      .section {
+        h2 {
+          font-size: 24px;
+          line-height: 30px;
+          width: 100%;
+        }
+        
+        .main_img {
+          width: 100%;
+          height: 250px;
+        }
+      }
+    }
+  }
+  
+  .unbranded {
+    .container {
+      margin-top: 100px; 
+    }
+  }
+}

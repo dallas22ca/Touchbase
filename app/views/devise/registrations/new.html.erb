@@ -1,125 +1,138 @@
-<style type="text/css">
-  h1 {
-    line-height: 40px;
-    margin: 50px 0;
-  }
+<div style="display: none; ">
+  <%- flash.each do |name, msg| -%>
+    <%= content_tag :div, msg, id: "flash_#{name}", class: "errors" if msg.is_a?(String) %>
+  <%- end -%>
+</div>
+
+<div class="section">
+  <h2>
+    A simple checklist to make sure you're getting the leads you deserve.
+  </h2>
+
+  <div id="home_checklist" class="main_img">
+    <ul id="incomplete_tasks" class="task_list">
+      <ul class="tasks_for_date overdue_list">
+        <li class="date_heading"><%= "Overdue from #{(1.day.ago).strftime("%a, %b %-d")}" %></li>
+        <li class="task">
+          <%= check_box_tag "checkbox", true, false, class: "task_checkbox" %>
+          <p class="content">
+            Send a birthday card to <%= link_to "Mrs. Fern Altenwerth", "#new_user" %>
+          </p>
+          <div class="clear"></div>
+        </li>
+      </ul>
+      <div class="clear"></div>
   
-  h3 {
-    font-weight: bold;
-    font-size: 22px;
-    text-align: center;
-    margin: 30px;
-    line-height: 30px;
-  }
-  
-  em {
-    font-style: oblique;
-  }
-  
-  .red {
-    color: red;
-  }
-  
-  p {
-    margin: 20px 0;
-    font-size: 15px;
-    line-height: 22px;
-  }
-  
-  form {
-    background: #eee;
-    border: 1px solid #aaa;
-    padding: 20px;
-    border-radius: 3px;
-  }
-  
-  body {
-    background: #fff;
-  }
-  
-  .container {
-    box-shadow: 0 0 0 #fff;
-  }
-</style>
-
-<p>
-  No matter what size or stage a business is at, there is always one burning question on the mind of an entrepreneur:
-</p>
-
-<h1>How do I grow my business?</h1>
-
-<p>
-  We're glad you've asked - and you've come to the right place.
-</p>
-
-<p>
-  Marketing and growing a business have been made complex at best, with companies promising a magic formula...
-  But it's not as complicated as its been made out to be.
-  So, what do you really need to know about growing your business?
-</p>
-
-<h3 class="red">R.P.F. is the most important part of a growing business.</h3>
-
-<p>
-  "<strong>R</strong>egular, <strong>P</strong>lanned <strong>F</strong>ollowup" is an easy concept to grasp, but difficult in practice (without the right tools).
-</p>
-
-<p>
-  Brian Buffini is an immensely successful real estate agent turned coach. His strategy? Generate referrals. His tactics? Personal, hand-written notes and birthday cards.
-</p>
-
-<p>
-  Let's say you're a <s>self-employed mortgage broker</s> baker. You could open the doors every morning hoping for customers to walk through the door. Sometimes you'll sell it out, sometimes you won't. <strong>By why leave it to chance?</strong>
-</p>
-
-<p>
-  With a Regular, Planned Followup, you'll have connected with customers individually this past month through SMS (text message), email, or in person - offering special deals or just getting to know them. You'll become known as the friendly baker that goes out of his way to keep his customers happy. <strong>People will tell their friends and you'll actually accumulate a following.</strong> You're cookies will be sold out every day.
-</p>
-
-<h3>So what can TouchBase do for me?</h3>
-
-<p>
-  Touchbase is a lean, mean, lead-generating machine. Every morning, it sends you a list of RPFs, people you need to connect with to keep your business growing. You'll never have to worry about customers slipping through the cracks and going unnoticed.
-</p>
-
-<p>
-  Have a peak at this video for a quick, 49-second overview:
-</p>
-
-<iframe style="width: 100%; height: 325px; " src="//www.youtube.com/embed/p173EcrYcCk?rel=0&showinfo=0" frameborder="0" allowfullscreen></iframe>
-
-<p>
-  If you already have a contact list that you regularly follow up with, you're probably spending several hours a week sifting through a disorganized spreadsheet or piles of papers on your desk - just trying to figure out who to call.
-</p>
-
-<p>
-  <strong>At a basic hourly rate of $50, you could be losing $1000 every month (1 hour x 20 days per month)!</strong>
-</p>
-
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
-
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name, class: "full_width" %>
+      <ul class="tasks_for_date">
+        <li class="date_heading">Today</li>
+        <li class="task">
+          <%= check_box_tag "checkbox", true, false, class: "task_checkbox" %>
+          <p class="content">
+            Send a birthday card to <%= link_to "Sidney Christiansen", "#new_user" %>
+          </p>
+          <div class="clear"></div>
+        </li>
+        <li class="task">
+          <%= check_box_tag "checkbox", true, false, class: "task_checkbox" %>
+          <p class="content">
+            Mail <%= link_to "Koby Hamill", "#new_user" %> a home evaluation
+          </p>
+          <div class="clear"></div>
+        </li>
+        <li class="task">
+          <%= check_box_tag "checkbox", true, false, class: "task_checkbox" %>
+          <p class="content">
+            Mail <%= link_to "Dr. Bradley Stokes", "#new_user" %> a home evaluation
+          </p>
+          <div class="clear"></div>
+        </li>
+        <li class="task">
+          <%= check_box_tag "checkbox", true, false, class: "task_checkbox" %>
+          <p class="content">
+            Send a birthday card to <%= link_to "Ramona Ankunding", "#new_user" %>
+          </p>
+          <div class="clear"></div>
+        </li>
+        <li class="task">
+          <%= check_box_tag "checkbox", true, false, class: "task_checkbox" %>
+          <p class="content">
+            Send a birthday card to <%= link_to "Oswald Bernier", "#new_user" %>
+          </p>
+          <div class="clear"></div>
+        </li>
+      </ul>
+      <div class="clear"></div>
+    
+      <ul class="tasks_for_date">
+        <li><%= link_to "Add Another Task", "#new_user", class: "small_link" %></li>
+      </ul>
+    </ul>
+    
+    <div id="completed_tasks_wrapper">
+      <hr />
+      <h4>Completed Tasks</h4>
+      <ul id="complete_tasks" class="task_list">
+        <li class="task complete">
+          <%= check_box_tag "checkbox", true, true, class: "task_checkbox" %>
+          <p class="content">
+            Mail <%= link_to "Eulalia Mitchell", "#new_user" %> a home evaluation
+          </p>
+          <div class="clear"></div>
+        </li>
+        <li class="task complete">
+          <%= check_box_tag "checkbox", true, true, class: "task_checkbox" %>
+          <p class="content">
+            Send a birthday card to <%= link_to "Bonnie Mitchell DVM", "#new_user" %>
+          </p>
+          <div class="clear"></div>
+        </li>
+      </ul>
+      <div class="clear"></div>
+    </div>
+    
   </div>
-  
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, class: "full_width" %>
-  </div>
+</div>
 
-  <div class="field">
-    <%= f.label :password, "Password (6 characters or more)" %><br />
-    <%= f.password_field :password, class: "full_width" %>
-  </div>
-  
-  <div class="field">
-    <%= f.label :time_zone %><br />
-    <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone.all.map { |t| [t, t.tzinfo.name] }), {}, class: "full_width" %>
-  </div>
+<!--
+<div class="section">
+  <h2>
+    Here's a 3 minute video showing you how to customize your own followup system:
+  </h2>
 
-  <div class="actions">
-    <%= f.submit "Sign up", class: "blue button" %>
-  </div>
-<% end %>
+  <img class="main_img" />
+</div>-->
+
+
+<div class="section">
+  <h2>
+    Start your free 30 day trial here:
+  </h2>
+  
+  <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+    <%= devise_error_messages! %>
+
+    <div class="field">
+      <%= f.label :name %><br />
+      <%= f.text_field :name, class: "full_width" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :email %><br />
+      <%= f.email_field :email, class: "full_width" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password, "Password (6 characters or more)" %><br />
+      <%= f.password_field :password, class: "full_width" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :time_zone %><br />
+      <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone.all.map { |t| [t, t.tzinfo.name] }), {}, class: "full_width" %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Sign up", class: "big green button full_width" %>
+    </div>
+  <% end %>
+</div>

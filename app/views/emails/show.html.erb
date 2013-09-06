@@ -1,6 +1,6 @@
 <%= link_to "&larr; Back".html_safe, :back, class: "small_link back" %>
 
-<h1><%= @email.subject %></h1>
+<h2><%= @email.subject %></h2>
 
 <div class="center" style="margin: 20px 0; ">
   <p class="small_link"><%= pluralize @email.tasks.count, "person" %> received this message.</p>

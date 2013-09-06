@@ -23,17 +23,16 @@ protected
   end
   
   def public?
-    ["pages#show", "pages#submit", "pages#option", "users#timezone", "contacts#subscriptions"].include? "#{controller_name}##{action_name}"
+    ["pages#submit", "pages#option", "users#timezone", "contacts#subscriptions"].include?("#{controller_name}##{action_name}") || (["pages#show"].include?("#{controller_name}##{action_name}") && ["book"].include?(params[:permalink]))
   end
   
   def choose_layout
-    if !user_signed_in? || ["contacts#subscriptions"].include?("#{controller_name}##{action_name}")
-      "public"
-    elsif ["contacts#index"].include?("#{controller_name}##{action_name}")
-      @no_container = true
+    if public?
+      "unbranded"
+    elsif user_signed_in?
       "application"
     else
-      "application"
+      "public"
     end
   end
   

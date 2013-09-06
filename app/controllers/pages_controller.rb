@@ -14,7 +14,11 @@ class PagesController < ApplicationController
       @no_signin = true
     end
     
-    render permalink
+    if permalink == "dashboard"
+      redirect_to tasks_path
+    else
+      render permalink
+    end
   end
   
   def submit

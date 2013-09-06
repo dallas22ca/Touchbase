@@ -9,20 +9,13 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <%= csrf_meta_tags %>
 </head>
-<body id="<%= controller_name %>_<%= action_name %>" class="public">
+<body id="<%= controller_name %>_<%= action_name %>" class="unbranded">
   
   <div id="loading"></div>
-
+  
   <div id="topbar">
     <div class="container">
-      <h1><%= link_to image_tag("logo.png"), root_path %></h1>
-    
-      <% if request.path == new_user_session_path %>
-        <%= link_to "Sign Up", root_path, class: "small button green right" %>
-      <% else %>
-        <%= link_to "Sign In", new_user_session_path, class: "small button green right" %>
-      <% end %>
-    
+      <h1 class="center"><%= yield :title %></h1>
       <div class="clear"></div>
     </div>
   </div>

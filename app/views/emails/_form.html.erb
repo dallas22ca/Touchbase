@@ -12,6 +12,11 @@
       </ul>
     </div>
   <% end %>
+  
+  <div class="field">
+    <%= label_tag :from %><br>
+    <%= text_field_tag :from, current_user.name_and_email, disabled: true, class: "full_width" %>
+  </div>
 
   <div class="field">
     <%= label_tag :who, "To" %><br>
@@ -34,6 +39,7 @@
     <%= f.text_area :plain, class: "full_width", rows: 13 %>
   </div>
   <div class="actions">
-    <%= f.submit "Send Email", class: "blue button" %>
+    <%= f.submit "Send", class: "big green button right" %>
+    <div class="clear"></div>
   </div>
 <% end %>

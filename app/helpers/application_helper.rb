@@ -5,6 +5,10 @@ module ApplicationHelper
     fields = f.fields_for(association, new_object, child_index: id) do |builder|
       render("edit_#{association.to_s.pluralize}", f: builder)
     end
-    link_to(name, '#', id: "add_#{association.downcase}", data: {id: id, fields: fields.gsub("\n", "")}, class: "add_#{association.to_s.pluralize} small blue button")
+    link_to(name, '#', id: "add_#{association.downcase}", data: {id: id, fields: fields.gsub("\n", "")}, class: "add_#{association.to_s.pluralize} small green button")
+  end
+  
+  def title(page_title)
+    content_for(:title) { page_title.html_safe }
   end
 end
