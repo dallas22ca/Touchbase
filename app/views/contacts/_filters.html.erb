@@ -1,0 +1,28 @@
+<div id="filters">
+  <%= form_tag contacts_path(format: :js), method: :get, id: "contacts_search" do %>
+    <div class="filter_field">
+      <%= label_tag :q, "Search All Fields" %>
+      <%= text_field_tag :q, "", placeholder: "Search...", class: "search_field" %>
+    </div>
+    
+    <div class="advanced">
+      <div class="filter_field inactive">
+        <%= check_box_tag "name", "name", false, { class: "filter_checkbox" } %>
+        <%= label_tag "name", "Name" %>
+  
+        <div class="details">
+          <%= text_field_tag "name", "", class: "search_field", data: { matcher: :like } %>
+        </div>
+      </div>
+    
+      <%= render @fields.order(:title) %>
+    </div>
+    
+    <% submit_tag "Search", class: "green button full_width", style: "margin-top: 20px; " %>
+    <%= link_to "Advanced Search", "#", class: "show_advanced small_link right"%>
+    
+    <span id="contact_counter" class="small_link">
+      Showing <span class="contacts_search_count"><%= @all_contacts.count %></span> / <span class="contacts_count"><%= pluralize @all_contacts.count, "Contact" %></span>
+    </span>
+  <% end %>
+</div>
