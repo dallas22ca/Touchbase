@@ -5,6 +5,7 @@ class Emailer < ActionMailer::Base
     encryptor = ActiveSupport::MessageEncryptor.new(CONFIG["secret"])
     @plain = email.contactify(email.plain, contact)
     @unsubscribe = subscription_url(contact.token)
+    @address = user.address
 
     mail({
       from: "#{user.name} <#{user.email}>", 
