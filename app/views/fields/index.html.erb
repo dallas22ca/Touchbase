@@ -6,7 +6,7 @@
   </p>
 <% end %>
 
-<h1>Fields</h1>
+<h2>Fields</h2>
 
 <% if current_user.has_pending_import? %>
   <p class="notice">
@@ -15,7 +15,8 @@
   </p>
 <% else %>
   <p class="info">
-    Which info do you want to collect for each contact? There are a few suggestions on the left sidebar to get you started. To use a suggestion, click on it.
+    Fields are pieces of information about your contacts.<br>
+    <span class="small_link">For example: Email, Address, Phone Number, Car, Goals, Awards</span>
   </p>
 <% end %>
 
@@ -44,6 +45,6 @@
   
   <br><br>
   
-  <%= f.submit "Save Fields#{" and Continue to Upload File" if current_user.has_pending_import?}", class: "blue button" %>
+  <%= f.submit "Save Fields#{" and Continue to Upload File" if current_user.has_pending_import?}", class: "big green button" %>
 
 <% end %>

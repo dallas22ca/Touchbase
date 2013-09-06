@@ -1,0 +1,38 @@
+.field, .actions {
+  margin: 20px 0;
+  
+  label {
+    font-size: 14px;
+    line-height: 18px;
+    padding-bottom: 5px;
+    display: inline-block;
+  }
+}
+
+.full_width {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+textarea, input[type="text"], input[type="email"], input[type="password"], select {
+  box-sizing: border-box;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  color: #111;
+  border-radius: 2px;
+  padding: 7px;
+  outline: none;
+  box-shadow: inset 0px 0px 7px rgba(0, 0, 0, 0.1);
+  
+  &:focus {
+    transition-property: all;
+    transition-duration: 500ms;
+    box-shadow: inset 0px 0px 7px #74b080;
+    border-color: #62966C;
+  }
+  
+  &:disabled {
+    background: #eee;
+    color: #777;
+  }
+}

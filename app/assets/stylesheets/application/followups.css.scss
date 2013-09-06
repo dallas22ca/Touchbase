@@ -8,10 +8,10 @@
     color: #182843;
     
     &:hover {
-      color: #19709b;
+      color: #388637;
       
       .timing, .criteria {
-        color: #19709b;
+        color: #388637;
       }
     }
     
@@ -24,7 +24,6 @@
     .timing {
       font-size: 13px;
       color: #999;
-      margin-top: 4px;
     }
     
     .criteria {
@@ -34,7 +33,6 @@
       color: #999;
       font-style: oblique;
       margin-left: 30px;
-      margin-top: 4px;
     }
   }
 }

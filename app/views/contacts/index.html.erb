@@ -1,11 +1,11 @@
 <%= render "sidebar" %>
 
-<h1>Contacts</h1>
+<h2 class="mobile_only">Contacts</h2>
 
 <%= render "has_pending" if @pending_count > 0 %>
 <%= render "is_importing" if current_user.has_pending_import? && current_user.import_progress != 100 %>
 
-<table id="contacts" data-order="name" data-direction="asc" data-data_type="string">
+<table id="contacts" class="beautiful_table" data-order="name" data-direction="asc" data-data_type="string">
   <thead>
     <tr>
       <th data-permalink="name" data-data_type="string">Name</th>

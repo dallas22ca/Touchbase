@@ -16,7 +16,6 @@ load = ->
   $(".show_contacts_format").change() if $("#new_contact").length
     
   $("#loading").fadeOut()
-  setTimezone()
   Followup.init()
   Filters.init()
   Contacts.paginate()

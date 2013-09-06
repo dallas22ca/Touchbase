@@ -1,6 +1,6 @@
 <%= link_to "&larr; Back".html_safe, :back, class: "small_link back" %>
 
-<h1><%= @contact.name %> <%= "(Pending)" if @contact.pending? %></h1>
+<h2><%= @contact.name %> <%= "(Pending)" if @contact.pending? %></h2>
 
 <div class="center" style="margin-top: 10px; ">
   <%= link_to 'Edit', edit_contact_path(@contact), class: "cancel", style: "margin-left: 0; " %>
@@ -69,7 +69,7 @@
 
 <ul id="incomplete_tasks" class="task_list">
   <ul class="tasks_for_date overdue_list">
-    <li class="date_heading">Upcoming Tasks</li>
+    <li class="date_heading" style="color: #111; ">Upcoming Tasks</li>
   </ul>
   <%= render @tasks.incomplete.order("tasks.date asc") %>
   <div class="clear"></div>

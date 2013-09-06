@@ -1,0 +1,42 @@
+body {
+  background: #eee;
+}
+
+.faded {
+  color: #aaa;
+}
+
+.icon-trash {
+  color: #777;
+  
+  &:hover {
+    color: #BB1300;
+  }
+}
+
+.icon-ok {
+  color: green;
+}
+
+.icon-remove {
+  color: #920000;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+.advanced {
+  display: none;
+}
+
+.mobile_only {
+  display: none !important;
+}
+
+@media (max-width: 860px) {
+  .mobile_only {
+    display: inline-block !important;
+  }
+}

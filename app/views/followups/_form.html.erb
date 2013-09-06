@@ -1,5 +1,5 @@
 <%= form_for(@followup) do |f| %>
-  <p class="info">A "task template" builds recurring tasks that are specific to each of your contacts.</p>
+  <p class="info">A "task template" builds tasks for each contact based on your criteria.</p>
   
   <% if current_user.fields.where(data_type: "datetime").empty? %>
     <p id="error_explanation">
@@ -22,7 +22,7 @@
   <%= f.hidden_field :offset %>
 
   <div class="field">
-    <%= f.label :description, "What needs to be done? <span style=\"color: #aaa; font-size: 13px; \">eg. Send a birthday card to {{contact.name}}</span>".html_safe %><br>
+    <%= f.label :description, "What needs to be done?<br><span class=\"small_link\">eg. Send a birthday card to {{contact.name}}</span>".html_safe %><br>
     <%= f.text_field :description, class: "full_width" %>
   </div>
   
@@ -39,7 +39,7 @@
   <%= render "filterpicker" %>
   
   <div class="field">
-    <%= label_tag :offset_word, "When should this take place? <span style=\"color: #aaa; font-size: 13px; \">eg. 3 Days Before Birthday, Every 3 Months</span>".html_safe %><br>
+    <%= label_tag :offset_word, "When should this take place?<br><span class=\"small_link\">eg. 3 Days Before Birthday, Every 3 Months</span>".html_safe %><br>
     <%= text_field_tag :offset_amount, "", placeholder: "23", style: "width: 50px; text-align: center; ", class: "offset_field offset_toggle offset_every offset_before offset_after" %>
     <%= select_tag :offset_unit, options_for_select([["Days", "day"], ["Weeks", "week"], ["Months", "month"]], @followup.offset_word), class: "offset_field offset_toggle offset_every offset_before offset_after" %>
     <%= select_tag :offset_word, options_for_select([["Every", "every"], ["On", "on"], ["Before", "before"], ["After", "after"]]), class: "offset_field" %> 
@@ -49,13 +49,12 @@
   </div>
   
   <div class="field offset_toggle offset_every">
-    <%= label_tag :start, "When should this start?<span class=\"when_explanation\">*</span>".html_safe %><br>
+    <%= label_tag :start, "When should this start?<br><span class=\"when_explanation small_link\">Tasks have a random due date over the next <span class=\"offset_amount\">0</span> <span class=\"offset_unit\">day</span>s.</span>".html_safe %><br>
     <%= select_tag :start, options_for_select([["Now", ""]] + current_user.fields.where(data_type: "datetime").map{ |f| ["On the contact's #{f.title}", f.id] }, @followup.field_id), class: "offset_field" %>
-    <p class="when_explanation small_link">* To avoid putting <%= pluralize current_user.contacts_count, "task" %> on today's todo list (one per contact), your tasks will have a randomized due date over the next <span class="offset_amount">0</span> <span class="offset_unit">day</span>s.</p>
   </div>
   
   <div class="actions">
-    <%= f.submit "Save Template", class: "blue button" %>
+    <%= f.submit "Save Template", class: "big green button" %>
     <%= link_to "Cancel", followups_path, class: "cancel" %>
     
     <% unless @followup.new_record? %>

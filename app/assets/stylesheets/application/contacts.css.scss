@@ -1,4 +1,4 @@
-#contacts {
+table {
   width: 100%;
   font-size: 14px;
 
@@ -37,16 +37,26 @@
 
 #import_progress_bar {
   width: 100%;
-  border: 1px solid #005782;
+  border: 1px solid #33823B;
   
   #import_progress {
     height: 20px;
-    background: #005782; 
+    background: #33823B; 
+  }
+}
+
+#notes {
+  tr {
+    border: none;
   }
 }
 
 #contact_show {
   margin-top: 20px;
+  
+  tr {
+    border: none;
+  }
   
   td {
     padding: 10px 0;

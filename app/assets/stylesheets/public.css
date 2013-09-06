@@ -10,7 +10,6 @@
  *
  *= require_self
  *= require_tree ./shared
- *= require jquery-ui-1.10.3
  *= require font-awesome
- *= require_tree ./application
+ *= require_tree ./public
  */

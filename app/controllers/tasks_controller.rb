@@ -9,7 +9,7 @@ class TasksController < ApplicationController
     @start = Chronic.parse(params[:start]).beginning_of_day if params[:start]
     @start ||= Time.zone.now.beginning_of_day
     @finish = Chronic.parse(params[:finish]).end_of_day if params[:finish]
-    @finish ? @date = "#{@start.strftime("%B %-d")} - #{@finish.strftime("%B %-d, %Y")}" : @date = @start.strftime("%A, %B %-d")
+    @finish ? @date = "#{@start.strftime("%B %-d")} - #{@finish.strftime("%B %-d, %Y")}" : @date = @start.strftime("%A, %b %-d")
     @finish ||= @start.end_of_day
     @next = @start + 1.day
     @prev = @finish - 1.day
