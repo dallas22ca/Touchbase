@@ -1,5 +1,9 @@
 <h2>My Account</h2>
 
+<center>
+  <%= link_to "Sign Out", destroy_user_session_path, class: "small_link" %>
+</center>
+
 <hr style="margin-top: 20px; ">
 
 <p class="small_link center">
@@ -59,7 +63,6 @@
     <%= f.submit "Save My Account", class: "big green button" %>
   </div>
 <% end %>
-
 
 <!--
 <h3>Cancel my account</h3>
