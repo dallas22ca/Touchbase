@@ -4,7 +4,7 @@
 <%= render "is_importing" if current_user.has_pending_import? && current_user.import_progress != 100 %>
 
 <div class="section" style="margin: 10px 0; ">
-  <%= link_to "Filter &nbsp;<i class=\"icon-cog\"></i>".html_safe, "#", class: "show_contacts_filters small green button" %>
+  <%= link_to "<span class=\"text\">Filter My Contacts</span> &nbsp;<i class=\"icon-cog\"></i>".html_safe, "#", class: "show_contacts_filters small green button" %>
   <%= render "filters" %>
   <!--<%= link_to "Bulk Edit &nbsp;<i class=\"icon-building\"></i>".html_safe, "#", class: "small green button" %>-->
   
