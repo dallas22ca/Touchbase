@@ -1,7 +1,6 @@
 <div id="filters">
   <%= form_tag contacts_path(format: :js), method: :get, id: "contacts_search" do %>
     <div class="filter_field">
-      <%= label_tag :q, "Search All Fields" %>
       <%= text_field_tag :q, "", placeholder: "Search...", class: "search_field" %>
     </div>
     
