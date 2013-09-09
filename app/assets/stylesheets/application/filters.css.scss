@@ -1,4 +1,4 @@
-#filters {
+.menu_in_place {
   display: none;
   background: #f9f9f9;
   margin-top: 10px;
@@ -30,7 +30,7 @@
 }
 
 @media (max-width: 860px) {
-  #filters {
+  .menu_in_place {
     left: 20px;
     right: 20px;
     width: auto;

@@ -1,0 +1,6 @@
+<ul id="suggested_fields" class="menu_in_place">
+  <li class="suggest">Click on a field to add it to your list.</li>
+  <% current_user.suggested_fields.each do |field| %>
+    <%= field.html_safe %>
+  <% end %>
+</ul>

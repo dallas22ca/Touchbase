@@ -1,4 +1,4 @@
-<div id="filters">
+<div id="filters" class="menu_in_place">
   <%= form_tag contacts_path(format: :js), method: :get, id: "contacts_search" do %>
     <div class="filter_field">
       <%= text_field_tag :q, "", placeholder: "Search...", class: "search_field" %>

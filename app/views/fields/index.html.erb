@@ -1,12 +1,10 @@
-<% render "sidebar" %>
+<h2>Fields</h2>
 
 <% if @user && @user.errors.any? %>
   <p class="errors">
     <%= @user.errors.full_messages.map{|m|m}.join("<br>").html_safe %>
   </p>
 <% end %>
-
-<h2>Fields</h2>
 
 <% if current_user.has_pending_import? %>
   <p class="notice">
@@ -19,6 +17,11 @@
     <span class="small_link">For example: Email, Address, Phone Number, Car, Goals, Awards</span>
   </p>
 <% end %>
+
+<div class="section" style="margin: 10px 0; ">
+  <%= link_to "<span class=\"text\">Show Suggestions</span> &nbsp;<i class=\"icon-table\"></i>".html_safe, "#", class: "show_suggested_fields small green button" %>
+  <%= render "suggested_fields" %>
+</div>
 
 <%= form_for current_user, url: fields_path do |f| %>
   <table id="fields">

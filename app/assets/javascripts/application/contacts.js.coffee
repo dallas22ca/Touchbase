@@ -3,7 +3,15 @@ $(document).on "click", "#new_note .cancel", ->
   false
 
 $(document).on "click", ".show_contacts_filters", ->
+  text = if $("#filters").is(":visible") then "Filter My Contacts" else "Hide Filters"
   $("#filters").toggle 150
+  $(".show_contacts_filters .text").text text
+  false
+  
+$(document).on "click", ".show_suggested_fields", ->
+  text = if $("#suggested_fields").is(":visible") then "Show Suggestions" else "Hide Suggestions"
+  $("#suggested_fields").toggle 150
+  $(".show_suggested_fields .text").text text
   false
 
 $(document).on "click", ".show_advanced", ->
