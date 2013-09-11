@@ -1,4 +1,5 @@
 development:
+  domain: .touchbase.dev
   api_token: mc7Voj9EbYb0Moip9CPLGaCZoLc0vD4Y
   amazon_access_key_id: AKIAI3HSST3DECH2MAJQ
   amazon_secret_access_key: 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
@@ -6,6 +7,7 @@ development:
   secret: FollowUpCentralS3cret34kjj3ldsf09elkdwfpowepokw32rk34nrkdfl32
 
 test:
+  domain: .touchbase.dev
   api_token: mc7Voj9EbYb0Moip9CPLGaCZoLc0vD4Y
   amazon_access_key_id: AKIAI3HSST3DECH2MAJQ
   amazon_secret_access_key: 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
@@ -13,6 +15,7 @@ test:
   secret: FollowUpCentralS3cret34kjj3ldsf09elkdwfpowepokw32rk34nrkdfl32
 
 production:
+  domain: .touch-base.co
   api_token: mc7Voj9EbYb0Moip9CPLGaCZoLc0vD4Y
   amazon_access_key_id: AKIAI3HSST3DECH2MAJQ
   amazon_secret_access_key: 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

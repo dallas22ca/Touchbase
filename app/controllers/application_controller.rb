@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   layout :choose_layout
   before_filter :configure_permitted_parameters, if: :devise_controller?
-  before_filter :authenticate_user!, unless: :public?
+  before_filter :authenticate_user!, unless: Proc.new { |r| r.public? || r.public_website_page? }
   before_filter :check_step, if: :user_signed_in?
   before_filter :set_timezone
   protect_from_forgery with: :exception
@@ -23,11 +23,17 @@ protected
   end
   
   def public?
-    ["pages#submit", "pages#option", "users#timezone", "contacts#subscriptions"].include?("#{controller_name}##{action_name}") || (["pages#show"].include?("#{controller_name}##{action_name}") && ["book"].include?(params[:permalink]))
+    request.subdomain == "www" && ["tb_pages#submit", "tb_pages#option", "users#timezone", "contacts#subscriptions"].include?("#{controller_name}##{action_name}") || (["tb_pages#show"].include?("#{controller_name}##{action_name}") && ["book"].include?(params[:permalink]))
+  end
+  
+  def public_website_page?
+    request.subdomain != "www" && ["pages#show"].include?("#{controller_name}##{action_name}")
   end
   
   def choose_layout
-    if public?
+    if public_website_page?
+      "unbranded"
+    elsif public?
       "unbranded"
     elsif user_signed_in?
       "application"

@@ -7,6 +7,10 @@
         <!--<li><%= link_to "<i class=\"icon-dashboard\"></i><span class=\"word\">  Dashboard</span>".html_safe, root_path, class: "#{"selected" if request.path == root_path}" %></li>-->
         <li><%= link_to "<i class=\"icon icon-ok\"></i><span class=\"word\"> Tasks</span>".html_safe, root_path, class: "#{"selected" if request.path.include?(tasks_path)}" %></li>
         <li><%= link_to "<i class=\"icon icon-group\"></i><span class=\"word\"> Contacts</span>".html_safe, contacts_path, class: "#{"selected" if request.path.include?(contacts_path) || request.path.include?(multicreate_contacts_path)}" %></li>
+		
+		<% for website in Website.all %>
+			<li><%= link_to "<i class=\"icon-desktop\"></i>".html_safe, root_url(subdomain: website.permalink), class: "#{"selected" if params[:website_id].to_i == website.id}" %></li>
+		<% end %>
         
         <% if current_user.emailer? %>
           <li><%= link_to "<i class=\"icon icon-envelope\"></i><span class=\"word\"> Emails</span>".html_safe, new_email_path, class: "#{"selected" if request.path.include? new_email_path}" %></li>

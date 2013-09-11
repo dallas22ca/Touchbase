@@ -10361,7 +10361,7 @@ $.widget( "ui.progressbar", {
 })( jQuery );
 (function( $, undefined ) {
 
-// number of pages in a slider
+// number of tb_pages in a slider
 // (how many times can you page up/down to go through the whole range)
 var numPages = 5;
 
@@ -11473,12 +11473,12 @@ $.widget( "ui.spinner", {
 		}
 	},
 
-	pageUp: modifier(function( pages ) {
-		this._stepUp( (pages || 1) * this.options.page );
+	pageUp: modifier(function( tb_pages ) {
+		this._stepUp( (tb_pages || 1) * this.options.page );
 	}),
 
-	pageDown: modifier(function( pages ) {
-		this._stepDown( (pages || 1) * this.options.page );
+	pageDown: modifier(function( tb_pages ) {
+		this._stepDown( (tb_pages || 1) * this.options.page );
 	}),
 
 	value: function( newVal ) {

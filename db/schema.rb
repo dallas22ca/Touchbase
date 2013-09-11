@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130825120002) do
+ActiveRecord::Schema.define(version: 20130911173712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,16 @@ ActiveRecord::Schema.define(version: 20130825120002) do
 
   add_index "notes", ["contact_id"], name: "index_notes_on_contact_id", using: :btree
 
+  create_table "pages", force: true do |t|
+    t.integer  "website_id"
+    t.string   "title"
+    t.string   "permalink"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "pages", ["website_id"], name: "index_pages_on_website_id", using: :btree
+
   create_table "tasks", force: true do |t|
     t.integer  "followup_id"
     t.integer  "contact_id"
@@ -129,5 +139,16 @@ ActiveRecord::Schema.define(version: 20130825120002) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "websites", force: true do |t|
+    t.string   "title"
+    t.string   "permalink"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "default_page_id"
+  end
+
+  add_index "websites", ["default_page_id"], name: "index_websites_on_default_page_id", using: :btree
+  add_index "websites", ["permalink"], name: "index_websites_on_permalink", using: :btree
 
 end

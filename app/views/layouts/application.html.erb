@@ -13,7 +13,9 @@
   
   <div id="loading"></div>
   
-  <%= render "nav" %>
+  <% cache [current_user, "nav"] do %>
+	  <%= render "nav" %>
+	<% end %>
 
   <div id="yield" class="container">
     <%= yield %>

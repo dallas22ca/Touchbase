@@ -230,7 +230,7 @@ class User < ActiveRecord::Base
       actions.push "contacts\#(new|create|multicreate)"
       actions.push "sessions"
       actions.push "registrations"
-      actions.push "pages\#show"
+      actions.push "tb_pages\#show"
     end
     
     if step >= 3

@@ -19,7 +19,15 @@
     <%= f.label :permalink %><br>
     <%= f.text_field :permalink %>
   </div>
+	
+	<% unless @website.new_record? %>
+		<div class="field">
+			<%= f.label :default_page_id %><br>
+			<%= f.collection_select :default_page_id, @website.pages, :id, :title %>
+		</div>
+	<% end %>
+	
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Save Website", class: "big green button" %>
   </div>
 <% end %>
