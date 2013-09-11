@@ -49,7 +49,7 @@ Touchbase::Application.routes.draw do
   end
   
   constraints subdomain: /.+/ do
-    get "/:permalink" => "pages#show"
+    get "/:permalink" => "pages#show", as: :public_page
     get "/" => "pages#show"
   end
 end

@@ -68,6 +68,8 @@ class PagesController < ApplicationController
       if params[:permalink]
         @page = @website.pages.where(permalink: params[:permalink]).first
         redirect_to root_path if @page == @website.default_page
+      elsif ["edit", "update"].include? action_name
+        @page = @website.pages.find(params[:id])
       else
         @page = @website.default_page
       end

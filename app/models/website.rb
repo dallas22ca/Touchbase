@@ -1,4 +1,4 @@
 class Website < ActiveRecord::Base
   has_many :pages
-  has_one :default_page, class_name: "Page"
+  belongs_to :default_page, class_name: "Page"
 end

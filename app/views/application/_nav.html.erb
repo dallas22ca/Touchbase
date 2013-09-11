@@ -9,7 +9,7 @@
         <li><%= link_to "<i class=\"icon icon-group\"></i><span class=\"word\"> Contacts</span>".html_safe, contacts_path, class: "#{"selected" if request.path.include?(contacts_path) || request.path.include?(multicreate_contacts_path)}" %></li>
 		
 		<% for website in Website.all %>
-			<li><%= link_to "<i class=\"icon-desktop\"></i>".html_safe, root_url(subdomain: website.permalink), class: "#{"selected" if params[:website_id].to_i == website.id}" %></li>
+			<li><%= link_to "<i class=\"icon-desktop\"></i>".html_safe, website, class: "#{"selected" if @website && @website.id == website.id}" %></li>
 		<% end %>
         
         <% if current_user.emailer? %>
