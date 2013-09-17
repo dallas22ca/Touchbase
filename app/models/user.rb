@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
   end
   
   def integerize_availability
-    if self.available_days.empty?
+    if self.available_days.blank?
       self.available_days = [1, 2, 3, 4, 5]
     else
       self.available_days = self.available_days.reject(&:empty?).map{ |d| d.to_i }
