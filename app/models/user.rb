@@ -26,11 +26,11 @@ class User < ActiveRecord::Base
     file.instance.id
   end
   
-  before_validation :integerize_avaliability
   validates_presence_of :address, if: Proc.new { |u| u.emails.any? }
   after_create :add_to_dallas
   before_create :generate_api_token
   before_save :set_step
+  before_save :integerize_availability
   after_save :update_followups, if: Proc.new { |u| u.available_days_changed? }
   after_save :sidekiq_blob_import, if: Proc.new { |u| u.upload && !u.blob.blank? }
   after_save :sidekiq_file_import, if: Proc.new { |u| u.upload && u.file.exists? }
@@ -47,11 +47,11 @@ class User < ActiveRecord::Base
     dallas.save_contact(args) if dallas
   end
   
-  def integerize_avaliability
+  def integerize_availability
     if self.available_days.empty?
       self.available_days = [1, 2, 3, 4, 5]
     else
-      self.available_days = self.available_days.compact.map{ |d| d.to_i }
+      self.available_days = self.available_days.reject(&:empty?).map{ |d| d.to_i }
     end
   end
   
