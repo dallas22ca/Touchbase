@@ -1,4 +1,4 @@
-<h2>Fields</h2>
+<h2>Contact Information</h2>
 
 <% if @user && @user.errors.any? %>
   <p class="errors">
@@ -13,7 +13,7 @@
   </p>
 <% else %>
   <p class="info">
-    Fields are pieces of information about your contacts.<br>
+    Which information would you like to record for each client?<br>
     <span class="small_link">For example: Email, Address, Phone Number, Car, Goals, Awards</span>
   </p>
 <% end %>
@@ -26,9 +26,11 @@
 <%= form_for current_user, url: fields_path do |f| %>
   <table id="fields">
     <thead>
-      <th style="width: 60%; ">Title</th>
+      <th style="width: 45%; ">Title</th>
       <th>Data Type</th>
-      <th></th>
+      <th class="center">Show</th>
+			<th class="center">Reorder</th>
+			<th class="center">Delete</th>
     </thead>
   
     <tbody>
@@ -38,9 +40,7 @@
     </tbody>
     
     <tfoot>
-      <td></td>
-      <td class="center"><%= link_to_add_fields "Add Field", f, :fields %></td>
-      <td></td>
+      <td colspan="5" style="text-align: right; "><%= link_to_add_fields "Add Field", f, :fields %></td>
     </tfoot>
   </table>
   

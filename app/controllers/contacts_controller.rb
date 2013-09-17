@@ -144,7 +144,7 @@ class ContactsController < ApplicationController
     end
     
     def set_fields
-      @fields = current_user.fields
+      @fields = current_user.fields.shown
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
