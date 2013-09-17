@@ -1,6 +1,6 @@
 class Field < ActiveRecord::Base
   has_many :followups, dependent: :destroy
-  belongs_to :user
+  belongs_to :user, touch: true
   
   before_validation :set_permalink, :set_data_type
   
