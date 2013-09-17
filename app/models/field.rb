@@ -8,7 +8,7 @@ class Field < ActiveRecord::Base
   validates_uniqueness_of :permalink, scope: :user_id
   validates_uniqueness_of :title, scope: :user_id
   
-  default_scope order(:ordinal)
+  default_scope -> { order(:ordinal) }
   
   scope :shown, -> { where(show: true) }
   

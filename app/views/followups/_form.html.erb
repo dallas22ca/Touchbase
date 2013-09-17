@@ -1,5 +1,5 @@
 <%= form_for(@followup) do |f| %>
-  <p class="info">A "task template" builds tasks for each contact based on your criteria.</p>
+  <p class="info">A template builds tasks for each contact based on your criteria.</p>
   
   <% if current_user.fields.where(data_type: "datetime").empty? %>
     <p id="error_explanation">

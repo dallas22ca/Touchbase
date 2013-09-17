@@ -76,6 +76,15 @@ describe Followup do
     followup.tasks.count.should == 8
   end
   
+  it "every 2 days starting on their birthday but with available days" do
+    joe = users(:joe)
+    day = (3.days.ago).wday
+    joe.update_attributes available_days: [day]
+    followup = followups(:every_two_days)
+    followup.create_tasks false, 6.days
+    followup.tasks.where("EXTRACT(dow FROM tasks.date) in (?)", [day]).count.should == 12
+  end
+  
   it "every 5 weeks starting now" do
     joe = users(:joe)
     followup = followups(:every_five_weeks)

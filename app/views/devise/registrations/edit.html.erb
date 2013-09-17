@@ -35,6 +35,19 @@
     <%= f.label :address, "Full Mailing Address" %><br />
     <%= f.text_field :address, class: "full_width" %>
   </div>
+	
+	<div class="field">
+		<%= label_tag :available_days, "Which days would you like tasks scheduled for?" %>
+		<%= hidden_field_tag "user[available_days][]", nil %>
+		<ul>
+			<% %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday].each_with_index do |day, index| %>
+				<li>
+					<%= check_box_tag "user[available_days][]", index, resource.available_days.include?(index.to_s), id: "available_days_#{index}" %>
+					<%= label_tag "available_days_#{index}", day %>
+				</li>
+			<% end %>
+		</ul>
+	</div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div class="field">
