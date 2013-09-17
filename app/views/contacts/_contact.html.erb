@@ -1,4 +1,4 @@
-<% cache contact do %>
+<% cache [current_user, contact] do %>
   <%= content_tag_for :tr, contact do %>
     <td class="name"><%= link_to contact.name, contact %></td>
     <% @fields.each do |field| %>
