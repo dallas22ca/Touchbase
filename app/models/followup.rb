@@ -4,7 +4,7 @@ class Followup < ActiveRecord::Base
   
   serialize :criteria, Array
   
-  has_many :tasks, dependent: :destroy
+  has_many :tasks
   has_many :contacts, through: :tasks
   
   belongs_to :user
@@ -15,6 +15,11 @@ class Followup < ActiveRecord::Base
   validates_presence_of :user_id, :description
   before_save :add_name_to_description, unless: Proc.new { |f| f.description.match(/\{\{contact.name\}\}/) }
   after_save :invite_user_to_step, :sidekiq_create_tasks
+  after_destroy :destroy_tasks
+  
+  def destroy_tasks
+    tasks.incomplete.destroy_all
+  end
   
   def set_starting_at
     if self.recurrence == 0
@@ -90,17 +95,17 @@ class Followup < ActiveRecord::Base
           
           while date <= query_finish
             if date >= query_start
-              wday = date.wday
-
-              for days_to_previous_availablity in 0..6
-                wday = 6 if wday < 0
-                break if availability.include? wday
-                wday -= 1
-              end
-            
-              task_date = date - days_to_previous_availablity.days
-              
               if tasks.where(contact_id: contact.id, date: date..end_date).empty?
+                wday = date.wday
+
+                for days_to_previous_availablity in 0..6
+                  wday = 6 if wday < 0
+                  break if availability.include? wday
+                  wday -= 1
+                end
+            
+                task_date = date - days_to_previous_availablity.days
+                
                 task = tasks.create(
                   contact_id: contact.id, 
                   complete: false,
@@ -109,7 +114,6 @@ class Followup < ActiveRecord::Base
                   user_id: user_id
                 )
               end
-              
             end
         
             date += how_often.seconds
