@@ -42,7 +42,7 @@
 		<ul>
 			<% %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday].each_with_index do |day, index| %>
 				<li>
-					<%= check_box_tag "user[available_days][]", index, resource.available_days.include?(index.to_s), id: "available_days_#{index}" %>
+					<%= check_box_tag "user[available_days][]", index, resource.available_days.include?(index), id: "available_days_#{index}" %>
 					<%= label_tag "available_days_#{index}", day %>
 				</li>
 			<% end %>
