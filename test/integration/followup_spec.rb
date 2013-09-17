@@ -43,15 +43,6 @@ describe Followup do
     Task.count.should == 0
   end
   
-  it "removes any future tasks if field is deleted" do
-    joe = users(:joe)
-    followup = followups(:two_weeks_before_birthday)
-    followup.create_tasks
-    Task.count.should == 1
-    Field.destroy_all
-    Task.count.should == 0
-  end
-  
   it "adds tasks to new contacts" do
     joe = users(:joe)
     followup = followups(:two_weeks_before_birthday)
