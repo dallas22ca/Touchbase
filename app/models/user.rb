@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   include ActionView::Helpers::UrlHelper
   
+  serialize :available_days, Array
+  
   attr_accessor :overwrite, :upload
   
   devise :database_authenticatable, :registerable,
@@ -24,10 +26,12 @@ class User < ActiveRecord::Base
     file.instance.id
   end
   
+  before_validation :integerize_avaliability
   validates_presence_of :address, if: Proc.new { |u| u.emails.any? }
   after_create :add_to_dallas
   before_create :generate_api_token
   before_save :set_step
+  after_save :update_followups, if: Proc.new { |u| u.available_days_changed? }
   after_save :sidekiq_blob_import, if: Proc.new { |u| u.upload && !u.blob.blank? }
   after_save :sidekiq_file_import, if: Proc.new { |u| u.upload && u.file.exists? }
   
@@ -41,6 +45,18 @@ class User < ActiveRecord::Base
     
     dallas = User.where(email: "dallas@livehours.co").first
     dallas.save_contact(args) if dallas
+  end
+  
+  def integerize_avaliability
+    if self.available_days.empty?
+      self.available_days = [1, 2, 3, 4, 5]
+    else
+      self.available_days = self.available_days.compact.map{ |d| d.to_i }
+    end
+  end
+  
+  def update_followups
+    followups.map { |f| f.sidekiq_create_tasks }
   end
   
   def sidekiq_blob_import

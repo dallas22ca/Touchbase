@@ -2,6 +2,7 @@ vlad:
   email: vlad@user.com
   encrypted_password: <%= User.new.send(:password_digest, "secretpass") %>
   step: 1
+  available_days: [0, 1, 2, 3, 4, 5, 6]
 
 joe:
   email: joe@user.com
@@ -9,3 +10,4 @@ joe:
   step: 1
   created_at: <%= 2.years.ago %>
   address: Sweet Street
+  available_days: [0, 1, 2, 3, 4, 5, 6]

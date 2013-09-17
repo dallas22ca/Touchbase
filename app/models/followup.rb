@@ -42,66 +42,83 @@ class Followup < ActiveRecord::Base
   end
   
   def create_tasks(contact_id = false, query_duration = 30.days, query_start = nil)
-    query_start ||= Time.now.beginning_of_day
-    query_start += offset
-    query_finish = query_start.end_of_day + query_duration.seconds
-    filters = criteria
+    availability = user.available_days
     
-    if contact_id
-      tasks.incomplete.where(contact_id: contact_id).destroy_all
-      filters.push ["id", "is", contact_id]
-    else
-      tasks.incomplete.destroy_all
-    end
-    
-    user.contacts.filter(filters).find_each do |contact|
-      start = false
+    if availability.any?
       
-      if field
-        begin
-          start = Chronic.parse(contact.data[field.permalink].to_datetime.strftime("%B %d, #{query_start.year}")).beginning_of_day
-        rescue
-        end
+      query_start ||= Time.now.beginning_of_day
+      query_start += offset
+      query_finish = query_start.end_of_day + query_duration.seconds
+      filters = criteria
+    
+      if contact_id
+        tasks.incomplete.where(contact_id: contact_id).destroy_all
+        filters.push ["id", "is", contact_id]
       else
-        start = starting_at.beginning_of_day
+        tasks.incomplete.destroy_all
       end
+    
+      user.contacts.filter(filters).find_each do |contact|
+        start = false
       
-      if start
-        if remind_every?
-          how_often = recurrence.seconds
-          date = start
-          end_date = date
-          
-          if !field
-            max_days = how_often / 60 / 60 / 24
-            date += Random.rand(0..max_days - 2).days
-            end_date = (date + how_often.seconds).end_of_day
+        if field
+          begin
+            start = Chronic.parse(contact.data[field.permalink].to_datetime.strftime("%B %d, #{query_start.year}")).beginning_of_day
+          rescue
           end
         else
-          how_often = 1.year.to_i
-          start = start + offset.seconds
-          date = start
-          end_date = date
+          start = starting_at.beginning_of_day
         end
-        
-        while date <= query_finish
-          if date >= query_start
-            if tasks.where(contact_id: contact.id, date: date..end_date).empty?
-              task = tasks.create(
-                contact_id: contact.id, 
-                complete: false,
-                date: date,
-                content: description,
-                user_id: user_id
-              )
+      
+        if start
+          if remind_every?
+            how_often = recurrence.seconds
+            date = start
+            end_date = date
+          
+            if !field
+              max_days = how_often / 60 / 60 / 24
+              date += Random.rand(0..max_days - 2).days
+              end_date = (date + how_often.seconds).end_of_day
             end
+          else
+            how_often = 1.year.to_i
+            start = start + offset.seconds
+            date = start
+            end_date = date
+          end
+          
+          while date <= query_finish
+            if date >= query_start
+              wday = date.wday
+
+              for days_to_previous_availablity in 0..6
+                wday = 6 if wday < 0
+                break if availability.include? wday
+                wday -= 1
+              end
+            
+              task_date = date - days_to_previous_availablity.days
+              
+              if tasks.where(contact_id: contact.id, date: date..end_date).empty?
+                task = tasks.create(
+                  contact_id: contact.id, 
+                  complete: false,
+                  date: task_date,
+                  content: description,
+                  user_id: user_id
+                )
+              end
+              
+            end
+        
+            date += how_often.seconds
+            end_date += how_often.seconds
           end
         
-          date += how_often.seconds
-          end_date += how_often.seconds
         end
-        
       end
+      
     end
   end
   
