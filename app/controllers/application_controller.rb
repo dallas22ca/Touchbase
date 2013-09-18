@@ -32,7 +32,7 @@ protected
   
   def choose_layout
     if public_website_page?
-      "unbranded"
+      "website"
     elsif public?
       "unbranded"
     elsif user_signed_in?
