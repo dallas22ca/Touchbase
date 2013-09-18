@@ -23,6 +23,7 @@ Touchbase::Application.routes.draw do
       resources :emails
       resources :websites do
         resources :pages, except: :show
+        resources :documents, path: :files
       end
     
       resources :contacts do 

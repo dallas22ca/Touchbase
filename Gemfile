@@ -10,6 +10,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
+gem 'liquid'
 
 gem 'devise', :github => 'plataformatec/devise', :branch => 'rails4'
 gem 'roo'

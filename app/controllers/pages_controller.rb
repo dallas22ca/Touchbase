@@ -11,6 +11,11 @@ class PagesController < ApplicationController
   # GET /pages/1
   # GET /pages/1.json
   def show
+    if user_signed_in? && params[:layout]
+      layout = params[:layout].split(".")
+      @document = Document.where(name: layout.first, extension: layout.last).first
+      @page.layout = @document if @document
+    end
   end
 
   # GET /pages/new
@@ -79,7 +84,7 @@ class PagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def page_params
-      params.require(:page).permit(:website_id, :title, :permalink)
+      params.require(:page).permit(:website_id, :title, :permalink, :document_id, :parent_id)
     end
     
     def set_website

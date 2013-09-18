@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130911173712) do
+ActiveRecord::Schema.define(version: 20130918182341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,17 @@ ActiveRecord::Schema.define(version: 20130911173712) do
   add_index "contacts", ["data"], name: "contacts_data", using: :gist
   add_index "contacts", ["user_id"], name: "index_contacts_on_user_id", using: :btree
 
+  create_table "documents", force: true do |t|
+    t.string   "name"
+    t.text     "body"
+    t.string   "extension"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "website_id"
+  end
+
+  add_index "documents", ["website_id"], name: "index_documents_on_website_id", using: :btree
+
   create_table "emails", force: true do |t|
     t.integer  "user_id"
     t.text     "criteria"
@@ -50,6 +61,8 @@ ActiveRecord::Schema.define(version: 20130911173712) do
     t.string   "data_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "ordinal"
+    t.boolean  "show",       default: true
   end
 
   add_index "fields", ["user_id"], name: "index_fields_on_user_id", using: :btree
@@ -86,8 +99,12 @@ ActiveRecord::Schema.define(version: 20130911173712) do
     t.string   "permalink"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "document_id"
+    t.integer  "parent_id"
   end
 
+  add_index "pages", ["document_id"], name: "index_pages_on_document_id", using: :btree
+  add_index "pages", ["parent_id"], name: "index_pages_on_parent_id", using: :btree
   add_index "pages", ["website_id"], name: "index_pages_on_website_id", using: :btree
 
   create_table "tasks", force: true do |t|
@@ -135,6 +152,7 @@ ActiveRecord::Schema.define(version: 20130911173712) do
     t.string   "time_zone"
     t.string   "api_token"
     t.text     "address"
+    t.text     "available_days"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

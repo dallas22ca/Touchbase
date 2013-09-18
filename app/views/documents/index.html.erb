@@ -1,0 +1,25 @@
+<h1>Listing documents</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Filename</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @documents.each do |document| %>
+      <tr>
+        <td><%= link_to "#{document.name}.#{document.extension}", edit_website_document_path(@website, document) %></td>
+        <td><%= link_to 'Edit', edit_website_document_path(@website, document) %></td>
+        <td><%= link_to 'Destroy', website_document_path(@website, document), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Document', new_website_document_path(@website) %>

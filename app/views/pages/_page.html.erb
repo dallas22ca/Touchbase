@@ -1,13 +1,7 @@
 <% path = @website.default_page_id == page.id ? root_path : public_page_path(page.permalink) %>
-<li class="<%= "selected" if path == request.path %> <%= "parent_of_selected" if page && page.permalink == "about" %>">
+<li class="<%= "selected" if path == request.path %> <%= "parent_of_selected" if @page.parent_id == page.id %>">
 	<%= link_to page.title, path %>
-	
-	<% for page in @website.pages %>
-		<ol class="subnav">
-			<% path = @website.default_page_id == page.id ? root_path : public_page_path(page.permalink) %>
-			<li class="<%= "selected" if path == request.path %>">
-				<%= link_to page.title, path %>
-			</li>
-		</ol>
-	<% end %>
+	<ol class="subnav">
+		<%= render page.children %>
+	</ol>
 </li>

@@ -19,6 +19,14 @@
     <%= f.label :permalink %><br>
     <%= f.text_field :permalink %>
   </div>
+  <div class="field">
+    <%= f.label :document_id %><br>
+    <%= f.collection_select :document_id, @website.documents.html, :id, :filename %>
+  </div>
+  <div class="field">
+    <%= f.label :parent_id %><br>
+    <%= f.collection_select :parent_id, @website.pages.roots, :id, :title, { include_blank: "None" } %>
+  </div>
   <div class="actions">
     <%= f.submit "Save Page", class: "big green button" %>
   </div>

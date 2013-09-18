@@ -10,6 +10,7 @@
   <%= @website.permalink %>
 </p>
 
+<%= link_to 'Edit Files', website_documents_path(@website) %> |
 <%= link_to 'Edit Website', edit_website_path(@website) %> |
 <%= link_to 'Show Website', root_url(subdomain: @website.permalink) %> |
 <%= link_to "Edit Pages", website_pages_path(@website) %>

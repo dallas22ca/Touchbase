@@ -1,10 +1,11 @@
-<h1>Listing pages</h1>
+<% title "Pages" %>
 
 <table>
   <thead>
     <tr>
       <th>Title</th>
       <th>Permalink</th>
+			<th>Layout</th>
       <th></th>
       <th></th>
       <th></th>
@@ -16,6 +17,7 @@
       <tr>
         <td><%= page.title %></td>
         <td><%= page.permalink %></td>
+        <td><%= page.layout.name %>.<%= page.layout.extension %></td>
         <td><%= link_to 'Show', public_page_url(page.permalink, subdomain: @website.permalink) %></td>
         <td><%= link_to 'Edit', edit_website_page_path(@website, page) %></td>
         <td><%= link_to 'Destroy', website_page_path(@website, page), method: :delete, data: { confirm: 'Are you sure?' } %></td>
