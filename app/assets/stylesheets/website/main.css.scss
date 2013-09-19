@@ -1,9 +1,15 @@
-[contenteditable]:hover, [contenteditable]:focus {
-  outline: 3px dotted #ccc;
+body.user-signed-in {
+  [contenteditable]:hover, [contenteditable]:focus {
+    outline: 3px dotted #ccc;
   
-  .editable_handle {
-    display: none;
+    .editable_handle {
+      display: none;
+    }
   }
+}
+
+#templates {
+  display: none;
 }
 
 @media screen and (max-width: 860px) {
@@ -20,6 +26,12 @@
   body.user-signed-in {
     margin-left: 51px;
     
+    &.dragging {
+      .hint {
+        display: none !important;
+      }
+    }
+    
     #widget_home {
       z-index: 999;
       background: rgba(0, 0, 0, 0.9);
@@ -28,7 +40,6 @@
       top: 0;
       bottom: 0;
       padding-top: 10px;
-      text-align: center;
   
       ul {
         li {
@@ -40,20 +51,24 @@
             background: rgba(255, 255, 255, 0.15);
           }
           
+          ol, ul, p, blockquote, .widget {
+            position: absolute;
+          }
+          
           &:hover > .hint {
             display: block;
           }
           
-          &:hover > a {
+          &:hover > a, &:hover > .draggable {
             color: #fff;
           }
     
-          a {
+          a, .draggable {
             display: block;
             color: #777;
-            font-size: 20px;
+            font-size: 21px;
             transition: none;
-            padding: 7px 15px;
+            padding: 10px 14px;
             
             &.draggable {
               cursor: move;
@@ -61,7 +76,7 @@
           }
           
           .hint {
-            width: 200px;
+            width: 13em;
             display: none;
             position: absolute;
             background: rgba(0, 0, 0, 0.7);
@@ -79,7 +94,7 @@
     
     .editable_handle {
       position: absolute;
-      color: #ccc;
+      color: rgba(0, 0, 0, 0.5);
       margin-top: -15px;
       padding-right: 30px;
       font-size: 15px;

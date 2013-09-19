@@ -17,58 +17,74 @@
 		<li class="separator"></li>
 		
 		<li>
-			<%= link_to "<i class=\"icon-font\"></i>".html_safe, "#", class: "draggable", data: { type: "unsure" } %>
+			<div class="draggable" data-type="unsure">
+				<i class="icon-font"></i>
+			</div>
 			<p class="hint">
 				Drag to add a headline
 			</p>
 		</li>
 		
 		<li>
-			<%= link_to "<i class=\"icon-picture\"></i>".html_safe, "#", class: "draggable", data: { type: "img" } %>
+			<div class="draggable" data-type="picture">
+				<i class="icon-picture"></i>
+			</div>
 			<p class="hint">
 				Drag to add a picture
 			</p>
 		</li>
 		
 		<li>
-			<%= link_to "<i class=\"icon-list-ul\"></i>".html_safe, "#", class: "draggable", data: { type: "ul" } %>
+			<div class="draggable" data-type="ul">
+				<i class="icon-list-ul"></i>
+			</div>
 			<p class="hint">
 				Drag to add a bulleted list
 			</p>
 		</li>
 		
 		<li>
-			<%= link_to "<i class=\"icon-list-ol\"></i>".html_safe, "#", class: "draggable", data: { type: "ol" } %>
+			<div class="draggable" data-type="ol">
+				<i class="icon-list-ol"></i>
+			</div>
 			<p class="hint">
 				Drag to add a numbered list
 			</p>
 		</li>
 		
 		<li>
-			<%= link_to "<i class=\"icon-calendar\"></i>".html_safe, "#", class: "draggable", data: { type: "events" } %>
+			<div class="draggable" data-type="events">
+				<i class="icon-calendar"></i>
+			</div>
 			<p class="hint">
-				Drag to add events widget
+				Drag to add an event widget
 			</p>
 		</li>
 		
 		<li>
-			<%= link_to "<i class=\"icon-facetime-video\"></i>".html_safe, "#", class: "draggable", data: { type: "video" } %>
+			<div class="draggable" data-type="media">
+				<i class="icon-film"></i>
+			</div>
 			<p class="hint">
-				Drag to add a video
-			</p>
-		</li>
-		
-		<li>
-			<%= link_to "<i class=\"icon-headphones\"></i>".html_safe, "#", class: "draggable", data: { type: "audio" } %>
-			<p class="hint">
-				Drag to add an audio file
+				Drag to add media
 			</p>
 		</li>
 		
 		<li class="text_editor_tool">
-			<%= link_to "<i class=\"icon-quote-left\"></i>".html_safe, "#", class: "draggable", data: { type: "blockquote" } %>
+			<div class="draggable" data-type="blockquote">
+				<i class="icon-quote-left"></i>
+			</div>
 			<p class="hint">
-				Click to make selection quotation
+				Drag to add a quotation
+			</p>
+		</li>
+		
+		<li class="text_editor_tool">
+			<div class="draggable" data-type="map">
+				<i class="icon-globe"></i>
+			</div>
+			<p class="hint">
+				Drag to add a map
 			</p>
 		</li>
 		
@@ -102,4 +118,42 @@
 			</p>
 		</li>
 	</ul>
+</div>
+
+<div id="templates">
+	<div class="picture">
+		<div class="img_wrapper">
+			<img src="/themes/shared/logo.png">
+		</div>
+	</div>
+	
+	<div class="ol">
+		<ol class="ordered_list">
+			<li>A numbered list</li>
+		</ol>
+	</div>
+	
+	<div class="ul">
+		<ul class="unordered_list">
+			<li>An unordered list</li>
+		</ul>
+	</div>
+	
+	<div class="events">
+		<p>CALENDAR</p>
+	</div>
+	
+	<div class="media">
+		<p><i class="icon-film"></i></p>
+	</div>
+	
+	<div class="blockquote">
+		<blockquote>What a fantastic quote!</blockquote>
+	</div>
+	
+	<div class="map">
+		<div class="img_wrapper">
+			<img src="/themes/shared/logo.png">
+		</div>
+	</div>
 </div>

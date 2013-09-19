@@ -124,10 +124,32 @@
 		font-weight: bold;
 	}
 
-	#main #yield p {
+	#main blockquote {
+		font-family: Georgia, Times, Serif;
 		font-weight: 300;
 		color: #333;
 		text-align: justify;
+		background: #eee;
+		padding: 15px;
+		margin-bottom: 30px;
+	}
+
+	#main #yield p, #main #yield .ordered_list, #main #yield .unordered_list, #main #yield .img_wrapper {
+		font-weight: 300;
+		color: #333;
+		text-align: justify;
+	}
+	
+	#main .ordered_list, #main .unordered_list {
+		margin-left: 30px;
+	}
+	
+	#main .ordered_list {
+		list-style-type: decimal;
+	}
+	
+	#main .unordered_list {
+		list-style-type: disc;
 	}
 
 	#main #yield a {
@@ -151,8 +173,15 @@
 		color: {{ secondary }};
 	}
 	
-	#main #sidebar ol, #main #sidebar p {
+	#main #sidebar .widget ol, #main #sidebar .widget ul {
 		color: {{ secondary | rgb_alpha: 0.7 }};
+	}
+	
+	#main #sidebar blockquote {
+		background: #dfdfdf;
+		color: #555;
+		font-size: 13px;
+		padding: 15px;
 	}
 	
 	#main #sidebar p a {
@@ -315,8 +344,8 @@
 			margin-bottom: 10px;
 		}
 	
-		#main #yield p {
-			margin-bottom: 40px;
+		#main #yield p, #main #yield .ordered_list, #main #yield .unordered_list, #main #yield .img_wrapper {
+			margin-bottom: 30px;
 			font-size: 16px;
 			line-height: 26px;
 		}
@@ -340,10 +369,14 @@
 			margin-bottom: 3px;
 		}
 		
-		#main #sidebar ol, #main #sidebar ul, #main #sidebar p {
-			margin-bottom: 10px;
+		#main #sidebar ul, #main #sidebar ol, #main #sidebar p {
+			margin-bottom: 25px;
 			font-size: 14px;
 			line-height: 18px;
+		}
+		
+		#main #sidebar .widget ul, #main #sidebar .widget ol {
+			margin-bottom: 10px;
 		}
 		
 		#main #sidebar li {
@@ -472,8 +505,8 @@
 			margin-bottom: 10px;
 		}
 	
-		#main #yield p {
-			margin-bottom: 20px;
+		#main #yield p, #main #yield .ordered_list, #main #yield .unordered_list, #main #yield .img_wrapper {
+			margin-bottom: 30px;
 			font-size: 16px;
 			line-height: 26px;
 		}
@@ -491,10 +524,6 @@
 			padding: 20px;
 		}
 		
-		#main #sidebar .widget {
-			margin-bottom: 20px;
-		}
-		
 		#main #sidebar h4 {
 			font-size: 20px;
 			line-height: 28px;
@@ -507,10 +536,14 @@
 			margin-bottom: 7px;
 		}
 		
-		#main #sidebar ol, #main #sidebar p {
-			margin-bottom: 10px;
+		#main #sidebar ol, #main #sidebar ul, #main #sidebar p {
+			margin-bottom: 25px;
 			font-size: 15px;
 			line-height: 22px;
+		}
+		
+		#main #sidebar .widget ol, #main #sidebar .widget ul {
+			margin-bottom: 10px;
 		}
 		
 		#main #sidebar li {
@@ -561,9 +594,11 @@
 	<div class="container">
 		<input type="text" placeholder="Search..." />
 		<div class="cta editable">
-			<p class="widget">
-				Revive Halifax in <strong>3</strong> days, <strong>12</strong> hours, <strong>17</strong> minutes.
-			</p>
+			<div class="widget">
+				<p>
+					Revive Halifax in <strong>3</strong> days, <strong>12</strong> hours, <strong>17</strong> minutes.
+				</p>
+			</div>
 		</div>
 		<div class="clear"></div>
 	</div>
