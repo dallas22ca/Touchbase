@@ -1,0 +1,105 @@
+<div id="widget_home">
+	<ul>
+		<li>
+			<%= link_to "<i class=\"icon-mail-reply\"></i>".html_safe, "#" %>
+			<p class="hint">
+				Click to Undo
+			</p>
+		</li>
+		
+		<li>
+			<%= link_to "<i class=\"icon-mail-forward\"></i>".html_safe, "#" %>
+			<p class="hint">
+				Click Redo
+			</p>
+		</li>
+		
+		<li class="separator"></li>
+		
+		<li>
+			<%= link_to "<i class=\"icon-font\"></i>".html_safe, "#", class: "draggable", data: { type: "unsure" } %>
+			<p class="hint">
+				Drag to add a headline
+			</p>
+		</li>
+		
+		<li>
+			<%= link_to "<i class=\"icon-picture\"></i>".html_safe, "#", class: "draggable", data: { type: "img" } %>
+			<p class="hint">
+				Drag to add a picture
+			</p>
+		</li>
+		
+		<li>
+			<%= link_to "<i class=\"icon-list-ul\"></i>".html_safe, "#", class: "draggable", data: { type: "ul" } %>
+			<p class="hint">
+				Drag to add a bulleted list
+			</p>
+		</li>
+		
+		<li>
+			<%= link_to "<i class=\"icon-list-ol\"></i>".html_safe, "#", class: "draggable", data: { type: "ol" } %>
+			<p class="hint">
+				Drag to add a numbered list
+			</p>
+		</li>
+		
+		<li>
+			<%= link_to "<i class=\"icon-calendar\"></i>".html_safe, "#", class: "draggable", data: { type: "events" } %>
+			<p class="hint">
+				Drag to add events widget
+			</p>
+		</li>
+		
+		<li>
+			<%= link_to "<i class=\"icon-facetime-video\"></i>".html_safe, "#", class: "draggable", data: { type: "video" } %>
+			<p class="hint">
+				Drag to add a video
+			</p>
+		</li>
+		
+		<li>
+			<%= link_to "<i class=\"icon-headphones\"></i>".html_safe, "#", class: "draggable", data: { type: "audio" } %>
+			<p class="hint">
+				Drag to add an audio file
+			</p>
+		</li>
+		
+		<li class="text_editor_tool">
+			<%= link_to "<i class=\"icon-quote-left\"></i>".html_safe, "#", class: "draggable", data: { type: "blockquote" } %>
+			<p class="hint">
+				Click to make selection quotation
+			</p>
+		</li>
+		
+		<li class="separator"></li>
+		
+		<li class="text_editor_tool">
+			<%= link_to "<i class=\"icon-bold\"></i>".html_safe, "#", data: { action: "Bold" } %>
+			<p class="hint">
+				Click to bold
+			</p>
+		</li>
+		
+		<li class="text_editor_tool">
+			<%= link_to "<i class=\"icon-italic\"></i>".html_safe, "#", data: { action: "Italic" } %>
+			<p class="hint">
+				Click to italicize
+			</p>
+		</li>
+		
+		<li class="text_editor_tool">
+			<%= link_to "<i class=\"icon-underline\"></i>".html_safe, "#", data: { action: "Underline" } %>
+			<p class="hint">
+				Click to underline
+			</p>
+		</li>
+		
+		<li class="text_editor_tool">
+			<%= link_to "<i class=\"icon-link\"></i>".html_safe, "#" %>
+			<p class="hint">
+				Click to link selection to a page
+			</p>
+		</li>
+	</ul>
+</div>

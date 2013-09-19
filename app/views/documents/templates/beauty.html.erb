@@ -1,6 +1,6 @@
 <style type="text/css">
 	body {
-		background: {{ secondary | rgb_alpha: 0.2 }};
+		background-color: {{ secondary | rgb_alpha: 0.2 }};
 		font-family: helvetica neue, helvetica, sans-serif;
 		font-size: 16px;
 	}
@@ -11,6 +11,10 @@
 		text-shadow: inherit;
 		transition: all 0.35s ease;
 	}
+
+	body.user-signed-in [contenteditable]:focus {
+    outline: 3px dotted {{ primary }};
+  }
 	
 	#loading {
 	  position: fixed;
@@ -136,8 +140,9 @@
 	}
 	
 	#main #sidebar h4 {
-		color: {{ secondary | rgb_alpha: 0.7 }};
-		border-bottom: 1px solid {{ secondary | rgb_alpha: 0.2 }};
+		color: {{ primary }};
+		padding-bottom: 3px;
+		border-bottom: 1px solid {{ primary | rgb_alpha: 0.2 }};
 	}
 	
 	#main #sidebar h5 {
@@ -166,6 +171,11 @@
 	
 	#footer a {
 		display: inline-block;
+	}
+	
+	#footer .selected a {
+		font-weight: bold;
+		color: {{ secondary }};
 	}
 
 	#footer a:hover {
@@ -204,10 +214,10 @@
 		#topbar ::-moz-placeholder { color: rgba(255, 255, 255, 0.6); }
 		#topbar :-ms-input-placeholder { color: rgba(255, 255, 255, 0.6); }
 		#topbar input:-moz-placeholder { color: rgba(255, 255, 255, 0.6); }
-		#topbar input:focus::-webkit-input-placeholder { color: rgba(0, 0, 0, 0.5); }
-		#topbar input:focus::-moz-placeholder { color: rgba(0, 0, 0, 0.5); }
-		#topbar input:focus:-ms-input-placeholder { color: rgba(0, 0, 0, 0.5); }
-		#topbar input:focus:-moz-placeholder { color: rgba(0, 0, 0, 0.5); }
+		#topbar input:focus::-webkit-input-placeholder { color: {{ secondary }}; }
+		#topbar input:focus::-moz-placeholder { color: {{ secondary }}; }
+		#topbar input:focus:-ms-input-placeholder { color: {{ secondary }}; }
+		#topbar input:focus:-moz-placeholder { color: {{ secondary }}; }
 		
 		#topbar input:focus {
 			background: rgba(255, 255, 255, 0.9);
@@ -314,14 +324,11 @@
 		#main #sidebar {
 			float: right;
 			width: 25.5%;
-			padding: 4% 1.5%;
-		}
-		
-		#main #sidebar .widget {
-			margin-bottom: 30px;
+			padding: 1.5%;
 		}
 		
 		#main #sidebar h4 {
+			margin-top: 30px;
 			font-size: 20px;
 			line-height: 28px;
 			margin-bottom: 17px;
@@ -333,7 +340,7 @@
 			margin-bottom: 3px;
 		}
 		
-		#main #sidebar ol, #main #sidebar p {
+		#main #sidebar ol, #main #sidebar ul, #main #sidebar p {
 			margin-bottom: 10px;
 			font-size: 14px;
 			line-height: 18px;
@@ -553,7 +560,11 @@
 <div id="topbar">
 	<div class="container">
 		<input type="text" placeholder="Search..." />
-		<p class="cta">Revive Halifax in <strong>3</strong> days, <strong>12</strong> hours, <strong>17</strong> minutes.</p>
+		<div class="cta editable">
+			<p class="widget">
+				Revive Halifax in <strong>3</strong> days, <strong>12</strong> hours, <strong>17</strong> minutes.
+			</p>
+		</div>
 		<div class="clear"></div>
 	</div>
 </div>
@@ -584,14 +595,14 @@
 	
 	<div id="yield_wrapper">
 		
-		<div id="yield">
+		<div id="yield" class="editable">
 			<h3>Welcome to Biltmore Baptist</h3>
 
 			<p>Don't worry. We know choosing a church can be tough. Music, teaching, ministries, outreach – there are a lot of factors that go into the decision. </p>
 			<p>We want to make your experience here meaningful, and it starts as soon as you arrive on campus. Turn on your hazard lights and our parking team will get you a front-row spot. You can visit the information center or ask a greeter if you have any questions. They're here to help with anything you need: from how to get your child plugged into the nursery or childrens' program, to where to find the bookstore or the nearest bathroom. </p>
 
 			<h4>Sunday Activities</h4>
-			<p>There's a lot that goes on Sundays when you get in the building. Kids and students have their own classes and worship, Connect Groups (kind-of like "Sunday School") meet for Bible study, the coffee counter and bookstore are open if you want to hang out and read a good book in the Atrium, and the Worship Center is full of people ready for an awesome service. Don't worry too much about what to wear – we're a "come-as-you-are" church, and we figure God cares more about our hearts than our clothes. If you really want to know, most people wear business casual, but you'll see a few ties here and there and a good amount of people wearing jeans.</p>
+			<p>There's a lot that <b>goes on Sundays</b> when you get in the building. Kids and students have their own classes and worship, Connect Groups (kind-of like "Sunday School") meet for Bible study, the coffee counter and bookstore are open if you want to hang out and read a good book in the Atrium, and the Worship Center is full of people ready for an awesome service. Don't worry too much about what to wear – we're a "come-as-you-are" church, and we figure God cares more about our hearts than our clothes. If you really want to know, most people wear business casual, but you'll see a few ties here and there and a good amount of people wearing jeans.</p>
 
 			<h4>Worship Experience</h4>
 			<p>We have two worship services on Sundays: 9:15 am & 11 am. Our services are band driven, but also incorporate more traditional elements (like a choir and orchestra), just used in a more modern way. You'll hear new songs plus some favorite hymns; you'll see original videos and stories of lives changed and you'll hear biblical and relevant messages by Pastor Bruce. After each service Pastor Bruce hangs out in the lobby to meet and chat with you and other guests.</p>
@@ -599,41 +610,37 @@
 			{{ yield }}
 		</div>
 		
-		<div id="sidebar">
+		<div id="sidebar" class="editable">
 			
-			<div class="widget">
-				<h4>Upcoming Events</h4>
-
-				<ol>
-					<li>
-						<h5>Mon, Sept 18</h5>
-						<ol>
-							<li>7:00 AM - AWANA - Children</li>
-							<li>7:00 AM - Wednesday Equipping Classes</li>
-						</ol>
-					</li>
-					<li>
-						<h5>Wed, Sept 22</h5>
-						<ol>
-							<li>7:00 AM - Online Worship</li>
-							<li>7:00 AM - Adult Connect Groups</li>
-							<li>7:00 AM - Children Connect Groups</li>
-						</ol>
-					</li>
-				</ol>
-			</div>
+			<h4>Upcoming Events</h4>
 			
-			<div class="widget">
-				<h4>About Our Church</h4>
-
-				<p>
-					This is a terribly interesting paragraph of text to see where we're at. This is a terribly interesting paragraph of text to see where we're at. 
-				</p>
-				
-				<p>
-					This is a <a href="#">terribly</a> interesting paragraph of text to see where we're at.
-				</p>
-			</div>
+			<ol class="widget">
+				<li>
+					<h5>Mon, Sept 18</h5>
+					<ol>
+						<li>7:00 AM - AWANA - Children</li>
+						<li>7:00 AM - Wednesday Equipping Classes</li>
+					</ol>
+				</li>
+				<li>
+					<h5>Wed, Sept 22</h5>
+					<ol>
+						<li>7:00 AM - Online Worship</li>
+						<li>7:00 AM - Adult Connect Groups</li>
+						<li>7:00 AM - Children Connect Groups</li>
+					</ol>
+				</li>
+			</ol>
+			
+			<h4>About Our Church</h4>
+			
+			<p>
+				This is a terribly interesting paragraph of text to see where we're at. This is a terribly interesting paragraph of text to see where we're at. 
+			</p>
+			
+			<p>
+				This is a <a href="#">terribly</a> interesting paragraph of text to see where we're at.
+			</p>
 			
 		</div>
 		
@@ -644,9 +651,7 @@
 </div>
 
 <div id="footer" class="container">
-	<ol class="nav">
-		{{ nav }}
-	</ol>
+	{{ nav }}
 	
 	<ol class="nav social">
 		<li><a href="#"><i class="icon-facebook"></i></a></li>

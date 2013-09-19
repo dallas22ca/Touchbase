@@ -9,7 +9,9 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body class="body-<%= @page.permalink %> <%= "user-signed-in" if user_signed_in? %>">
+	
+<%= render "editor" if user_signed_in? %>
 	
 <%=
 
@@ -19,7 +21,7 @@
 		"logo" => "/themes/shared/logo.png",
 		"cta" => "/themes/shared/miniban.png",
 		"nav" => content_tag("ol", class: "nav") { render @website.pages.roots },
-		"subnav" => @page.siblings.any? && !@page.root? ? content_tag("ol", class: "nav") { render @page.siblings } : content_tag("ol", class: "nav") { render @page.children },
+		"subnav" => content_tag("ol", class: "nav", data: { page_id: @page.id }) { @page.siblings.any? && !@page.root? ? render(@page.siblings) : render(@page.children) },
 		"title" => @page.title,
 		"yield" => yield
 	}, :filters => [LiquidFilters]).html_safe
