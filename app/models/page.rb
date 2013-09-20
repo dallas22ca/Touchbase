@@ -9,6 +9,7 @@ class Page < ActiveRecord::Base
   
   before_save :parameterize_permalink, if: :permalink_changed?
   
+  default_scope -> { order(:ordinal) }
   scope :roots, -> { where(parent_id: nil) }
   
   def parameterize_permalink

@@ -50,6 +50,19 @@ class WebsitesController < ApplicationController
       end
     end
   end
+  
+  def save
+    @website = Website.where(permalink: request.subdomain).first
+    
+    if @website
+      @path = params[:path]
+      @page = @website.pages.find(params[:page_id])
+      
+      params[:pages].each_with_index do |id, index|
+        @website.pages.find(id.gsub("page_", "")).update_attributes(ordinal: index + 1)
+      end
+    end
+  end
 
   # DELETE /websites/1
   # DELETE /websites/1.json

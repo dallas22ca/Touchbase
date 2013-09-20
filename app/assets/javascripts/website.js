@@ -15,4 +15,6 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require sanitize
+//= require codemirror
+//= require codemirror/modes/css
 //= require_tree ./website

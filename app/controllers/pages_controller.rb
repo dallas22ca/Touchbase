@@ -11,6 +11,8 @@ class PagesController < ApplicationController
   # GET /pages/1
   # GET /pages/1.json
   def show
+    @path = request.path
+
     if user_signed_in? && params[:layout]
       layout = params[:layout].split(".")
       @document = Document.where(name: layout.first, extension: layout.last).first

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130918182341) do
+ActiveRecord::Schema.define(version: 20130920121824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,6 +101,7 @@ ActiveRecord::Schema.define(version: 20130918182341) do
     t.datetime "updated_at"
     t.integer  "document_id"
     t.integer  "parent_id"
+    t.integer  "ordinal",     default: 99999
   end
 
   add_index "pages", ["document_id"], name: "index_pages_on_document_id", using: :btree

@@ -7,10 +7,10 @@ Touchbase::Application.routes.draw do
       resources :contacts
     end
   end
-
-  constraints subdomain: "www" do
-    devise_for :users
   
+  devise_for :users
+  
+  constraints subdomain: "www" do
     get "/s/:token" => "contacts#subscriptions", as: :subscription
   
     authenticated :user do
@@ -50,6 +50,15 @@ Touchbase::Application.routes.draw do
   end
   
   constraints subdomain: /.+/ do
+    authenticated :user do
+      resources :websites do
+        post "/save" => "websites#save", as: :save
+        
+        resources :pages
+        resources :documents, path: :files
+      end
+    end
+    
     get "/:permalink" => "pages#show", as: :public_page
     get "/" => "pages#show"
   end

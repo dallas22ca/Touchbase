@@ -1,7 +1,9 @@
-<% path = @website.default_page_id == page.id ? root_path : public_page_path(page.permalink) %>
-<li class="<%= "selected" if path == request.path %> <%= "parent_of_selected" if @page.parent_id == page.id %>">
-	<%= link_to page.title, path %>
-	<ol class="subnav">
-		<%= render page.children %>
-	</ol>
-</li>
+<% cache page do %>
+	<% path = @website.default_page_id == page.id ? root_path : public_page_path(page.permalink) %>
+	<%= content_tag_for :li, page, class: "#{"selected" if path == @path} #{"parent_of_selected" if @page.parent_id == page.id}" do %>
+		<%= link_to page.title, path %>
+		<ol class="subnav">
+			<%= render page.children %>
+		</ol>
+	<% end %>
+<% end %>

@@ -1,14 +1,38 @@
+<div id="snapshots"></div>
 <div id="widget_home">
 	<ul>
 		<li>
-			<%= link_to "<i class=\"icon-mail-reply\"></i>".html_safe, "#" %>
+			<%= link_to "<i class=\"icon-plus\"></i>".html_safe, new_website_page_url(@website, subdomain: "www") %>
+			<p class="hint">
+				Click to add a page
+			</p>
+		</li>
+		
+		<li>
+			<%= link_to "<i class=\"icon-cog\"></i>".html_safe, edit_website_page_url(@website, @page, subdomain: "www") %>
+			<p class="hint">
+				Click to edit this page
+			</p>
+		</li>
+		
+		<li>
+			<%= link_to "<i class=\"icon-sitemap\"></i>".html_safe, website_pages_url(@website, subdomain: "www") %>
+			<p class="hint">
+				Click to visit site map
+			</p>
+		</li>
+		
+		<li class="separator"></li>
+		
+		<li>
+			<%= link_to "<i class=\"icon-mail-reply\"></i>".html_safe, "#", data: { no_turbolink: true, snapshot: "Undo" } %>
 			<p class="hint">
 				Click to Undo
 			</p>
 		</li>
 		
 		<li>
-			<%= link_to "<i class=\"icon-mail-forward\"></i>".html_safe, "#" %>
+			<%= link_to "<i class=\"icon-mail-forward\"></i>".html_safe, "#", data: { no_turbolink: true, snapshot: "Redo" } %>
 			<p class="hint">
 				Click Redo
 			</p>
@@ -39,16 +63,7 @@
 				<i class="icon-list-ul"></i>
 			</div>
 			<p class="hint">
-				Drag to add a bulleted list
-			</p>
-		</li>
-		
-		<li>
-			<div class="draggable" data-type="ol">
-				<i class="icon-list-ol"></i>
-			</div>
-			<p class="hint">
-				Drag to add a numbered list
+				Drag to add a list
 			</p>
 		</li>
 		
@@ -70,21 +85,12 @@
 			</p>
 		</li>
 		
-		<li class="text_editor_tool">
-			<div class="draggable" data-type="blockquote">
-				<i class="icon-quote-left"></i>
+		<li>
+			<div class="draggable" data-type="social">
+				<i class="icon-twitter"></i>
 			</div>
 			<p class="hint">
-				Drag to add a quotation
-			</p>
-		</li>
-		
-		<li class="text_editor_tool">
-			<div class="draggable" data-type="map">
-				<i class="icon-globe"></i>
-			</div>
-			<p class="hint">
-				Drag to add a map
+				Drag to add social icons
 			</p>
 		</li>
 		
@@ -115,6 +121,15 @@
 			<%= link_to "<i class=\"icon-link\"></i>".html_safe, "#" %>
 			<p class="hint">
 				Click to link selection to a page
+			</p>
+		</li>
+		
+		<li class="separator"></li>
+		
+		<li class="code_editor_tool">
+			<%= link_to "<i class=\"icon-code\"></i>".html_safe, "#", class: "edit_layout_file" %>
+			<p class="hint">
+				Click to edit this page's layout file
 			</p>
 		</li>
 	</ul>
@@ -151,9 +166,18 @@
 		<blockquote>What a fantastic quote!</blockquote>
 	</div>
 	
+	<div class="social">
+		<p>I am social.</p>
+	</div>
+	
 	<div class="map">
 		<div class="img_wrapper">
 			<img src="/themes/shared/logo.png">
 		</div>
 	</div>
 </div>
+
+<%= form_for [@website, @page.layout], remote: true do |f| %>
+	<%= f.text_area :body %>
+	<%= f.submit "Save", class: "save_edit_document" %>
+<% end %>

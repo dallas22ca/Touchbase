@@ -2,14 +2,29 @@ body.user-signed-in {
   [contenteditable]:hover, [contenteditable]:focus {
     outline: 3px dotted #ccc;
   
-    .editable_handle {
+    .editable_handle, .editable_delete {
       display: none;
     }
   }
 }
 
-#templates {
+#templates, #snapshots, .edit_document {
   display: none;
+}
+
+.save_edit_document {
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+}
+
+.CodeMirror {
+  position: fixed;
+  left: 48px;
+  top: 0;
+  right: 0;
+  height: 100%;
+  font-size: 14px;
 }
 
 @media screen and (max-width: 860px) {
@@ -17,14 +32,14 @@ body.user-signed-in {
     display: none;
   }
   
-  .editable_handle {
+  .editable_handle, .editable_delete {
     display: none;
   }
 }
 
 @media screen and (min-width: 861px) {
   body.user-signed-in {
-    margin-left: 51px;
+    margin-left: 48px;
     
     &.dragging {
       .hint {
@@ -66,9 +81,9 @@ body.user-signed-in {
           a, .draggable {
             display: block;
             color: #777;
-            font-size: 21px;
+            font-size: 19px;
             transition: none;
-            padding: 10px 14px;
+            padding: 7px 14px;
             
             &.draggable {
               cursor: move;
@@ -76,7 +91,7 @@ body.user-signed-in {
           }
           
           .hint {
-            width: 13em;
+            width: 17em;
             display: none;
             position: absolute;
             background: rgba(0, 0, 0, 0.7);
@@ -99,12 +114,23 @@ body.user-signed-in {
       padding-right: 30px;
       font-size: 15px;
       cursor: move;
+      z-index: 900;
+    }
+    
+    .editable_delete {
+      position: absolute;
+      color: rgba(0, 0, 0, 0.5);
+      margin-top: -15px;
+      margin-left: 25px;
+      font-size: 15px;
+      z-index: 901;
+      cursor: pointer;
     }
     
     .editable_placeholder {
       opacity: 0.4;
       
-      .editable_handle {
+      .editable_handle, .editable_delete {
         display: none;
       }
     }
@@ -112,7 +138,7 @@ body.user-signed-in {
     .editable_helper {
       opacity: 0.7;
       
-      .editable_handle {
+      .editable_handle, .editable_delete {
         display: none;
       }
     }

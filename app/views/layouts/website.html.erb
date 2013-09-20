@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= @website.title %></title>
+  <title><%= @website.title %> - <%= @page.title %></title>
   <%= stylesheet_link_tag    "website", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "website", "data-turbolinks-track" => true %>
 	<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
@@ -9,21 +9,21 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <%= csrf_meta_tags %>
 </head>
-<body class="body-<%= @page.permalink %> <%= "user-signed-in" if user_signed_in? %>">
+<body class="body-<%= @page.permalink %><%= " user-signed-in" if user_signed_in? %>"<%= " data-page_id=\"#{@page.id}\"".html_safe if @page && user_signed_in? %><%= " data-save_path=\"#{website_save_path(@website)}\"".html_safe if user_signed_in? %> data-path="<%= @path %>">
 	
 <%= render "editor" if user_signed_in? %>
 	
 <%=
 
 	Liquid::Template.parse(@page.layout.body).render({
-		"primary" => "rgb(151, 10, 129)",
-		"secondary" => "rgb(36, 116, 179)",
+		"primary" => "rgb(99, 14, 14)",
+		"secondary" => "rgb(0, 50, 90)",
 		"logo" => "/themes/shared/logo.png",
 		"cta" => "/themes/shared/miniban.png",
 		"nav" => content_tag("ol", class: "nav") { render @website.pages.roots },
 		"subnav" => content_tag("ol", class: "nav", data: { page_id: @page.id }) { @page.siblings.any? && !@page.root? ? render(@page.siblings) : render(@page.children) },
 		"title" => @page.title,
-		"yield" => yield
+		"sign_inout" => user_signed_in? ? destroy_user_session_path : new_user_session_path
 	}, :filters => [LiquidFilters]).html_safe
 
 %>

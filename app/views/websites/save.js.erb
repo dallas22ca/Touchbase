@@ -1,0 +1,2 @@
+$(".nav:not([data-page-id=<%= @page.id %>]):not(.social)").replaceWith("<%= j content_tag("ol", class: "nav") { render @website.pages.roots } %>")
+signedInEveryPage()

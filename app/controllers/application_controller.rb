@@ -31,14 +31,18 @@ protected
   end
   
   def choose_layout
-    if public_website_page?
+    if request.subdomain != "www"
       "website"
-    elsif public?
-      "unbranded"
-    elsif user_signed_in?
-      "application"
     else
-      "public"
+      if public_website_page?
+        "website"
+      elsif public?
+        "unbranded"
+      elsif user_signed_in?
+        "application"
+      else
+        "public"
+      end
     end
   end
   

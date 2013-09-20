@@ -12,5 +12,7 @@
  *= require ./shared/1reset
  *= require ./shared/shared
  *= require font-awesome
+ *= require codemirror
+ *= require codemirror/themes/lesser-dark
  *= require_tree ./website
  */
