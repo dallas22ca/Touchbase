@@ -3,6 +3,10 @@
 <%= link_to "&larr; #{@prev.strftime("%a, %b %d")}".html_safe, tasks_path(start: @prev.strftime("%m-%d-%y")), class: "small_link left" %>
 <%= link_to "#{@next.strftime("%a, %b %d")} &rarr;".html_safe, tasks_path(start: @next.strftime("%m-%d-%y")), class: "small_link right" %>
 
+<div class="center">
+	<%= link_to "Add Task", new_task_path, class: "small green button" %>
+</div>
+
 <div class="clear"></div>
 
 <div id="tasks">
@@ -30,10 +34,6 @@
       </ul>
       <div class="clear"></div>
     <% end %>
-    
-    <ul class="tasks_for_date">
-      <li><%= link_to "Add Another Task", new_task_path, class: "small_link" %></li>
-    </ul>
   </ul>
 
   <div id="completed_tasks_wrapper" style="<%= "display: none; " if @tasks.complete.empty? %>">

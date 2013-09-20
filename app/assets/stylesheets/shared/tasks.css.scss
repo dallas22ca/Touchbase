@@ -37,6 +37,7 @@ h4 {
     font-weight: bold;
     margin-bottom: 7px;
     margin-top: 20px;
+    margin-left: 50px;
     color: #111;
     
     a {
@@ -48,6 +49,34 @@ h4 {
   .task {
     margin-bottom: 5px;
     line-height: 18px;
+    position: relative;
+    padding-left: 50px;
+    
+    .icon-trash {
+      position: absolute;
+      color: #ccc;
+      margin-top: 1px;
+      margin-left: -50px;
+      text-decoration: none;
+      display: none;
+    }
+    
+    .icon-edit {
+      position: absolute;
+      color: #ccc;
+      margin-top: 2px;
+      margin-left: -25px;
+      text-decoration: none;
+      display: none;
+    }
+    
+    .icon-trash:hover {
+      color: #E50000;
+    }
+    
+    .icon-edit:hover {
+      color: #33823B;
+    }
     
     &.complete {
       opacity: 0.4;
@@ -60,12 +89,12 @@ h4 {
     
     input[type="checkbox"] {
       float: left;
-      width: 5%;
+      width: 3%;
     }
     
     .content {
       float: right;
-      width: 92%;
+      width: 94%;
       
       a {
         font-weight: bold;
