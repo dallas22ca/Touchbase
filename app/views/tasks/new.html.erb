@@ -2,4 +2,22 @@
 
 <h2>New Task</h2>
 
-<%= render 'form' %>
+<p>
+  <strong>What type of task would you like to create?</strong>
+</p>
+
+<ul id="task_format_chooser">
+  <% [
+      ["General", "general", (params[:tasks_format].blank? || params[:tasks_format] == "general" ? true : false)],
+      ["Followup (Contact-related)", "followup", params[:tasks_format] == "followup" ? true : false]
+     ].each do |title, value, checked| %>
+    <li>
+      <%= radio_button_tag :tasks_format, value, checked, class: "show_tasks_format" %>
+      <%= label_tag "tasks_format_#{value}".to_sym, title %>
+    </li>
+  <% end %>
+</ul>
+
+<% @followup = Followup.new(recurrence: 3.months, description: "Touch base with {{contact.name}}") %>
+<%= render "followups/form" %>
+<%= render "form" %>

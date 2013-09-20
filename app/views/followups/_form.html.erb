@@ -1,6 +1,4 @@
-<%= form_for(@followup) do |f| %>
-  <p class="info">A template builds tasks for each contact based on your criteria.</p>
-  
+<%= form_for @followup, html: { class: "#{"hide" if @followup.new_record?}" } do |f| %>
   <% if current_user.fields.where(data_type: "datetime").empty? %>
     <p id="error_explanation">
       You don't have any "date" fields set up yet. For a bigger benefit, we recommend adding one on the <%= link_to "fields page", fields_path %>.

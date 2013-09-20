@@ -12,14 +12,12 @@
           <li><%= link_to "<i class=\"icon icon-envelope\"></i><span class=\"word\"> Emails</span>".html_safe, new_email_path, class: "#{"selected" if request.path.include? new_email_path}" %></li>
         <% end %>
         
-        <li><%= link_to "<i class=\"icon icon-list-alt\"></i><span class=\"word\"> Task Templates</span>".html_safe, followups_path, class: "#{"selected" if request.path.include? followups_path}" %></li>
         <li><%= link_to "<i class=\"icon icon-table\"></i><span class=\"word\"> Fields</span>".html_safe, fields_path, class: "#{"selected" if request.path.include?(fields_path)}" %></li>
       <% else %>
         <li><%= link_to "<span class=\"icon_number\">1</span><span class=\"word\">. Welcome</span>".html_safe, root_path, class: "#{"selected" if request.path == root_path}" %></li>
         <li><%= link_to "<span class=\"icon_number\">2</span><span class=\"word\">. Add Contacts</span>".html_safe, new_contact_path, class: "#{"selected" if request.path.include?(contacts_path) || request.path.include?(multicreate_contacts_path)}" %></li>
         <li><%= link_to "<span class=\"icon_number\">3</span><span class=\"word\">. Set Fields</span>".html_safe, fields_path, class: "#{"selected" if request.path == fields_path} #{"disabled" if current_user.step < 3}" %></li>
-        <li><%= link_to "<span class=\"icon_number\">4</span><span class=\"word\">. Setup Task Templates</span>".html_safe, followups_path, class: "#{"selected" if request.path.include? followups_path} #{"disabled" if current_user.step < 4}" %></li>
-        <li><%= link_to "<span class=\"icon_number\">5</span><span class=\"word\">. Today's Tasks</span>".html_safe, tasks_path, class: "disabled #{"selected" if request.path.include? tasks_path}" %></li>
+        <li><%= link_to "<span class=\"icon_number\">4</span><span class=\"word\">. Today's Tasks</span>".html_safe, tasks_path, class: "disabled #{"selected" if request.path.include? tasks_path}" %></li>
       <% end %>
   
       <li class="desktop_only"><%= link_to "<i class=\"icon icon-user\"></i><span class=\"word\"> My Account</span>".html_safe, edit_user_registration_path, class: "#{"selected" if request.path.include? "users"}" %></li>

@@ -1,5 +1,7 @@
 <% cache task do %>
   <%= content_tag_for :li, task, data: { url: task_path(task), date: task.date.to_i }, class: "#{"complete" if task.complete}" do %>
+		<%= link_to "<i class=\"icon-edit\"></i>".html_safe, task.followup ? edit_followup_path(task.followup) : edit_task_path(task) %>
+		<%= link_to "<i class=\"icon-trash\"></i>".html_safe, task, method: :delete, data: { confirm: "Are you sure you want to delete this task?" }, remote: true %>
     <%= check_box_tag "#{dom_id task}_checkbox", true, task.complete, class: "task_checkbox" %>
     <p class="content">
       <%= task.content_with_links.html_safe %>

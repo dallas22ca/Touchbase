@@ -1,3 +1,20 @@
+$(document).on
+  mouseenter: ->
+    $(this).find(".icon-trash, .icon-edit").show()
+  mouseleave: ->
+    $(this).find(".icon-trash, .icon-edit").hide()
+, ".task"
+
+$(document).on "click", ".show_tasks_format", ->
+  value = $(this).val()
+  
+  if value == "general"
+    $("#new_followup").hide()
+    $("#new_task").show()
+  else if value == "followup"
+    $("#new_followup").show()
+    $("#new_task").hide()
+
 $(document).on "click", ".task_checkbox", ->
   task = $(this).closest(".task")
   tasks_for_date = task.closest(".tasks_for_date")
