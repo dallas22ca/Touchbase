@@ -27,7 +27,7 @@
       <% end %>
   
       <li class="desktop_only"><%= link_to "<i class=\"icon icon-user\"></i><span class=\"word\"> My Account</span>".html_safe, edit_user_registration_path, class: "#{"selected" if request.path.include? "users"}" %></li>
-      <li class="desktop_only"><%= link_to "<i class=\"icon icon-lock\"></i><span class=\"word\"> Sign Out</span>".html_safe, destroy_user_session_path, method: :delete %></li>
+      <li class="desktop_only"><%= link_to "<i class=\"icon icon-lock\"></i><span class=\"word\"> Sign Out</span>".html_safe, destroy_user_session_path %></li>
       <li class="mobile_only settings_icon"><%= link_to "<i class=\"icon icon-gear\"></i>".html_safe, edit_user_registration_path, class: "#{"selected" if request.path.include? edit_user_registration_path}" %></li>
     </ul>
   </div>

@@ -2,7 +2,7 @@ body.user-signed-in {
   [contenteditable]:hover, [contenteditable]:focus {
     outline: 3px dotted #ccc;
   
-    .editable_handle, .editable_delete {
+    .drop_handle, .drop_delete {
       display: none;
     }
   }
@@ -27,12 +27,25 @@ body.user-signed-in {
   font-size: 14px;
 }
 
+#settings {
+  background: rgba(0, 0, 0, 0.9);
+  width: 100%;
+}
+
+#new_page, .edit_page {
+  width: 98%;
+  color: #fff;
+  padding: 1%;
+  font-size: 13px;
+  display: none;
+}
+
 @media screen and (max-width: 860px) {
   #widget_home {
     display: none;
   }
   
-  .editable_handle, .editable_delete {
+  .drop_handle, .drop_delete {
     display: none;
   }
 }
@@ -44,6 +57,35 @@ body.user-signed-in {
     &.dragging {
       .hint {
         display: none !important;
+      }
+    }
+    
+    .draggable_menu {
+      display: none;
+      
+      .overlay {
+        background: rgba(255, 255, 255, 1);
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;   
+      }
+      
+      .options {
+        margin: 0 auto;
+        width: 500px;
+        z-index: 999;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        
+        .option {
+          border-radius: 4px;
+          margin-bottom: 20px;
+        }
       }
     }
     
@@ -107,7 +149,7 @@ body.user-signed-in {
       }
     }
     
-    .editable_handle {
+    .drop_handle {
       position: absolute;
       color: rgba(0, 0, 0, 0.5);
       margin-top: -15px;
@@ -117,7 +159,7 @@ body.user-signed-in {
       z-index: 900;
     }
     
-    .editable_delete {
+    .drop_delete {
       position: absolute;
       color: rgba(0, 0, 0, 0.5);
       margin-top: -15px;
@@ -127,18 +169,18 @@ body.user-signed-in {
       cursor: pointer;
     }
     
-    .editable_placeholder {
+    .drop_placeholder {
       opacity: 0.4;
       
-      .editable_handle, .editable_delete {
+      .drop_handle, .drop_delete {
         display: none;
       }
     }
     
-    .editable_helper {
+    .drop_helper {
       opacity: 0.7;
       
-      .editable_handle, .editable_delete {
+      .drop_handle, .drop_delete {
         display: none;
       }
     }

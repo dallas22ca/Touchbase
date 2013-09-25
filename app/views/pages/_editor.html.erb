@@ -1,26 +1,47 @@
+<div id="settings">
+	<% @page_for_form = @page %>
+	<%= render "pages/form" %>
+	<% @page_for_form = Page.new %>
+	<%= render "pages/form" %>
+</div>
+
 <div id="snapshots"></div>
+
+<div class="draggable_menu" data-type="headline">
+	<div class="overlay"></div>
+	<ul class="options">
+		<li class="">Drag element where you want it:</li>
+		<li id="sample_h3" data-type="h3" class="option">Heading</li>
+		<li id="sample_h4" data-type="h4" class="option">Subheading</li>
+		<li id="sample_p" data-type="p" class="option">Paragraph</li>
+		<li id="sample_blockquote" data-type="blockquote" class="option">Quotation</li>
+	</ul>
+</div>
+
 <div id="widget_home">
 	<ul>
 		<li>
-			<%= link_to "<i class=\"icon-plus\"></i>".html_safe, new_website_page_url(@website, subdomain: "www") %>
+			<%= link_to "<i class=\"icon-plus\"></i>".html_safe, "#", class: "show_new_page", data: { no_turbolink: true } %>
 			<p class="hint">
 				Click to add a page
 			</p>
 		</li>
 		
 		<li>
-			<%= link_to "<i class=\"icon-cog\"></i>".html_safe, edit_website_page_url(@website, @page, subdomain: "www") %>
+			<%= link_to "<i class=\"icon-cog\"></i>".html_safe, "#", class: "show_edit_page", data: { no_turbolink: true } %>
 			<p class="hint">
 				Click to edit this page
 			</p>
 		</li>
 		
+		<!--
 		<li>
-			<%= link_to "<i class=\"icon-sitemap\"></i>".html_safe, website_pages_url(@website, subdomain: "www") %>
-			<p class="hint">
-				Click to visit site map
-			</p>
-		</li>
+					<%= link_to "<i class=\"icon-sitemap\"></i>".html_safe, website_pages_url(@website, subdomain: "www") %>
+					<p class="hint">
+						Click to visit site map
+					</p>
+				</li>-->
+		
 		
 		<li class="separator"></li>
 		
@@ -41,56 +62,65 @@
 		<li class="separator"></li>
 		
 		<li>
-			<div class="draggable" data-type="unsure">
+			<a href="#" class="show_draggable_menu" data-type="headline" data-no-turbolink="true">
 				<i class="icon-font"></i>
-			</div>
+			</a>
 			<p class="hint">
-				Drag to add a headline
+				Add a headline
 			</p>
 		</li>
 		
 		<li>
-			<div class="draggable" data-type="picture">
+			<a href="#" class="show_draggable_menu" data-type="picture">
 				<i class="icon-picture"></i>
-			</div>
+			</a>
 			<p class="hint">
-				Drag to add a picture
+				Add a picture
 			</p>
 		</li>
 		
 		<li>
-			<div class="draggable" data-type="ul">
-				<i class="icon-list-ul"></i>
-			</div>
-			<p class="hint">
-				Drag to add a list
-			</p>
-		</li>
-		
-		<li>
-			<div class="draggable" data-type="events">
+			<a href="#" class="show_draggable_menu" data-type="events">
 				<i class="icon-calendar"></i>
-			</div>
+			</a>
 			<p class="hint">
-				Drag to add an event widget
+				Add an event widget
 			</p>
 		</li>
 		
 		<li>
-			<div class="draggable" data-type="media">
+			<a href="#" class="show_draggable_menu" data-type="media">
 				<i class="icon-film"></i>
-			</div>
+			</a>
 			<p class="hint">
-				Drag to add media
+				Add media
 			</p>
 		</li>
 		
 		<li>
-			<div class="draggable" data-type="social">
+			<a href="#" class="show_draggable_menu" data-type="social">
 				<i class="icon-twitter"></i>
-			</div>
+			</a>
 			<p class="hint">
-				Drag to add social icons
+				Add social icons
+			</p>
+		</li>
+		
+		<li>
+			<a href="#" class="show_draggable_menu" data-type="money">
+				<i class="icon-tasks"></i>
+			</a>
+			<p class="hint">
+				Add a form
+			</p>
+		</li>
+		
+		<li>
+			<a href="#" class="show_draggable_menu" data-type="money">
+				<i class="icon-money"></i>
+			</a>
+			<p class="hint">
+				Add giving widget
 			</p>
 		</li>
 		
@@ -138,7 +168,7 @@
 <div id="templates">
 	<div class="picture">
 		<div class="img_wrapper">
-			<img src="/themes/shared/logo.png">
+			<img src="/themes/shared/miniban.png">
 		</div>
 	</div>
 	
@@ -159,20 +189,79 @@
 	</div>
 	
 	<div class="media">
-		<p><i class="icon-film"></i></p>
+		<div class="media_wrapper">
+			<div class="widget_header">
+				<h2>Media Gallery</h2>
+			</div>
+			<div class="widget_content">
+				<div class="video"></div>
+				<ul class="playlist">
+					<li>
+						<a href="#">
+							<span class="title">Exceeding God</span>
+							<span class="date">Wed, Sept 5, 2013</span>
+						</a>
+          </li>
+					<li>
+						<a href="#" class="playing">
+							<span class="title">Back to School</span>
+							<span class="date">Wed, Sept 5, 2013</span>
+						</a>
+          </li>
+					<li>
+						<a href="#">
+							<span class="title">Decisions, Decisions, Decisions.</span>
+							<span class="date">Wed, Sept 5, 2013</span>
+						</a>
+          </li>
+					<li>
+						<a href="#">
+							<span class="title">Heaven</span>
+							<span class="date">Wed, Sept 5, 2013</span>
+						</a>
+          </li>
+					<li>
+						<a href="#">
+							<span class="title">The Field</span>
+							<span class="date">Wed, Sept 5, 2013</span>
+						</a>
+          </li>
+					<li>
+						<a href="#">
+							<span class="title">Eternity 101</span>
+							<span class="date">Wed, Sept 5, 2013</span>
+						</a>
+          </li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+		</div>
 	</div>
 	
 	<div class="blockquote">
 		<blockquote>What a fantastic quote!</blockquote>
 	</div>
 	
+	<div class="headline">
+		<h4>Headline</h4>
+	</div>
+	
 	<div class="social">
-		<p>I am social.</p>
+		<div class="social_wrapper">
+			<img src="/themes/shared/social.png">
+		</div>
+		
+	</div>
+	
+	<div class="money">
+		<div class="img_wrapper">
+			<img src="/themes/shared/miniban.png">
+		</div>
 	</div>
 	
 	<div class="map">
 		<div class="img_wrapper">
-			<img src="/themes/shared/logo.png">
+			<img src="/themes/shared/map.png">
 		</div>
 	</div>
 </div>

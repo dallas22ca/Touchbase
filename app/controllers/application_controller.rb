@@ -23,7 +23,7 @@ protected
   end
   
   def public?
-    request.subdomain == "www" && ["tb_pages#submit", "tb_pages#option", "users#timezone", "contacts#subscriptions"].include?("#{controller_name}##{action_name}") || (["tb_pages#show"].include?("#{controller_name}##{action_name}") && ["book"].include?(params[:permalink]))
+    request.subdomain == "www" && ["tb_pages#submit", "tb_pages#option", "users#timezone", "contacts#subscriptions", "websites#new"].include?("#{controller_name}##{action_name}") || (["tb_pages#show"].include?("#{controller_name}##{action_name}") && ["book"].include?(params[:permalink]))
   end
   
   def public_website_page?

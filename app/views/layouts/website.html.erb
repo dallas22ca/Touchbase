@@ -10,14 +10,14 @@
   <%= csrf_meta_tags %>
 </head>
 <body class="body-<%= @page.permalink %><%= " user-signed-in" if user_signed_in? %>"<%= " data-page_id=\"#{@page.id}\"".html_safe if @page && user_signed_in? %><%= " data-save_path=\"#{website_save_path(@website)}\"".html_safe if user_signed_in? %> data-path="<%= @path %>">
-	
+
 <%= render "editor" if user_signed_in? %>
 	
 <%=
 
 	Liquid::Template.parse(@page.layout.body).render({
-		"primary" => "rgb(99, 14, 14)",
-		"secondary" => "rgb(0, 50, 90)",
+		"primary" => "rgb(184, 48, 48)",
+		"secondary" => "rgb(58, 122, 125)",
 		"logo" => "/themes/shared/logo.png",
 		"cta" => "/themes/shared/miniban.png",
 		"nav" => content_tag("ol", class: "nav") { render @website.pages.roots },

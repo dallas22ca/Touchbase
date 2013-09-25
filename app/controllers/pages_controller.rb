@@ -36,7 +36,7 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       if @page.save
-        format.html { redirect_to website_pages_path(@website), notice: 'Page was successfully created.' }
+        format.html { redirect_to public_page_url(@page.permalink, subdomain: @website.permalink), notice: 'Page was successfully created.' }
         format.json { render action: 'show', status: :created, location: @page }
       else
         format.html { render action: 'new' }
@@ -50,7 +50,7 @@ class PagesController < ApplicationController
   def update
     respond_to do |format|
       if @page.update(page_params)
-        format.html { redirect_to website_pages_path(@website), notice: 'Page was successfully updated.' }
+        format.html { redirect_to public_page_url(@page.permalink, subdomain: @website.permalink), notice: 'Page was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -62,9 +62,9 @@ class PagesController < ApplicationController
   # DELETE /pages/1
   # DELETE /pages/1.json
   def destroy
-    @page.destroy
+    @page.destroy unless @page == @website.default_page
     respond_to do |format|
-      format.html { redirect_to pages_url }
+      format.html { redirect_to root_url(subdomain: @website.permalink) }
       format.json { head :no_content }
     end
   end
@@ -75,13 +75,13 @@ class PagesController < ApplicationController
       if params[:permalink]
         @page = @website.pages.where(permalink: params[:permalink]).first
         redirect_to root_path if @page == @website.default_page
-      elsif ["edit", "update"].include? action_name
+      elsif ["edit", "update", "destroy"].include? action_name
         @page = @website.pages.find(params[:id])
       else
         @page = @website.default_page
       end
       
-      render text: "404: no page here." unless @page
+      render text: "404: no page here." if !@page && action_name != "destroy"
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

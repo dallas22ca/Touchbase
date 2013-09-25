@@ -10,6 +10,13 @@ Touchbase::Application.routes.draw do
   
   devise_for :users
   
+  unauthenticated :user do
+    devise_scope :user do
+      get "/checklist" => "devise/registrations#new"
+      root "websites#new"
+    end
+  end
+  
   constraints subdomain: "www" do
     get "/s/:token" => "contacts#subscriptions", as: :subscription
   
@@ -41,12 +48,6 @@ Touchbase::Application.routes.draw do
     post "/:permalink/submit" => "tb_pages#submit", as: :submit
     get "/:permalink/:option" => "tb_pages#option", as: :option
     get "/:permalink" => "tb_pages#show", as: :tb_page
-  
-    unauthenticated :user do
-      devise_scope :user do
-        root "devise/registrations#new"
-      end
-    end
   end
   
   constraints subdomain: /.+/ do

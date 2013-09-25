@@ -1,4 +1,4 @@
-<%= form_for [@website, @page] do |f| %>
+<%= form_for [@website, @page_for_form] do |f| %>
   <% if @page.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@page.errors.count, "error") %> prohibited this page from being saved:</h2>
@@ -16,18 +16,17 @@
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :permalink %><br>
-    <%= f.text_field :permalink %>
+    <%= root_url(subdomain: @website.permalink) %><%= f.text_field :permalink %>
   </div>
   <div class="field">
-    <%= f.label :document_id %><br>
+    <%= f.label :document_id, "Layout" %><br>
     <%= f.collection_select :document_id, @website.documents.html, :id, :filename %>
   </div>
-  <div class="field">
-    <%= f.label :parent_id %><br>
-    <%= f.collection_select :parent_id, @website.pages.roots, :id, :title, { include_blank: "None" } %>
-  </div>
   <div class="actions">
-    <%= f.submit "Save Page", class: "big green button" %>
+    <%= f.submit "Save Page" %>
+		
+		<% unless @page_for_form.new_record? %>
+			<%= link_to "Delete", website_page_path(@website, @page_for_form), method: :delete, data: { confirm: "Are you sure you want to delete this page?" } %>
+		<% end %>
   </div>
 <% end %>

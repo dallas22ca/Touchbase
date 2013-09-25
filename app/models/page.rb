@@ -7,12 +7,13 @@ class Page < ActiveRecord::Base
   
   validates_presence_of :title, :permalink, :document_id
   
-  before_save :parameterize_permalink, if: :permalink_changed?
+  before_validation :parameterize_permalink, if: :permalink_changed?
   
   default_scope -> { order(:ordinal) }
   scope :roots, -> { where(parent_id: nil) }
   
   def parameterize_permalink
+    self.permalink = self.title if self.permalink.blank?
     self.permalink = self.permalink.parameterize
   end
   

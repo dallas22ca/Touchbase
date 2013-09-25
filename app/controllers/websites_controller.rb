@@ -14,7 +14,8 @@ class WebsitesController < ApplicationController
 
   # GET /websites/new
   def new
-    @website = Website.new
+    @user = user_signed_in? ? current_user : User.new
+    @website = @user.websites.new
   end
 
   # GET /websites/1/edit
