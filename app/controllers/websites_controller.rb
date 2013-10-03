@@ -14,8 +14,8 @@ class WebsitesController < ApplicationController
 
   # GET /websites/new
   def new
-    @user = user_signed_in? ? current_user : User.new
-    @website = @user.websites.new
+    @website = Website.new
+    @website.users.build
   end
 
   # GET /websites/1/edit
@@ -29,7 +29,8 @@ class WebsitesController < ApplicationController
 
     respond_to do |format|
       if @website.save
-        format.html { redirect_to @website, notice: 'Website was successfully created.' }
+        sign_in @website.users.first
+        format.html { redirect_to root_url(subdomain: @website.permalink), notice: 'Website was successfully created.' }
         format.json { render action: 'show', status: :created, location: @website }
       else
         format.html { render action: 'new' }
@@ -83,6 +84,6 @@ class WebsitesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def website_params
-      params.require(:website).permit(:title, :permalink, :default_page_id)
+      params.require(:website).permit(:title, :permalink, :default_page_id, users_attributes: [:name, :email, :password, :time_zone])
     end
 end

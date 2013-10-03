@@ -12,22 +12,22 @@
 		transition: all 0.35s ease;
 	}
 
-	body.user-signed-in [contenteditable]:focus {
-    outline: 3px dotted {{ primary }};
-  }
+    body.user-signed-in [contenteditable]:focus {
+        outline: 3px dotted {{ primary }};
+    }
 	
 	#loading {
-	  position: fixed;
-	  top: 0;
-	  right: 0;
-	  bottom: 0;
-	  left: 0;
-	  background-color: #fff;
-	  background-color: rgba(255, 255, 255, 0.7);
-	  background-image: url(/images/loading.gif);
-	  background-repeat: no-repeat;
-	  background-position: center;
-	  z-index: 8;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: #fff;
+        background-color: rgba(255, 255, 255, 0.7);
+        background-image: url(/images/loading.gif);
+        background-repeat: no-repeat;
+        background-position: center;
+        z-index: 8;
 	}
 	
 	#topbar {
@@ -113,18 +113,18 @@
 		background: #fff;
 	}
 
-	#main #yield h3 {
+	#sample_h3, #main #yield h3 {
 		color: {{ secondary }};
 		font-weight: 200;
 	}
 
-	#main #yield h4 {
+	#sample_h4, #main #yield h4 {
 		color: {{ primary }};
 		text-transform: uppercase;
 		font-weight: bold;
 	}
 
-	#main blockquote {
+	#sample_blockquote, #main blockquote {
 		font-family: Georgia, Times, Serif;
 		font-weight: 300;
 		color: #333;
@@ -134,27 +134,122 @@
 		margin-bottom: 30px;
 	}
 
-	#main #yield p, #main #yield .ordered_list, #main #yield .unordered_list, #main #yield .img_wrapper {
-		font-weight: 300;
-		color: #333;
+	#sample_p, #main #yield p, #main #yield .ordered_list, #main #yield .unordered_list, #main #yield .img_wrapper {
 		text-align: justify;
 	}
+  
+    #main #yield .img_wrapper {
+        text-align: center;
+        font-weight: 300;
+		color: #333;
+    }
+
+    #main #yield img {
+  		max-width: 100%;
+    }
 	
-	#main .ordered_list, #main .unordered_list {
+	#sample_ol, #sample_ul, #main .ordered_list, #main .unordered_list {
 		margin-left: 30px;
 	}
 	
-	#main .ordered_list {
+	#sample_ol, #main .ordered_list {
 		list-style-type: decimal;
 	}
 	
-	#main .unordered_list {
+	#sample_ul, #main .unordered_list {
 		list-style-type: disc;
 	}
 
 	#main #yield a {
 		color: {{ primary }};
 		text-decoration: underline;
+	}
+
+	#main #yield .media_wrapper {
+		width: 100%;
+		background: #eee; 
+		margin-bottom: 30px;
+		font-size: 16px;
+		line-height: 26px;
+  }
+	
+	#main #yield .media_wrapper .widget_header {
+		background: {{ secondary }};
+		color: #fff;
+		padding: 10px;
+		border-radius: 4px 4px 0 0;
+		font-weight: bold;
+	}
+	
+	#main #yield .media_wrapper .widget_content {
+		border: 1px solid {{ secondary }};
+		border-radius: 0 0 4px 4px;
+		background: #ddd;
+	}
+	
+	#main #yield .media_wrapper .widget_content .video {
+		width: 60%;
+		height: 200px;
+		float: left;
+		border-radius: 0 0 0 4px;
+		margin-right: -2px;
+		background: url(/themes/shared/loading.gif) center no-repeat;
+	}
+	
+	#main #yield .media_wrapper .widget_content .playlist {
+		width: 40%;
+		height: 200px;
+		float: right;
+		overflow-y: auto;
+		border-left: 1px solid {{ secondary }};
+		border-right: 1px solid {{ secondary }};
+		margin-right: -1px;
+		background: #fff;
+	}
+	
+	#main #yield .media_wrapper .widget_content .playlist a {
+		background: #f9f9f9; /* Old browsers */
+		background: -moz-linear-gradient(top,  #f9f9f9 0%, #eaeaea 100%); /* FF3.6+ */
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f9f9f9), color-stop(100%,#eaeaea)); /* Chrome,Safari4+ */
+		background: -webkit-linear-gradient(top,  #f9f9f9 0%,#eaeaea 100%); /* Chrome10+,Safari5.1+ */
+		background: -o-linear-gradient(top,  #f9f9f9 0%,#eaeaea 100%); /* Opera 11.10+ */
+		background: -ms-linear-gradient(top,  #f9f9f9 0%,#eaeaea 100%); /* IE10+ */
+		background: linear-gradient(to bottom,  #f9f9f9 0%,#eaeaea 100%); /* W3C */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#eaeaea',GradientType=0 ); /* IE6-9 */
+		display: block;
+		border-bottom: 1px solid #aaa;
+		padding: 4%;
+		text-decoration: none;
+	}
+	
+	#main #yield .media_wrapper .widget_content .playlist a:hover {
+		background: #fff;
+	}
+	
+	#main #yield .media_wrapper .widget_content .playlist a .title {
+		font-weight: bold;
+		display: block;
+		font-size: 14px;
+		line-height: 16px;
+		color: {{ secondary }};
+	}
+	
+	#main #yield .media_wrapper .widget_content .playlist a .date {
+		display: block;
+		margin-top: .6em;
+		font-size: .7em;
+		line-height: .7em;
+		color: #888;
+	}
+	
+	#main #yield .media_wrapper .widget_content .playlist .playing {
+		background: {{ secondary | rgb_alpha: 0.8 }} !important;
+		box-shadow: inset 1px 1px 5px {{ secondary }};
+		text-shadow: 1px 1px 1px {{ secondary | rgb_alpha: 0.4 }};
+	}
+	
+	#main #yield .media_wrapper .widget_content .playlist .playing .title, #main #yield .media_wrapper .widget_content .playlist .playing .date {
+		color: #fff;
 	}
 	
 	#main #sidebar {
@@ -344,7 +439,7 @@
 			margin-bottom: 10px;
 		}
 	
-		#main #yield p, #main #yield .ordered_list, #main #yield .unordered_list, #main #yield .img_wrapper {
+		#main #yield p, #main #yield .ordered_list, #main #yield .unordered_list, #main #yield .img_wrapper, #main #yield .social_wrapper {
 			margin-bottom: 30px;
 			font-size: 16px;
 			line-height: 26px;
@@ -593,8 +688,8 @@
 <div id="topbar">
 	<div class="container">
 		<input type="text" placeholder="Search..." />
-		<div class="cta editable">
-			<div class="widget">
+		<div class="cta drop_area">
+			<div class="widget drop_item">
 				<p>
 					Revive Halifax in <strong>3</strong> days, <strong>12</strong> hours, <strong>17</strong> minutes.
 				</p>
@@ -630,26 +725,82 @@
 	
 	<div id="yield_wrapper">
 		
-		<div id="yield" class="editable">
-			<h3>Welcome to Biltmore Baptist</h3>
+		<div id="yield" class="drop_area">
 
-			<p>Don't worry. We know choosing a church can be tough. Music, teaching, ministries, outreach – there are a lot of factors that go into the decision. </p>
-			<p>We want to make your experience here meaningful, and it starts as soon as you arrive on campus. Turn on your hazard lights and our parking team will get you a front-row spot. You can visit the information center or ask a greeter if you have any questions. They're here to help with anything you need: from how to get your child plugged into the nursery or childrens' program, to where to find the bookstore or the nearest bathroom. </p>
-
-			<h4>Sunday Activities</h4>
-			<p>There's a lot that <b>goes on Sundays</b> when you get in the building. Kids and students have their own classes and worship, Connect Groups (kind-of like "Sunday School") meet for Bible study, the coffee counter and bookstore are open if you want to hang out and read a good book in the Atrium, and the Worship Center is full of people ready for an awesome service. Don't worry too much about what to wear – we're a "come-as-you-are" church, and we figure God cares more about our hearts than our clothes. If you really want to know, most people wear business casual, but you'll see a few ties here and there and a good amount of people wearing jeans.</p>
-
-			<h4>Worship Experience</h4>
-			<p>We have two worship services on Sundays: 9:15 am & 11 am. Our services are band driven, but also incorporate more traditional elements (like a choir and orchestra), just used in a more modern way. You'll hear new songs plus some favorite hymns; you'll see original videos and stories of lives changed and you'll hear biblical and relevant messages by Pastor Bruce. After each service Pastor Bruce hangs out in the lobby to meet and chat with you and other guests.</p>
-			
 			{{ yield }}
+
+			<h3 class="drop_item contenteditable">Welcome to Biltmore Baptist</h3>
+
+			<p class="drop_item contenteditable">Don't worry. We know choosing a church can be tough. Music, teaching, ministries, outreach – there are a lot of factors that go into the decision. </p>
+			<p class="drop_item contenteditable">We want to make your experience here meaningful, and it starts as soon as you arrive on campus. Turn on your hazard lights and our parking team will get you a front-row spot. You can visit the information center or ask a greeter if you have any questions. They're here to help with anything you need: from how to get your child plugged into the nursery or childrens' program, to where to find the bookstore or the nearest bathroom. </p>
+
+			<h4 class="drop_item contenteditable">Sunday Activities</h4>
+			<p class="drop_item contenteditable">There's a lot that <b>goes on Sundays</b> when you get in the building. Kids and students have their own classes and worship, Connect Groups (kind-of like "Sunday School") meet for Bible study, the coffee counter and bookstore are open if you want to hang out and read a good book in the Atrium, and the Worship Center is full of people ready for an awesome service. Don't worry too much about what to wear – we're a "come-as-you-are" church, and we figure God cares more about our hearts than our clothes. If you really want to know, most people wear business casual, but you'll see a few ties here and there and a good amount of people wearing jeans.</p>
+
+			<h4 class="drop_item contenteditable">Media</h4>
+			<div class="media_wrapper drop_item">
+				<div class="widget_header">
+					<h2>Media Gallery</h2>
+				</div>
+				<div class="widget_content">
+					<div class="video"></div>
+					<ul class="playlist">
+						<li>
+							<a href="#">
+								<span class="title">Exceeding God</span>
+								<span class="date">Wed, Sept 5, 2013</span>
+							</a>
+            </li>
+						<li>
+							<a href="#" class="playing">
+								<span class="title">Back to School</span>
+								<span class="date">Wed, Sept 5, 2013</span>
+							</a>
+            </li>
+						<li>
+							<a href="#">
+								<span class="title">Decisions, Decisions, Decisions.</span>
+								<span class="date">Wed, Sept 5, 2013</span>
+							</a>
+            </li>
+						<li>
+							<a href="#">
+								<span class="title">Heaven</span>
+								<span class="date">Wed, Sept 5, 2013</span>
+							</a>
+            </li>
+						<li>
+							<a href="#">
+								<span class="title">The Field</span>
+								<span class="date">Wed, Sept 5, 2013</span>
+							</a>
+            </li>
+						<li>
+							<a href="#">
+								<span class="title">Eternity 101</span>
+								<span class="date">Wed, Sept 5, 2013</span>
+							</a>
+            </li>
+					</ul>
+					<div class="clear"></div>
+				</div>
+			</div>
+
+			<h4 class="drop_item contenteditable">Worship Experience</h4>
+			<p class="drop_item contenteditable">We have two worship services on Sundays: 9:15 am & 11 am. Our services are band driven, but also incorporate more traditional elements (like a choir and orchestra), just used in a more modern way. You'll hear new songs plus some favorite hymns; you'll see original videos and stories of lives changed and you'll hear biblical and relevant messages by Pastor Bruce. After each service Pastor Bruce hangs out in the lobby to meet and chat with you and other guests.</p>
+			
+			<h4 class="drop_item contenteditable">Where are we?</h4>
+
+			<div class="img_wrapper drop_item">
+				<img src="/themes/shared/map.png">
+			</div>
 		</div>
 		
-		<div id="sidebar" class="editable">
+		<div id="sidebar" class="editable drop_area">
 			
-			<h4>Upcoming Events</h4>
+			<h4 class="drop_item contenteditable">Upcoming Events</h4>
 			
-			<ol class="widget">
+			<ol class="widget drop_item">
 				<li>
 					<h5>Mon, Sept 18</h5>
 					<ol>
@@ -667,13 +818,13 @@
 				</li>
 			</ol>
 			
-			<h4>About Our Church</h4>
+			<h4 class="drop_item contenteditable">About Our Church</h4>
 			
-			<p>
+			<p class="drop_item contenteditable">
 				This is a terribly interesting paragraph of text to see where we're at. This is a terribly interesting paragraph of text to see where we're at. 
 			</p>
 			
-			<p>
+			<p class="drop_item contenteditable">
 				This is a <a href="#">terribly</a> interesting paragraph of text to see where we're at.
 			</p>
 			

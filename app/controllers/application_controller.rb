@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   layout :choose_layout
   before_filter :configure_permitted_parameters, if: :devise_controller?
   before_filter :authenticate_user!, unless: Proc.new { |r| r.public? || r.public_website_page? }
-  before_filter :check_step, if: :user_signed_in?
+  before_filter :check_step, if: Proc.new { |r| user_signed_in? && request.subdomain == "www" }
   before_filter :set_timezone
   protect_from_forgery with: :exception
   
@@ -23,7 +23,7 @@ protected
   end
   
   def public?
-    request.subdomain == "www" && ["tb_pages#submit", "tb_pages#option", "users#timezone", "contacts#subscriptions", "websites#new"].include?("#{controller_name}##{action_name}") || (["tb_pages#show"].include?("#{controller_name}##{action_name}") && ["book"].include?(params[:permalink]))
+    request.subdomain == "www" && ["tb_pages#submit", "tb_pages#option", "users#timezone", "contacts#subscriptions", "websites#new", "websites#create"].include?("#{controller_name}##{action_name}") || (["tb_pages#show"].include?("#{controller_name}##{action_name}") && ["book"].include?(params[:permalink]))
   end
   
   def public_website_page?

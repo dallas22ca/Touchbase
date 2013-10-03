@@ -2,6 +2,8 @@ require "sidekiq/web"
 
 Touchbase::Application.routes.draw do
   
+  resources :websiteships
+
   namespace :api, defaults: { format: :json } do
     scope module: :v1 do
       resources :contacts
@@ -9,13 +11,6 @@ Touchbase::Application.routes.draw do
   end
   
   devise_for :users
-  
-  unauthenticated :user do
-    devise_scope :user do
-      get "/checklist" => "devise/registrations#new"
-      root "websites#new"
-    end
-  end
   
   constraints subdomain: "www" do
     get "/s/:token" => "contacts#subscriptions", as: :subscription
@@ -43,6 +38,14 @@ Touchbase::Application.routes.draw do
       mount Sidekiq::Web => "/sidekiq"
     
       get "/" => "tb_pages#show"
+    end
+    
+    unauthenticated :user do
+      devise_scope :user do
+        resources :websites, only: [:create, :new]
+        get "/checklist" => "devise/registrations#new"
+        root "websites#new"
+      end
     end
 
     post "/:permalink/submit" => "tb_pages#submit", as: :submit

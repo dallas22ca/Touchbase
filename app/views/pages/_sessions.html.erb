@@ -1,0 +1,26 @@
+<div class="section">
+  
+  <h3>Sign In</h2>
+
+  <%= form_for(User.new, :as => "user", :url => session_path("user")) do |f| %>
+    <div class="field">
+      <%= f.label :email %><br />
+      <%= f.email_field :email, class: "full_width" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password %><br />
+      <%= f.password_field :password, class: "full_width" %>
+    </div>
+
+    <div class="field">
+      <%= f.check_box :remember_me, checked: true %> 
+			<%= f.label :remember_me %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Sign in", class: "big green button full_width" %>
+    </div>
+  <% end %>
+
+</div>

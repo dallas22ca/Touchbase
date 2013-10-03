@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130920121824) do
+ActiveRecord::Schema.define(version: 20130925181929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,6 +102,9 @@ ActiveRecord::Schema.define(version: 20130920121824) do
     t.integer  "document_id"
     t.integer  "parent_id"
     t.integer  "ordinal",     default: 99999
+    t.boolean  "visible",     default: true
+    t.boolean  "deleteable",  default: true
+    t.text     "description"
   end
 
   add_index "pages", ["document_id"], name: "index_pages_on_document_id", using: :btree
@@ -129,8 +132,8 @@ ActiveRecord::Schema.define(version: 20130920121824) do
   add_index "tasks", ["user_id"], name: "index_tasks_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "",  null: false
-    t.string   "encrypted_password",     default: "",  null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -154,6 +157,7 @@ ActiveRecord::Schema.define(version: 20130920121824) do
     t.string   "api_token"
     t.text     "address"
     t.text     "available_days"
+    t.boolean  "admin",                  default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -169,5 +173,15 @@ ActiveRecord::Schema.define(version: 20130920121824) do
 
   add_index "websites", ["default_page_id"], name: "index_websites_on_default_page_id", using: :btree
   add_index "websites", ["permalink"], name: "index_websites_on_permalink", using: :btree
+
+  create_table "websiteships", force: true do |t|
+    t.integer  "website_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "websiteships", ["user_id"], name: "index_websiteships_on_user_id", using: :btree
+  add_index "websiteships", ["website_id"], name: "index_websiteships_on_website_id", using: :btree
 
 end

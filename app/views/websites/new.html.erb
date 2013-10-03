@@ -1,4 +1,4 @@
-<%= form_for @user do |f| %>
+<%= form_for @website do |f| %>
   <% if @website.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@website.errors.count, "error") %> prohibited this website from being saved:</h2>
@@ -10,21 +10,36 @@
       </ul>
     </div>
   <% end %>
-
+	
   <div class="field">
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
+    <%= f.label :title, "Your Business, Organization or Website Name" %><br>
+    <%= f.text_field :title, class: "full_width" %>
   </div>
   <div class="field">
     <%= f.label :permalink %><br>
-    <%= f.text_field :permalink %>
+    <%= f.text_field :permalink, class: "full_width" %>
   </div>
 	
-	<% unless @website.new_record? %>
-		<div class="field">
-			<%= f.label :default_page_id %><br>
-			<%= f.collection_select :default_page_id, @website.pages, :id, :title %>
-		</div>
+	<%= f.fields_for :users do |u| %>
+	  <div class="field">
+	    <%= u.label :name, "Your Name" %><br />
+	    <%= u.text_field :name, class: "full_width" %>
+	  </div>
+
+	  <div class="field">
+	    <%= u.label :email %><br />
+	    <%= u.email_field :email, class: "full_width" %>
+	  </div>
+
+	  <div class="field">
+	    <%= u.label :password, "Password (6 characters or more)" %><br />
+	    <%= u.password_field :password, class: "full_width" %>
+	  </div>
+
+	  <div class="field">
+	    <%= u.label :time_zone %><br />
+	    <%= u.select :time_zone, options_for_select(ActiveSupport::TimeZone.all.map { |t| [t, t.tzinfo.name] }), {}, class: "full_width" %>
+	  </div>
 	<% end %>
 	
   <div class="actions">

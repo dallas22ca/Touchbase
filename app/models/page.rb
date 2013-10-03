@@ -11,6 +11,7 @@ class Page < ActiveRecord::Base
   
   default_scope -> { order(:ordinal) }
   scope :roots, -> { where(parent_id: nil) }
+  scope :visible, -> { where(visible: true) }
   
   def parameterize_permalink
     self.permalink = self.title if self.permalink.blank?

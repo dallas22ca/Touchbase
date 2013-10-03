@@ -13,6 +13,9 @@ class User < ActiveRecord::Base
   has_many :tasks
   has_many :emails
   
+  has_many :websiteships
+  has_many :websites, through: :websiteships
+  
   accepts_nested_attributes_for :fields, allow_destroy: true, reject_if: Proc.new { |f| f[:title].blank? }
   
   has_attached_file :file,

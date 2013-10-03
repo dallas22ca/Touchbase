@@ -1,3 +1,4 @@
+<% can_edit = user_signed_in? && (@website.users.include?(current_user) || current_user.admin?) %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,21 +10,31 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <%= csrf_meta_tags %>
 </head>
-<body class="body-<%= @page.permalink %><%= " user-signed-in" if user_signed_in? %>"<%= " data-page_id=\"#{@page.id}\"".html_safe if @page && user_signed_in? %><%= " data-save_path=\"#{website_save_path(@website)}\"".html_safe if user_signed_in? %> data-path="<%= @path %>">
+<body class="body-<%= @page.permalink %><%= " user-signed-in" if can_edit %>"<%= " data-page_id=\"#{@page.id}\"".html_safe if @page && can_edit %><%= " data-save_path=\"#{website_save_path(@website)}\"".html_safe if can_edit %> data-path="<%= @path %>">
 
-<%= render "editor" if user_signed_in? %>
+<%= render "editor" if can_edit %>
 	
 <%=
+	
+	case @page.permalink
+	when "signin"
+		@yield = render("sessions")
+	when "sitemap"
+		@yield = render("sitemap")
+	else
+		@yield = ""
+	end
 
 	Liquid::Template.parse(@page.layout.body).render({
 		"primary" => "rgb(184, 48, 48)",
 		"secondary" => "rgb(58, 122, 125)",
 		"logo" => "/themes/shared/logo.png",
 		"cta" => "/themes/shared/miniban.png",
-		"nav" => content_tag("ol", class: "nav") { render @website.pages.roots },
-		"subnav" => content_tag("ol", class: "nav", data: { page_id: @page.id }) { @page.siblings.any? && !@page.root? ? render(@page.siblings) : render(@page.children) },
+		"nav" => content_tag("ol", class: "nav") { render @website.pages.roots.visible },
+		"subnav" => content_tag("ol", class: "nav", data: { page_id: @page.id }) { @page.siblings.visible.any? && !@page.root? ? render(@page.siblings.visible) : render(@page.children.visible) },
 		"title" => @page.title,
-		"sign_inout" => user_signed_in? ? destroy_user_session_path : new_user_session_path
+		"sign_inout" => user_signed_in? ? destroy_user_session_path : "#{root_path}signin",
+		"yield" => @yield
 	}, :filters => [LiquidFilters]).html_safe
 
 %>

@@ -84,12 +84,12 @@ signedIn = ->
     false
   
   $(document).on "click", "html, body", (e) ->
-    if !$(e.target).parents(".editable").length
+    if $(e.target).hasClass("contenteditable")
+      $(e.target).attr("contenteditable", true).focus()
+    else if $(e.target).closest(".contenteditable").length
+      $(e.target).closest(".contenteditable").attr("contenteditable", true).focus()
+    else
       $("[contenteditable]").removeAttr "contenteditable"
-
-  $(document).on "click", ".contenteditable", ->
-    $(this).attr "contenteditable", true
-    $(this).focus()
   
   $(document).on "click", ".show_draggable_menu", ->
     type = $(this).data("type")
@@ -116,7 +116,7 @@ signedIn = ->
     $("body").addClass "mid_edit"
   
     setTimeout ->
-      if $(".mid_edit").length
+      if !$("*:focus").length && $(".mid_edit").length
         $("[contenteditable]").removeAttr "contenteditable"
         $("body").removeClass "mid_edit"
         createSnapshot()
@@ -132,14 +132,16 @@ signedIn = ->
       if !$(".drop_placeholder").length && !$("*:focus").length
         handle = $("<i>").addClass("icon-move drop_handle")
         trash = $("<i>").addClass("icon-trash drop_delete")
+        edit = $("<i>").addClass("icon-cog drop_edit")
         handle.css("width", $(this).width())
         handle.prependTo $(this)
+        edit.prependTo $(this)
         trash.prependTo $(this)
     mouseleave: ->
       if !$(".drop_placeholder").length
-        $(".drop_handle, .drop_delete").remove()
+        $(".drop_handle, .drop_delete, .drop_edit").remove()
     click: ->
-      $(".drop_handle, .drop_delete").remove()
+      $(".drop_handle, .drop_delete, .drop_edit").remove()
   , ".drop_item"
 
   $(document).on "click", "[data-action]", (e) ->

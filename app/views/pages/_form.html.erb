@@ -16,16 +16,24 @@
     <%= f.text_field :title %>
   </div>
   <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_area :description %>
+  </div>
+  <div class="field">
     <%= root_url(subdomain: @website.permalink) %><%= f.text_field :permalink %>
   </div>
   <div class="field">
     <%= f.label :document_id, "Layout" %><br>
-    <%= f.collection_select :document_id, @website.documents.html, :id, :filename %>
+    <%= f.collection_select :document_id, Document.html, :id, :filename %>
+  </div>
+  <div class="field">
+    <%= f.label :visible, "Show in Menus" %><br>
+    <%= f.check_box :visible %>
   </div>
   <div class="actions">
     <%= f.submit "Save Page" %>
 		
-		<% unless @page_for_form.new_record? %>
+		<% if !@page_for_form.new_record? && @page_for_form.deleteable? %>
 			<%= link_to "Delete", website_page_path(@website, @page_for_form), method: :delete, data: { confirm: "Are you sure you want to delete this page?" } %>
 		<% end %>
   </div>
