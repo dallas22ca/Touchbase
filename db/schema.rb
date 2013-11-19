@@ -121,13 +121,11 @@ ActiveRecord::Schema.define(version: 20130925181929) do
     t.datetime "updated_at"
     t.datetime "completed_at"
     t.integer  "email_id"
-    t.integer  "email_id_id"
     t.integer  "user_id"
   end
 
   add_index "tasks", ["contact_id"], name: "index_tasks_on_contact_id", using: :btree
   add_index "tasks", ["email_id"], name: "index_tasks_on_email_id", using: :btree
-  add_index "tasks", ["email_id_id"], name: "index_tasks_on_email_id_id", using: :btree
   add_index "tasks", ["followup_id"], name: "index_tasks_on_followup_id", using: :btree
   add_index "tasks", ["user_id"], name: "index_tasks_on_user_id", using: :btree
 
