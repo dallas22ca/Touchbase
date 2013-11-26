@@ -11,7 +11,7 @@ namespace :deploy do
   desc "Install everything onto the server"
   task :install do
     run "#{sudo} apt-get -y update"
-    run "#{sudo} apt-get -y install python-software-properties"
+    run "#{sudo} apt-get -y install software-properties-common python-software-properties"
   end
   
   task :install_bundler, :roles => :app do

@@ -1,5 +1,3 @@
-set_default :ruby_version, "2.0.0-p0"
-
 namespace :sendmail do
   desc "Install Sendmail"
   task :install, roles: :app do
@@ -16,5 +14,5 @@ namespace :sendmail do
     # service sendmail restart
     p "Sendmail setup is manual."
   end
-  after "deploy:install", "sendmail:setup"
+  # after "deploy:install", "sendmail:setup"
 end
