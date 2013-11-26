@@ -18,10 +18,10 @@ set :repository, "git@github.com:dallas22ca/#{application}.git"
 set :maintenance_template_path, File.expand_path("../recipes/templates/maintenance.html.erb", __FILE__)
 set :whenever_command, "bundle exec whenever"
 
-set :server_name, "66.228.40.130"
+set :server_name, "162.243.31.125"
 set :rails_env, "production"
 set :branch, "master"
-set :root_url, "http://touchbasenow.com"
+set :root_url, "http://touch-base.co"
 server server_name, :web, :app, :db, primary: true
 
 # set :sidekiq_cmd, "RAILS_ENV=#{rails_env} bundle exec sidekiq -q ListParser,1 -q DesignCapturer,1 -q MessageEnqueuer,1 -q WebhookHitter,1 -q BulkSender,1 -q ApiSender,1 -q ApiHitter,1"
