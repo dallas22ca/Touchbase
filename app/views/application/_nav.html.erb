@@ -6,6 +6,7 @@
       <% if current_user.step >= 5 %>
         <!--<li><%= link_to "<i class=\"icon-dashboard\"></i><span class=\"word\">  Dashboard</span>".html_safe, root_path, class: "#{"selected" if request.path == root_path}" %></li>-->
         <li><%= link_to "<i class=\"icon icon-ok\"></i><span class=\"word\"> Tasks</span>".html_safe, root_path, class: "#{"selected" if request.path.include?(tasks_path)}" %></li>
+				<li><%= link_to "<i class=\"icon icon-edit\"></i><span class=\"word\"> Templates</span>".html_safe, templates_path, class: "#{"selected" if request.path.include?(templates_path)}" %></li>
         <li><%= link_to "<i class=\"icon icon-group\"></i><span class=\"word\"> Contacts</span>".html_safe, contacts_path, class: "#{"selected" if request.path.include?(contacts_path) || request.path.include?(multicreate_contacts_path)}" %></li>
         
         <% if current_user.emailer? %>
