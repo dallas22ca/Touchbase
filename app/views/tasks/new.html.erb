@@ -9,7 +9,7 @@
 <ul id="task_format_chooser">
   <% [
       ["General", "general", (params[:tasks_format].blank? || params[:tasks_format] == "general" ? true : false)],
-      ["Followup (Contact-related)", "followup", params[:tasks_format] == "followup" ? true : false]
+      ["Followup Template (Contact-related)", "followup", params[:tasks_format] == "followup" ? true : false]
      ].each do |title, value, checked| %>
     <li>
       <%= radio_button_tag :tasks_format, value, checked, class: "show_tasks_format" %>
