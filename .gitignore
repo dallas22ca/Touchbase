@@ -9,6 +9,7 @@
 
 # Ignore the default SQLite database.
 /config/database.yml
+/config/config.yml
 /uploads
 
 # Ignore all logfiles and tempfiles.
