@@ -14,7 +14,6 @@ class Emailer < ActionMailer::Base
     }
     
     headers[:to] = contact.data["email"] if contact.data["email"].split(",").size > 1
-
     mail(headers)
   end
 end
