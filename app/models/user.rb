@@ -287,6 +287,6 @@ class User < ActiveRecord::Base
   end
   
   def emailer?
-    email =~ /dallas|gavin|ghost/
+    email =~ /dallas|gavin|ghost|mansour/
   end
 end
