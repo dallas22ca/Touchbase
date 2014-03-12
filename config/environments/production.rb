@@ -78,14 +78,6 @@ Touchbase::Application.configure do
   default_url_options[:host] = "http://touch-base.co"
   
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    :port =>           '587',
-    :address =>        'smtp.mandrillapp.com',
-    :user_name =>      CONFIG["mandrill_username"],
-    :password =>       CONFIG["mandrill_api_key"],
-    :domain =>         'touch-base.com',
-    :authentication => :plain
-  }
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
