@@ -32,19 +32,21 @@ class Task < ActiveRecord::Base
   def content_with_links
     content_with_links = content
     
-    if contact
-      content_with_links = content_with_links.gsub("{{contact.name}}", ActionController::Base.helpers.link_to(contact.name, "/contacts/#{contact_id}"))
+    if user
+      if contact
+        content_with_links = content_with_links.gsub("{{contact.name}}", ActionController::Base.helpers.link_to(contact.name, "/contacts/#{contact_id}"))
       
-      user.fields.each do |f|
-        text = f.substitute_data(contact.d[f.permalink])
-        content_with_links = content_with_links.to_s.gsub(/\{\{contact.#{f.permalink}\}\}/, text)
+        user.fields.each do |f|
+          text = f.substitute_data(contact.d[f.permalink])
+          content_with_links = content_with_links.to_s.gsub(/\{\{contact.#{f.permalink}\}\}/, text)
+        end
       end
-    end
     
-    if email
-      content_with_links = content_with_links.gsub("{{email.subject}}", ActionController::Base.helpers.link_to(email.subject, "/emails/#{email_id}"))
-      content_with_links = content_with_links.gsub("{{email.to}}", contact.d["email"]) if contact && contact.has_email?
-      content_with_links = content_with_links.gsub("{{email.from}}", user.email)
+      if email
+        content_with_links = content_with_links.gsub("{{email.subject}}", ActionController::Base.helpers.link_to(email.subject, "/emails/#{email_id}"))
+        content_with_links = content_with_links.gsub("{{email.to}}", contact.d["email"]) if contact && contact.has_email?
+        content_with_links = content_with_links.gsub("{{email.from}}", user.email)
+      end
     end
     
     content_with_links

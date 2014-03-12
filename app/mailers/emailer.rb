@@ -6,11 +6,15 @@ class Emailer < ActionMailer::Base
     @plain = email.contactify(email.plain, contact)
     @unsubscribe = subscription_url(contact.token)
     @address = user.address
-
-    mail({
+    
+    headers = {
       from: "#{user.name} <#{user.email}>", 
       to: "#{contact.name} <#{contact.data["email"]}>", 
       subject: email.contactify(email.subject, contact)
-    })
+    }
+    
+    headers[:to] = contact.data["email"] if contact.data["email"].split(",").size > 1
+
+    mail(headers)
   end
 end
