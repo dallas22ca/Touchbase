@@ -79,9 +79,12 @@ Touchbase::Application.configure do
   
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:                 "127.0.0.1",
-    port:                    25,
-    enable_starttls_auto:    false
+    :port =>           '587',
+    :address =>        'smtp.mandrillapp.com',
+    :user_name =>      CONFIG["mandrill_username"],
+    :password =>       CONFIG["mandrill_api_key"],
+    :domain =>         'touch-base.com',
+    :authentication => :plain
   }
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
