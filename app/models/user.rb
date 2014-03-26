@@ -204,7 +204,7 @@ class User < ActiveRecord::Base
       finish: finish,
       true: true,
       false: false
-    ).order(:complete, :date, :completed_at)
+    ).includes(:followup).includes(:contact).includes(:user).order(:complete, :date, :completed_at)
   end
   
   def suggested_fields

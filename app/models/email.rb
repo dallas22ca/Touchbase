@@ -1,6 +1,8 @@
 class Email < ActiveRecord::Base
   serialize :criteria, Array
   
+  attr_accessor :contact_id
+  
   has_many :tasks
   has_many :contacts, through: :tasks
   belongs_to :user
@@ -8,7 +10,18 @@ class Email < ActiveRecord::Base
   validates_presence_of :subject, :plain, :user_id
   validate :user_has_address, if: Proc.new { |e| e.user.address.blank? }
   
+  before_validation :set_scope_for_email_to_one, unless: Proc.new { contact_id.blank? }
   after_save :prepare_to_deliver
+  
+  def set_scope_for_email_to_one
+    c = user.contacts.find(contact_id)
+
+    if c
+      self.criteria = [["id", "is", contact_id]]
+    else
+      self.errors.add :base, "This contact is not accessible to you."
+    end
+  end
   
   def user_has_address
     self.errors.add :base, "Spam laws (CAN-SPAM) require you to include your address in your email. Visit the \"My Account\" page to update your address."

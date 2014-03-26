@@ -55,6 +55,10 @@ class Contact < ActiveRecord::Base
     self.pending_data = pending
   end
   
+  def name_and_email
+    "#{self.name} #{"<#{self.d["email"]}>" unless self.d["email"].blank?}"
+  end
+  
   def format_data
     prepared_data = self.data
     prepared_data = {} if d.blank?

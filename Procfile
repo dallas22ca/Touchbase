@@ -1,0 +1,1 @@
+nice: bundle exec sidekiq -q EmailWorker,1 -q ImportWorker,1

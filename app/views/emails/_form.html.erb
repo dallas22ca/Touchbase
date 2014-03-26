@@ -20,12 +20,16 @@
 
   <div class="field">
     <%= label_tag :who, "To" %><br>
-    <%= select_tag :who, options_for_select([["Everyone", "everyone"], ["Filter my contacts...", "filter"]]), class: "full_width" %>
-    
+    <%= select_tag :who, options_for_select([["Everyone", "everyone"], ["Just one contact...", "one"], ["Filter my contacts...", "filter"]], params[:who]), class: "full_width" %>
+		
     <div class="filter_options">
       <table id="filters_container"></table>
       <%= link_to "+ Add Another Filter", "#", class: "add_filter small_link" %>
     </div>
+		
+		<div class="one_options" style="margin-top: 10px; ">
+			<%= f.select :contact_id, options_for_select(current_user.contacts.map { |c| [c.name_and_email, c.id] }, params[:contact_id]), { prompt: "Choose a contact..." }, { class: "full_width" } %>
+		</div>
   </div>
   
   <%= render "filterpicker" %>

@@ -23,7 +23,9 @@
           <% else %>
             <i class="icon-remove"></i>
           <% end %>
-        <% else %>
+        <% elsif field.permalink == "email" %>
+          <%= mail_to @contact.d[field.permalink].to_s %>
+				<% else %>
           <%= @contact.d[field.permalink].to_s %>
         <% end %>
       </td>

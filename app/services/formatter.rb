@@ -46,14 +46,16 @@ class Formatter
       if content.class == ActiveSupport::TimeWithZone || content.class == Time
         content = content
       else
-        time = Chronic.parse(content)
+        test_content = content.to_s.include?(":") ? content : content.to_s.gsub("-", "/")
+        time = Chronic.parse(test_content)
         content = time if time
       end
     elsif data_type == "date"
       if content.class == ActiveSupport::TimeWithZone || content.class == Time
         time = content
       else
-        time = Chronic.parse(content)
+        test_content = content.to_s.include?(":") ? content : content.to_s.gsub("-", "/")
+        time = Chronic.parse(test_content)
       end
       
       content = time.strftime("%b %-d, %Y") if time

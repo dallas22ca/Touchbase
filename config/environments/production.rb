@@ -78,6 +78,7 @@ Touchbase::Application.configure do
   default_url_options[:host] = "http://touch-base.co"
   
   config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { host: "touch-base.co" }
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new

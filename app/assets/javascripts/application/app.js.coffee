@@ -10,6 +10,8 @@ unload = ->
   $("#loading").show()
 
 load = ->
+  $("#email_contact_id").chosen()
+
   $(".datepicker").datepicker
     dateFormat: "MM d, yy"
   
@@ -30,12 +32,13 @@ load = ->
       $("#fields tbody").find("tr").each (index) ->
         $(this).find(".ordinal").val index
   
-  $(".show_contacts_format").change() if $("#new_contact").length
-    
-  $("#loading").fadeOut()
   Followup.init()
   Filters.init()
   Contacts.paginate()
+	
+  $(".show_contacts_format").trigger("change") if $("#new_contact").length
+  $("#who").trigger("change") if $("#who").length
+  $("#loading").fadeOut()
   
 $ ->
   load()

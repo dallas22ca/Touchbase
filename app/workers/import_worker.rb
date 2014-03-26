@@ -19,7 +19,7 @@ class ImportWorker
       field.update_contacts_with_permalink(option) if field
     elsif src == "followup"
       followup = Followup.find(id)
-      followup.create_tasks option, 11.months.to_i if followup
+      followup.create_tasks option, 6.weeks.to_i if followup
     end
   end
 end

@@ -1,11 +1,3 @@
-$(document).on "change", "#who", ->
-  if $(this).val() == "everyone"
-    $(".filter_options").hide()
-    $("#filters_container").find(".filter").remove()
-  else if $(this).val() == "filter"
-    $(".filter_options").show()
-    Filters.add "name", "like", "" if !$("#filters_container").find(".filter").length
-
 $(document).on "submit", ".edit_followup, #new_followup", ->
   $("#filter_template").find(".filter_field").removeAttr("name")
 

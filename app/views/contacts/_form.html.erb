@@ -14,7 +14,7 @@
         <%= label_tag field.title %><br>
       <% elsif field.data_type == "datetime" %>
         <% date = @contact.d[field.permalink].to_s.to_datetime %>
-        <%= label_tag field.title %><br>
+        <%= label_tag "#{field.title} (eg. MM/DD/YYYY, 4/25/2014, 4-25-2014, or April 25)" %><br>
         <%= text_field_tag field.title, (date ? date.strftime("%B %-d, %Y") : ""), name: "contact[data][#{field.permalink}]", class: "datepicker", autocomplete: :off %>
       <% else %>
         <%= label_tag field.title %><br>

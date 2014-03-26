@@ -15,4 +15,5 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require jstimezonedetect
+//= require chosen.jquery
 //= require_tree ./application
