@@ -59,7 +59,7 @@ class Formatter
       end
       
       if time.class == ActiveSupport::TimeWithZone || time.class == Time
-        content = time.strftime("%b %-d")
+        content = time.strftime("%b %-d, %Y")
       else
         content = ""
       end
