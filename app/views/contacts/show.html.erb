@@ -16,7 +16,7 @@
       </td>
       <td class="detail">
         <% if field.data_type == "datetime" %>
-					<td><%= link_to Formatter.format("date", @contact.d[field.permalink]).to_s, @contact %></td>
+					<%= Formatter.format("date", @contact.d[field.permalink]) %>
         <% elsif field.data_type == "boolean" %>
           <% if @contact.d[field.permalink] == "true" %>
             <i class="icon-ok"></i>
