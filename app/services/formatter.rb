@@ -29,6 +29,7 @@ class Formatter
   
   def self.format(data_type, content)
     Time.zone = "UTC"
+    content = ""
     
     if data_type == "boolean"
       if ["true", "1", "t", "y", "yes"].include? content.to_s
@@ -58,7 +59,7 @@ class Formatter
         time = Chronic.parse(test_content)
       end
       
-      content = time.strftime("%b %-d, %Y") if time
+      content = time.strftime("%b %-d") if time
     elsif data_type == "integer"
       content = content.to_s.to_f.to_s.gsub(".0", "")
     else
