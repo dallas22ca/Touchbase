@@ -26,7 +26,11 @@
         <% elsif field.permalink == "email" %>
           <%= mail_to @contact.d[field.permalink].to_s %>
 				<% else %>
-          <%= @contact.d[field.permalink].to_s %>
+					<% if field.permalink == "phone" %>
+						<%= link_to @contact.d[field.permalink].to_s, "tel:+1#{@contact.d[field.permalink].to_s.gsub(/\D/, "")}" %>
+					<% else %>
+	          <%= @contact.d[field.permalink].to_s %>
+					<% end %>
         <% end %>
       </td>
     </tr>
