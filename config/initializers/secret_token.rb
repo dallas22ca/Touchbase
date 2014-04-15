@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Touchbase::Application.config.secret_key_base = 'fb7cb01dff7a368449476b58b1861dc528913e3f06866c55f2793fe8eec8b97850b3a148e595f5b5107c823f067652d768ab135e7728288e632f6fef24bac49d'
+Touchbase::Application.config.secret_key_base = '2f4d5518471a28360e01326f4427d59f872eb68a88bdca97cdb2af68817b91e68c35f355f3e479871d6840f25f50ca282179243a3e9dd381784f63ad21182ce6'
