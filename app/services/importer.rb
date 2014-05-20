@@ -92,7 +92,7 @@ class Importer
     headers = []
 
     spreadsheet.row(1).each do |title|
-      title = title.to_s.strip
+      title = "#{title}".to_s.strip
       title = "Email" if title.downcase == "email address"
       title = "Address" if title.downcase == "mailing address"
       
