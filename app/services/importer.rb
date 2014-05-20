@@ -101,8 +101,8 @@ class Importer
       end
       
       field = {
-        title: title,
-        permalink: title.parameterize,
+        title: "#{title}",
+        permalink: "#{title.parameterize}",
         data_type: "string"
       }
       
